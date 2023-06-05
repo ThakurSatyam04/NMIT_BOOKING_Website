@@ -1,63 +1,38 @@
-// import React, { useEffect, useState } from 'react'
-// import axios from "axios"
-
-// const LabDetails = () => {
-
-//     const [data,setData] = useState([]);
-
-//     const getData = async () => {
-//         const {data} = await axios.get("http://localhost:3001/api/labs")
-//         setData(data)
-//         console.log(data)
-//     }
-
-//     useEffect(() => {
-//         getData();
-//     },[])
-    
-//   return (
-//     <div className="">
-//       <div className="flex flex-col m-auto rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 md:max-w-xl md:flex-row">
-//         <img
-//           className="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-52 md:rounded-none md:rounded-l-lg"
-//           src="https://tecdn.b-cdn.net/wp-content/uploads/2020/06/vertical.jpg"
-//           alt="" />
-//         <div className="flex flex-col justify-start p-6">
-//           <h5 className="mb-2 text-md font-medium text-neutral-800 dark:text-neutral-50">
-//             Lab Name : {data.map(item => (<span>{item.labName}</span>))}
-//           </h5>
-//           <h5 className="mb-2 text-md font-medium text-neutral-800 dark:text-neutral-50">
-//             Department : 
-//           </h5>
-//           <h5 className="mb-2 text-md font-medium text-neutral-800 dark:text-neutral-50">
-//             Lab No. : {data.labNo}
-//           </h5>
-//           <h5 className="mb-2 text-md font-medium text-neutral-800 dark:text-neutral-50">
-//             Lab Incharge
-//           </h5>
-//           <h5 className="mb-2 text-md font-medium text-neutral-800 dark:text-neutral-50">
-//             Contact no.
-//           </h5>
-//           <h5 className="mb-2 text-md font-medium text-neutral-800 dark:text-neutral-50">
-//             Incharge Email : 
-//           </h5>
-//         </div>
-//       </div>  
-//     </div>
-//   )
-// }
-
-// export default LabDetails
-
-
 import React from 'react'
+import lab_img from "../assets/Lab_Img.png"
 
-const LabDetails = () => {
+const LabDetails = ({labName,labNo,labIncharge,contact,email,department,picture,equipments,featured}) => {    
   return (
-    <div>
-      Lab Details
+    <div className="flex justify-center w-full">
+
+      <div className="w-11/12 flex flex-col mx-auto my-4 rounded-lg text-slate-950 bg-[#DDEFF9] md:max-w-xl md:flex-row justify-center items-center">
+        <img
+          className="h-48 w-full rounded-t-lg object-cover md:h-30 md:w-52 md:rounded-lg"
+          src={lab_img}
+          alt="lab_img" />
+        <div className="flex flex-col justify-center items-start p-6 ">
+          <h5 className="mb-2 text-md font-medium">
+            Lab Name : {labName}
+          </h5>
+          <h5 className="mb-2 text-md font-medium">
+            Department : {department}
+          </h5>
+          <h5 className="mb-2 text-md font-medium">
+            Lab No. : {labNo}
+          </h5>
+          <h5 className="mb-2 text-md font-medium">
+            Lab Incharge : {labIncharge}
+          </h5>
+          <h5 className="mb-2 text-md font-medium">
+            Contact no. : {contact}
+          </h5>
+          <h5 className="mb-2 text-md font-medium">
+            Incharge Email : {email}
+          </h5>
+        </div>
+      </div>  
     </div>
   )
 }
 
-export default LabDetails
+export default LabDetails

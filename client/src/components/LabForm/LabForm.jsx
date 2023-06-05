@@ -34,7 +34,7 @@ const EquipForm = () => {
          .then(res =>{
            console.log(res)
            alert("Lab added Successfully!");
-           navigate("/labDetail");
+           navigate("/labs");
          })
       }else{
         alert("please fill all the fields");

@@ -8,7 +8,7 @@ import Signup from "./components/Signup"
 import EquipDetails from './pages/EquipDetails';
 import LabForm from "./components/LabForm/LabForm.jsx"
 import { useState } from 'react';
-import LabDetails from './pages/LabDetails';
+import Labs from "./pages/Labs";
 
 function App() {
 
@@ -22,9 +22,8 @@ function App() {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/equipForm" element={<EquipForm/>}/>
         <Route path='/equipDetail' element={<EquipDetails/>}/>
-        <Route path='/labDetail' element={<LabDetails/>}/>
         <Route path='/labForm' element={<LabForm/>}/>
-
+        <Route path='/labs' element={<Labs/>}/>
       </Routes>
     </>
   );

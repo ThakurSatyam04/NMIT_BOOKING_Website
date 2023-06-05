@@ -6,10 +6,6 @@ const LabSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        equipName: {
-            type: String,
-            required: true,
-        },
         labNo: {
             type: Number,
             required: true,
@@ -26,15 +22,17 @@ const LabSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        department:{
+        department: {
             type: String,
         },
         equipments:
+        [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Equipment",
                 unavailableDates: {type: [Date]}
             }
+        ]
         ,
         featured:{
             type: Boolean,

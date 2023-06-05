@@ -5,8 +5,8 @@ export const createLab = async (req,res,next) => {
     const newLab = new Lab(req.body);
     try {
         const savedLab = await newLab.save();
-        res.status(200).json(savedLab);
-        res.send({message:"Equipment added successfully"})
+        res.status(200).send(savedLab);
+        // res.send({message:"Equipment added successfully"})
         console.log(savedLab)
     } 
     catch (err) {
