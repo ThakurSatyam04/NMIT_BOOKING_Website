@@ -3,15 +3,16 @@ import "./EquipForm.css"
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 
-const EquipForm = () => {
+const EquipForm = ({labid}) => {
 
   const navigate = useNavigate();
 
   const [equip, setEquip] = useState({
-    equipmentName:"",
-    make:"",
+    equipName:"",
+    makeOfEquip:"",
     model:"",
-    quantity:""
+    quantity:"",
+    slots:[],
   })
 
   const handleChange =(e)=>{
@@ -22,25 +23,24 @@ const EquipForm = () => {
     })
   }
 
-
   const handleSubmit = async(e)=>{
     e.preventDefault();
-  try{
-    const {equipmentName,make,model,quantity} = equip;
-    if(equipmentName && make && model && quantity){
-     await axios.post("http://localhost:3001/api/equip",equip)
-      .then(res =>{
-        console.log(res)
-        alert("Equipment added successfully");
-        navigate("/equipDetail");
-      })
+    try{
+      const { equipName, makeOfEquip, model, quantity } = equip;
+      if(equipName && makeOfEquip && model && quantity){
+       await axios.post(`http://localhost:3001/api/equip/${labid}`,equip)
+        .then(res =>{
+          console.log(res)
+          alert("Equipment added successfully");
+          navigate("/equipDetail");
+        })
+      }
+      else{
+        alert("please fill all the fields");
+      }
+    }catch(err){
+      console.log(err);
     }
-    else{
-      alert("please fill all the fields");
-    }
-  }catch(err){
-    console.log(err);
-  }
   }
     
   return (
@@ -60,11 +60,11 @@ const EquipForm = () => {
                   </label>
                   <input
                     type="text"
-                    name="equipmentName"
-                    id="equipmentName"
+                    name="equipName"
+                    id="equipName"
                     className="formbold-form-input"
                     onChange={handleChange}
-                    value={equip.equipmentName}
+                    value={equip.equipName}
 
                     // placeholder='including software and hardware'
                   />
@@ -79,11 +79,11 @@ const EquipForm = () => {
                   </label>
                   <input
                     type="text"
-                    name="make"
-                    id="make"
+                    name="makeOfEquip"
+                    id="makeOfEquip"
                     className="formbold-form-input"
                     onChange={handleChange}
-                    value={equip.make}
+                    value={equip.makeOfEquip}
 
                     // placeholder='Equipment Details'
                   />

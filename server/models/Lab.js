@@ -27,13 +27,13 @@ const LabSchema = new mongoose.Schema(
         },
         equipments:
         [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Equipment",
-                unavailableDates: {type: [Date]}
-            }
-        ]
-        ,
+            // {
+            //     type: mongoose.Schema.Types.ObjectId,
+            //     ref: "Equipment",
+            //     unavailableDates: {type: [Date]}
+            // }
+            String,
+        ],
         featured:{
             type: Boolean,
             default: false

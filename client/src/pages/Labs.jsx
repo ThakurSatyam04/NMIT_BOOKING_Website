@@ -48,7 +48,6 @@ const Labs = () => {
     </div>
   </div>
         
-
       <div>
         {
             data.map((item) => {

@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from "../components/Navbar.js";
 import bg_img from "../assets/Bg_Img.png"
 import about_img from "../assets/About_img.png"
+import FeaturedPage from './FeaturedPage.js';
 
 const Home = () => {
   return (
@@ -32,7 +33,7 @@ const Home = () => {
     <div className='w-screen flex justify-center items-center mt-4'>
       <div className='w-11/12 h-[500px] '>
         <h1 className='font-bold text-3xl'>LABS</h1>
-        <p >(Equipments)</p>
+        <FeaturedPage/>
       </div>
     </div>
 

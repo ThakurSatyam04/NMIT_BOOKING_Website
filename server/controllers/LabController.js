@@ -1,4 +1,6 @@
+import Equip from "../models/Equip.js";
 import Lab from "../models/Lab.js"
+
 
 export const createLab = async (req,res,next) => {
     console.log(req.body)
@@ -57,5 +59,19 @@ export const getAllLab = async (req,res,next) => {
         res.status(200).json(labs);
     } catch (err) {
         next(err);
+    }
+}
+
+export const getEquips = async (req,res,next) => {
+    try {
+        const lab = await Lab.findById(req.params.id);
+        const list = await Promise.all(
+            lab.equipments.map(async (equip) => {
+                return Equip.findById(equip)
+            })
+        )
+        res.status(200).json(list)
+    } catch (err) {
+        next(err)
     }
 }

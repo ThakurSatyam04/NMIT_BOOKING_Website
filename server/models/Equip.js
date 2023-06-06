@@ -7,17 +7,23 @@ const EquipSchema = new mongoose.Schema(
             required: true,
         },
         makeOfEquip: {
-            type: Number,
+            type: String,
             required: true,
         },
         model: {
             type: String,
             required: true
         },
-        Quantity: {
+        quantity: {
             type: Number,
             required:true
         },
+        slots: [
+            {
+                unavailableDates: {type: [Date]},
+                unavailableTimeSlots : {type: [Date]}
+            }
+        ]
     }, 
     {timestamps: true}
 )
