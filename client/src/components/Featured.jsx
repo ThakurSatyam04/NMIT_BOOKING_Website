@@ -1,23 +1,34 @@
 import React from 'react'
+import lab_img from "../assets/Lab_Img.png"
+import { useNavigate } from 'react-router-dom'
 
-const Featured = ({labName, labNo, department, labIncharge}) => {
+const Featured = ({_id,labName, labNo, department, labIncharge}) => {
+  const navigate = useNavigate();
+  console.log(_id)
+
+  const handleClick=(e)=>{
+    e.preventDefault();
+    navigate(`/equipDetail/${_id}`);
+  }
 
   return (
     <>
-    <div className='grid grid-cols-3'>
-        <div class="bg-[#DDEFF9] max-w-sm rounded-2xl overflow-hidden shadow-lg">
-          <img class="w-full h-60" src="https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg" alt="Sunset in the mountains" />
+    <div className='h-full w-[300px] sm:flex-col m-4 hover:brightness-75 hover:cursor-pointer transition duration-200 ease-in-out ' onClick={handleClick}>
+        <div className="bg-[#DDEFF9] max-w-sm rounded-2xl overflow-hidden shadow-lg">
+            <div className='flex justify-center items-center'>  
+                <img className="h-[200px] w-full rounded-none" src={lab_img} alt="Sunset in the mountains" />
+            </div>
             <div className="flex flex-col justify-center items-start p-6 ">
-                <h5 className="mb-2 text-md font-medium">
+                <h5 className="mb-1 text-sm font-medium">
                   Lab Name : {labName}
                 </h5>
-                <h5 className="mb-2 text-md font-medium">
+                <h5 className="mb-1 text-sm font-medium">
                   Department : {department}
                 </h5>
-                <h5 className="mb-2 text-md font-medium">
+                <h5 className="mb-1 text-sm font-medium">
                   Lab No. : {labNo}
                 </h5>
-                <h5 className="mb-2 text-md font-medium">
+                <h5 className="mb-1 text-sm font-medium">
                   Lab Incharge : {labIncharge}
                 </h5>
             </div>            

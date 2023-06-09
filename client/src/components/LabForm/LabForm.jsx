@@ -3,6 +3,7 @@ import "../EquipmentForm/EquipForm.css"
 import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Button from '../Button_comp'
 
 const EquipForm = () => {
 
@@ -146,8 +147,9 @@ const EquipForm = () => {
                 //   placeholder='No. of equipments'
                 />
               </div>
-
-      <button className="formbold-btn" type='submit'> + Add Lab</button>
+              <div>
+                <Button btn="+ Add Lab" type='submit'/>
+              </div>
     </form>
   </div>
 </div>

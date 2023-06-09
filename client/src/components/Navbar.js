@@ -1,8 +1,15 @@
 import React from 'react'
 import Logo from "../assets/Logo.png"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Button from '../components/Button_comp'
 
-const Navbar = () => {
+
+const Navbar = ({setLoginUser}) => {
+  const navigate = useNavigate();
+
+  const handleClick=()=>{
+    navigate("/login")
+  }
   return (
     <div className='w-full flex items-center justify-center bg-blue-50'>
     <div className='w-11/12 flex justify-between items-center'>
@@ -15,19 +22,22 @@ const Navbar = () => {
             <Link to="/">
                 <li>Home</li>
             </Link>
-            <li>About</li>
-            <Link to="/labs">
-                <li>Book Now</li>
-            </Link>
-            <li>Contact Us</li>
+              <li>
+                <a href="#about">About</a>
+              </li>
+              <li>
+                <a href="#labs">Book Now</a>
+              </li>
+            
+              <li>
+                <a href="#footer">Contact Us</a>
+              </li>
         </ul>
       </div>
-      <div>
-        <button className='bg-blue-700 hover:bg-blue-900 text-white p-1 rounded-md '>
-            Logout
-        </button>
+        <div onClick={handleClick}> 
+          <Button btn="Logout" setLoginUser={setLoginUser}/>
+        </div>
       </div>
-    </div>
     </div>
   )
 }

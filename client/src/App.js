@@ -13,17 +13,23 @@ import Equipments from './pages/Equipments';
 function App() {
 
   const [user, setLoginUser] = useState({});
+  console.log(user);
   
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Home/>}/>
+        <Route exact path="/" element={<Home setLoginUser={setLoginUser}/>}/>
+        {/* <Route exact path="/">
+            {
+              user && user._id ? <Home/> : <Login setLoginUser={setLoginUser}/>
+            }
+        </Route> */}
         <Route path="/login" element={<Login setLoginUser={setLoginUser}/>}/>
         <Route path="/signup" element={<Signup/>}/>
-        <Route path="/equipForm" element={<EquipForm/>}/>
+        <Route path="/equipForm/:_id" element={<EquipForm/>}/>
         <Route path='/equipDetail/:_id' element={<Equipments/>}/>
         <Route path='/labForm' element={<LabForm/>}/>
-        <Route path='/labs' element={<Labs/>}/>
+        <Route path='/labs' element={<Labs setLoginUser={setLoginUser}/>}/>
       </Routes>
     </>
   );

@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import "./EquipForm.css"
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import Button from "../Button_comp";
 
-const EquipForm = ({labid}) => {
+const EquipForm = () => {
 
-  const navigate = useNavigate();
+  const { _id } = useParams();
+  console.log(_id)
+
+    const navigate = useNavigate();
 
   const [equip, setEquip] = useState({
     equipName:"",
@@ -28,11 +33,11 @@ const EquipForm = ({labid}) => {
     try{
       const { equipName, makeOfEquip, model, quantity } = equip;
       if(equipName && makeOfEquip && model && quantity){
-       await axios.post(`http://localhost:3001/api/equip/${labid}`,equip)
+       await axios.post(`http://localhost:3001/api/equip/${_id}`,equip)
         .then(res =>{
           console.log(res)
           alert("Equipment added successfully");
-          navigate("/equipDetail");
+          navigate(`/equipDetail/${_id}`);
         })
       }
       else{
@@ -117,11 +122,9 @@ const EquipForm = ({labid}) => {
                   onChange={handleChange}
                   value={equip.quantity}
                 />
-              </div>
-
-        <button type="submit" className="formbold-btn"> 
-          + Add Equipment
-        </button>
+              </div>              
+              
+              <Button btn="+ Add Equipment" type="submit"/>
 
     </form>
   </div>

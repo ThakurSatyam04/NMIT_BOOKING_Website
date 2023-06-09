@@ -9,8 +9,8 @@ import equipRoute from "./routes/equipRoute.js"
 import userRoute from "./routes/userRoute.js"
 
 const app = express();
-dotenv.config();
-
+dotenv.config(); 
+ 
 const PORT = process.env.PORT || 6001;
 mongoose.connect(process.env.MONGO_URL, {
         useNewUrlParser: true,

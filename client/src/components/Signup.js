@@ -5,40 +5,49 @@ import bg_img from "../assets/Bg_Img.png"
 
 const Signup = () => {
 
-  const navigate = useNavigate();
+const navigate = useNavigate();
+const [userType, setUserType] = useState("");
+const [secretKey, setSecretKey] = useState("");
 
 const [user, setUser] = useState({
   name:"",
   email:"",
   password:"",
-  confirmPassword:""
+  confirmPassword:"",
+  userType:""
 }) 
 
 const handleChange =(e)=>{
   const{name,value} = e.target;
   setUser({
     ...user,
-    [name]:value
+    [name]:value,
   })
 }
 
 const handleSignUp = async(e)=>{
-  e.preventDefault();
-  try{
-    const {name,email,password,confirmPassword} = user;
-    if(name && email && password === confirmPassword){
-     await axios.post("http://localhost:3001/api/auth/signup",user)
-      .then(res =>{
-        console.log(res)
-        alert("Sign Up Successful, Please Login");
-        navigate("/login");
-      })
+  if(userType=="Admin" && secretKey!="NMIT123"){
+    e.preventDefault();
+    alert("Invalid Admin")
+  }else{
+    e.preventDefault();
+    try{
+      const {name,email,password,confirmPassword} = user;
+      console.log(userType)
+      if(name && email && password === confirmPassword){
+       await axios.post("http://localhost:3001/api/auth/signup",user,userType)
+        .then(res =>{
+          console.log(res)
+          alert("Sign Up Successful, Please Login");
+          navigate("/login");
+        })
+      }
+      else{
+        alert("please fill all the fields");
+      }
+    }catch(err){
+      console.log(err);
     }
-    else{
-      alert("please fill all the fields");
-    }
-  }catch(err){
-    console.log(err);
   }
 }
 
@@ -55,17 +64,48 @@ const handleSignUp = async(e)=>{
           <p className="mx-4 mb-0 text-center font-semibold text-slate-500">Sign Up</p>
         </div>
 
+        <div>
+          Register as: 
+          <input 
+            type="radio" 
+            name="UserType"
+            value="User"
+            onChange={(e)=> setUserType(e.target.value)}
+          />User
+          <input
+            type="radio" 
+            name="UserType"
+            value="Admin"
+            onChange={(e)=> setUserType(e.target.value)}
+          />Admin
+        </div>
+
+        <div className='mt-2'>
         <label>Name</label>
         <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="name" value={user.name} onChange={handleChange} type="text" placeholder="Enter Name" />
+        </div>
 
+        <div className='mt-2'>
         <label>Email</label>
         <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="email" value={user.email} onChange={handleChange} type="text" placeholder="Email Address" />
+        </div>
 
+        <div className='mt-2'>
         <label>Password</label>
-        <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" name="password" value={user.password} onChange={handleChange} type="password" placeholder="Password" />
+        <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="password" value={user.password} onChange={handleChange} type="password" placeholder="Password" />
+        </div>
 
+        <div className='mt-2'>
         <label>Confirm Password</label>
-        <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" name="confirmPassword" value={user.confirmPassword} onChange={handleChange} type="password" placeholder="Confirm Password" />
+        <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="confirmPassword" value={user.confirmPassword} onChange={handleChange} type="password" placeholder="Confirm Password" />
+        </div>
+
+        <div className='mt-2'>
+        {userType=="Admin" ? <div>
+          <label>Secret Key</label>
+          <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="UserType" type="text" onChange={(e)=> setSecretKey(e.target.value)} placeholder="Secret Key" />          
+        </div> : null}
+        </div>
 
         <div className="mt-4 flex justify-between font-semibold text-sm">
           <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">

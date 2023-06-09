@@ -1,36 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 
-const EquipDetails = () => {
-
-  const [data,setData] = useState([]);
-
-    const getData = async () => {
-        try{
-          const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
-          setData(data)
-        //   console.log(data)
-
-          const equip = data.equipments.map((item) => {
-            return {...item}
-          })
-          setEquip(equip)
-        //   console.log(equip)
-        }
-        catch(e){
-          console.log(e)
-        }
-    }
-
-    useEffect(() => {
-        getData();
-    },[])
+const EquipDetails = ({equipName,makeOfEquip,model,quantity}) => {
 
   return (
     <>
-
-      <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-            <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
+      <tbody className="bg-white divide-y divide-gray-200 dark:bg-[#EBF0FA] dark:divide-[#75cce7]">
+            <tr className="hover:bg-[#a2cdda] dark:hover:[#75cce7]">
               <td className="p-4 w-4">
                 <div className="flex items-center">
                   <input
@@ -42,27 +17,27 @@ const EquipDetails = () => {
                 </div>
               </td>
               <td
-                className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
-                {/* {_id} */}
+                {equipName}
               </td>
               <td
-                className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
-                {/* {makeOfEquip} */}
+                {makeOfEquip}
               </td>
               <td
-                className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
-                {/* {model} */}
+                {model}
               </td>
               <td
-                className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
-                {/* {quantity} */}
+                {quantity}
               </td>
               <td
-                className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
                 available
               </td>

@@ -8,8 +8,8 @@ const FeaturedPage = () => {
 
   return (
     <div>
-      <div className='container'>
-        <div>
+      <div className='flex justify-center items-center'>
+        <div className='grid grid-cols-3 items-center justify-evenly mt-4'>
           {
               data.map((item) => {
                   return <Featured key={item.id} {...item}></Featured>
