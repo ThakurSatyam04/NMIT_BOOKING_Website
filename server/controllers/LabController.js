@@ -3,7 +3,6 @@ import Lab from "../models/Lab.js"
 
 
 export const createLab = async (req,res,next) => {
-    console.log(req.body)
     const newLab = new Lab(req.body);
     try {
         const savedLab = await newLab.save();

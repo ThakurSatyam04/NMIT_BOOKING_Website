@@ -9,54 +9,65 @@ import Footer from '../components/Footer'
 
 const Equipments = ({setLoginUser}) => {
 
-    const [date, setDate] = useState(new Date());
-    const [data,setData] = useState([]);
-    const navigate = useNavigate();    
-    const { _id } = useParams();
-    const [time,setTime] = useState(null);
-    const [checked,setChecked] = useState(false);
-
-    const getData = async () => {
-        try{
-          const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
+  const [data,setData] = useState([]);
+  const navigate = useNavigate();    
+  const { _id } = useParams();
+  const [date, setDate] = useState(new Date());
+  const [fromTime, setFromTime] = useState(null);
+  const [toTime, setToTime] = useState(null);
+  const [equips,setEquips] = useState([]);
+  
+  const getEquipData = async () => {
+    try{
+      const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
           setData(data)
         }
         catch(e){
           console.log(e)
         }
-    }
+      }
 
-    useEffect(() => {
-        getData();
-    },[])
+      const getLabData = async () => {
+        try{
+          const {equips} = await axios.get(`http://localhost:3001/api/labs`)
+          setEquips(equips)
+        }catch(e){
+          console.log(e)
+        }
+      }
+      console.log(data)
+      console.log(equips)
+      
+      useEffect(() => {
+        getEquipData();
+        getLabData();
+        // getLabDetails();
+      },[])
 
     const handleClick = (e) => {
       e.preventDefault();
       navigate(`/equipForm/${_id}`);
     }
     
-    const onChange=(date)=>{
+    const handleDate = (date)=>{
       setDate(date);
     }
-    
-    const handleTime= (e)=>{
-      e.preventDefault();
-      if(!checked){
-        setDate(date);
-        setTime(e.target.value);
-        setChecked(true);
-        e.target.style.backgroundColor = 'red';
-      }
-      else{
-        setTime(null);
-        setChecked(false);
-        e.target.style.backgroundColor = '';
-      }
+
+    const handleFromTimeChange = (e) => {
+      setFromTime(e.target.value);
     }
 
+    const handleToTimeChange = (e) => {
+      setToTime(e.target.value);
+    }
+
+    console.log(fromTime)
+    console.log(toTime)
     console.log(date)
-    console.log(time)
-    console.log(checked)
+
+    const handleSubmit = () => {
+
+    }
 
   return (
     <div>
@@ -64,27 +75,79 @@ const Equipments = ({setLoginUser}) => {
       <div className='h-[300px]'>
         <div className='relative h-[180px] bg-[#78C7DF] flex justify-center items-center'>
           <div className='absolute h-[120px] w-7/12 bg-[#D5E6EB] top-28 rounded-b-3xl'>
-            Satyam
+            satyam
           </div>
         </div>
       </div>
 
+{/* Selecting Time slot */}
       <div className='flex justify-center items-center gap-10 '>
         <div>
-        <Calendar onChange={onChange} value={date} />
+        <Calendar onChange={handleDate} value={date} />
         </div>
 
-        <div className='flex flex-col'>
-          <button onClick={handleTime} name="slot1" value="slot1"  className='bg-[#7fd9f5] p-1 rounded-md mb-2 '>8:45am to 11:00am</button>
-          <button onClick={handleTime} name="slot2" value="slot2"  className='bg-[#7fd9f5] p-1 rounded-md mb-2 '>12:00pm to 2:45pm</button>
-          <button onClick={handleTime} name="slot3" value="slot3"  className='bg-[#7fd9f5] p-1 rounded-md mb-2 '>12:00pm to 2:45pm</button>
-        </div>
+        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+            <label htmlFor="gender" id='gender' className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Select Slots
+            </label>
+            <div className="relative">
+              <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                id="gender"
+                value={fromTime}
+                onChange={handleFromTimeChange}
+                name='gender'
+                required
+                >
+                <option value="">
+                  From
+                </option>
+                <option value="8:45am">
+                  8:45am
+                </option>
+                <option value="12:00pm">
+                  12:00pm
+                </option>
+                <option value="2:45pm">
+                  2:45pm
+                </option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+            <div className="relative mt-4">
+              <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                id="gender"
+                value={toTime}
+                onChange={handleToTimeChange}
+                name='gender'
+                required
+                >
+                <option value="">
+                  To
+                </option>
+                <option value="11:00am">
+                  11:00am
+                </option>
+                <option value="2:45pm">
+                  2:45pm
+                </option>
+                <option value="4:00pm">
+                  4:00pm
+                </option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+          </div>
       </div>
 
-        <div className="text-center md:text-left flex justify-end mr-14 mt-10 mb-4" onClick={handleClick}> 
-          <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>+ Add Equipments</button>
+        <div className="text-center md:text-left flex justify-end mr-14 mt-10 mb-4" > 
+          <button onClick={handleClick} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>+ Add Equipments</button>
         </div>
 
+{/* Equipment table */}
         <div className="w-11/12 justify-center mx-auto flex flex-col">
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
               <div className="inline-block min-w-full align-middle dark:bg-[#EBF0FA]">
@@ -127,16 +190,23 @@ const Equipments = ({setLoginUser}) => {
                         
                       </tr>
                     </thead>
-                      {
+                      {/* {
                           data.map((item) => {
                               return <EquipDetails key={item._id} {...item}/>
                           })
-                      }
+                      } */}
 
                   </table>
                 </div>
               </div>
             </div>
+          </div>
+
+          <div 
+            className="text-center md:text-left flex justify-center mr-14 mt-10 mb-4" 
+            onClick={handleSubmit}
+          > 
+            <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>Confirm Slot</button>
           </div>
             <div className='mt-6'>
               <Footer/>
@@ -145,4 +215,4 @@ const Equipments = ({setLoginUser}) => {
   )
 }
 
-export default Equipments
+export default Equipments

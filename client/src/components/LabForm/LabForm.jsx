@@ -124,7 +124,7 @@ const EquipForm = () => {
                   Contact No.
                 </label>
                 <input
-                  type="number"
+                  type="tel"
                   name="contact"
                   id="contact"
                   className="formbold-form-input"

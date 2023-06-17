@@ -9,7 +9,7 @@ import LabForm from "./components/LabForm/LabForm.jsx"
 import { useState } from 'react';
 import Labs from "./pages/Labs";
 import Equipments from './pages/Equipments';
-
+ 
 function App() {
 
   const [user, setLoginUser] = useState({});
