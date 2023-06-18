@@ -1,6 +1,6 @@
 import express from "express"
 import { verifyAdmin } from "../utils/verifyToken.js";
-import { createLab, deleteLab, getAllLab, getEquips, getLab, updateLab } from "../controllers/LabController.js";
+import { createLab, deleteLab, getAllLab, getEquips, getLab, updateLab} from "../controllers/LabController.js";
 
 const router = express.Router();
 

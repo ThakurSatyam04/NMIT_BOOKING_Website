@@ -1,23 +1,35 @@
 import React, { useState,useEffect } from "react";
+import { MdDeleteForever } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import axios from "axios";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,quantity}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,quantity,labId}) => {
 
   const[selectedEquip, setSelectedEquip] = useState([])
   // console.log(_id)
   const handleChange=(e)=>{
     // console.log(_id)
     const value = e.target.value;
-    // console.log(value)
+    console.log(value)
     if(e.target.checked){
       setSelectedEquip((prev)=>[...prev,value]);
     }else{
       setSelectedEquip((prev)=> prev.filter((item)=>item !== value));
     }
-    // console.log(selectedEquip)
+    console.log(selectedEquip)
     // setSelectedEquip(updatedList)
     // console.log(value)
   }
 
+  const handleDelete = async() =>{
+    try{
+      alert("press Ok to delete");
+      const deleteEquip = await axios.delete(`http://localhost:3001/api/equip/${labId}/${_id}`)
+      console.log(deleteEquip)
+    }catch(e){
+      console.log(e)
+    }
+  }
 
   return (
     <>
@@ -61,6 +73,20 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,quantity}) => {
                 className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
                 available
+              </td>
+              <td>
+                <div  className="gap-6 flex ml-6">
+                  <div>
+                    <button onClick={handleDelete}>
+                      <MdDeleteForever />
+                    </button>
+                  </div>
+                  <div>
+                    <button>
+                      <FaEdit />                  
+                    </button>
+                  </div>
+                </div>
               </td>
               
             </tr>
