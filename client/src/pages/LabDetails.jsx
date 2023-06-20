@@ -10,6 +10,7 @@ const LabDetails = ({_id,labName,labNo,labIncharge,contact,email,department,pict
   const handleClick = (e) => {
     navigate(`/equipDetail/${_id}`);
   }
+
   return (
     <div className="flex  w-full " >
 

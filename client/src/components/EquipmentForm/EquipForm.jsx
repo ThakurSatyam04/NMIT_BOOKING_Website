@@ -8,7 +8,7 @@ import Button from "../Button_comp";
 const EquipForm = () => {
 
   const { _id } = useParams();
-  console.log(_id)
+  // console.log(_id)
 
     const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const EquipForm = () => {
       if(equipName && makeOfEquip && model && quantity){
        await axios.post(`http://localhost:3001/api/equip/${_id}`,equip)
         .then(res =>{
-          console.log(res)
+          // console.log(res)
           alert("Equipment added successfully");
           navigate(`/equipDetail/${_id}`);
         })

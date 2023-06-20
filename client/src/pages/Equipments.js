@@ -6,73 +6,87 @@ import Navbar from "../components/Navbar.js";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../components/Footer'
-import classNames from 'classnames';
 
-const Equipments = ({setLoginUser}) => { 
+const Equipments = ({setLoginUser}) => {
 
   const [data,setData] = useState([]);
   const navigate = useNavigate();    
   const { _id } = useParams();
   const [date, setDate] = useState(new Date());
-  const [fromTime, setFromTime] = useState(null);
-  const [toTime, setToTime] = useState(null);
-  const [visibleCalender, setVisibleCalender] = useState(false);
-  // const [equips,setEquips] = useState([]);
+  const [fromTime, setFromTime] = useState("");
+  const [toTime, setToTime] = useState("");
+  const [status, setStatus] = useState('available');
+  const [equipid, setEquipid] = useState("");
+  const [slots, setSlots] = useState([]);
+  const [quantity, setQuantity] = useState();
   
   const getEquipData = async () => {
     try{
       const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
           setData(data)
-        }
-        catch(e){
-          console.log(e)
-        }
+          // console.log(data)
+    } catch(e){
+        console.log(e)
+    }
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigate(`/equipForm/${_id}`);
+  }
+    
+  const handleDate = (date)=>{
+    setDate(date);
+  }
+
+  const handleFromTimeChange = (e) => {
+    setFromTime(e.target.value);
+  }
+
+  const handleToTimeChange = (e) => {
+    setToTime(e.target.value);
+  }
+
+    const newTimeSlot = { date, fromTime, toTime }
+
+    // const handleQuantity = () => {
+    //   if(quantity<1){
+    //     setStatus("unavailable");
+    //   }
+    //   else{
+    //     setStatus("available")
+    //   }
+    // }
+
+    const handleStatus = async () => {
+      if(quantity===0){
+        setStatus("pending");
       }
-
-      // const getLabData = async () => {
-      //   try{
-      //     const {equips} = await axios.get(`http://localhost:3001/api/labs`)
-      //     setEquips(equips)
-      //   }catch(e){
-      //     console.log(e)
-      //   }
-      // }
-      console.log(data)
-      // console.log(equips)
-      
-      useEffect(() => {
-        getEquipData();
-        // getLabData();
-      },[])
-
-    const handleClick = (e) => {
-      e.preventDefault();
-      navigate(`/equipForm/${_id}`);
+      else{
+        setStatus("available")
+      }
+      try {
+        await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {status, quantity})
+      } catch (error) {
+        console.log(error.message)
+      }
     }
     
-    const handleDate = (date)=>{
-      setDate(date);
+    const handleSubmit = async () => {
+      try{
+        await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
+        setQuantity(quantity-1);
+        handleStatus();
+      } 
+      catch(err){
+        console.error(err);
+      }
     }
 
-    const handleFromTimeChange = (e) => {
-      setFromTime(e.target.value);
-    }
-
-    const handleToTimeChange = (e) => {
-      setToTime(e.target.value);
-    }
-
-    const handleCalender = ()=>{
-      setVisibleCalender(!visibleCalender);
-    }
-
-    console.log(fromTime)
-    console.log(toTime)
-    console.log(date)
-
-    const handleSubmit = () => {
-
-    }
+  useEffect(() => {
+    getEquipData();
+  },[])
+  
 
   return (
     <div>
@@ -86,26 +100,21 @@ const Equipments = ({setLoginUser}) => {
       </div>
 
 {/* Selecting Time slot */}
-      <div className='w-full flex justify-center items-center gap-20 bg-blue-200 p-4'>
-        <div className='flex flex-col mt-6 '>
-          <button onClick={handleCalender} className='bg-blue-500 text-white px-4 py-2 rounded'>Select Date</button>
-          <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-0",{"hidden": !visibleCalender,
-          "opacity-100": visibleCalender,})}>
-          <Calendar onChange={handleDate} value={date} />
-          </div>
+      <div className='flex justify-center items-center gap-10 '>
+        <div>
+        <Calendar onChange={handleDate} value={date} />
         </div>
 
         <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-            <label id='slot' className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <label htmlFor="gender" id='gender' className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
               Select Slots
             </label>
-            <div className='flex gap-10'>
             <div className="relative">
               <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                id="slot"
+                id="gender"
                 value={fromTime}
                 onChange={handleFromTimeChange}
-                name='slot'
+                name='gender'
                 required
                 >
                 <option value="">
@@ -125,12 +134,12 @@ const Equipments = ({setLoginUser}) => {
                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative mt-4">
               <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                id="slot"
+                id="gender"
                 value={toTime}
                 onChange={handleToTimeChange}
-                name='slot'
+                name='gender'
                 required
                 >
                 <option value="">
@@ -149,7 +158,6 @@ const Equipments = ({setLoginUser}) => {
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
               </div>
-            </div>
             </div>
           </div>
       </div>
@@ -198,18 +206,13 @@ const Equipments = ({setLoginUser}) => {
                         >
                           STATUS
                         </th>
-                        <th
-                          scope="col"
-                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
-                        >
-                          HANDLE
-                        </th>
                         
                       </tr>
                     </thead>
                       {
                           data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} labId = {_id}/>
+                              return <EquipDetails key={item._id} {...item} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus}
+                              />
                           })
                       }
 
@@ -223,7 +226,9 @@ const Equipments = ({setLoginUser}) => {
             className="text-center md:text-left flex justify-center mr-14 mt-10 mb-4" 
             onClick={handleSubmit}
           > 
-            <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>Confirm Slot</button>
+            <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
+              Confirm Slot
+            </button>
           </div>
             <div className='mt-6'>
               <Footer/>
