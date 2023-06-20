@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar.js";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../components/Footer'
+import classNames from 'classnames';
 
 const Equipments = ({setLoginUser}) => {
 
@@ -19,6 +20,7 @@ const Equipments = ({setLoginUser}) => {
   const [equipid, setEquipid] = useState("");
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
+  const [visibleCalender, setVisibleCalender] = useState(false);
   
   const getEquipData = async () => {
     try{
@@ -45,6 +47,10 @@ const Equipments = ({setLoginUser}) => {
 
   const handleToTimeChange = (e) => {
     setToTime(e.target.value);
+  }
+
+  const handleCalender = ()=>{
+    setVisibleCalender(!visibleCalender);
   }
 
     const newTimeSlot = { date, fromTime, toTime }
@@ -100,9 +106,13 @@ const Equipments = ({setLoginUser}) => {
       </div>
 
 {/* Selecting Time slot */}
-      <div className='flex justify-center items-center gap-10 '>
-        <div>
-        <Calendar onChange={handleDate} value={date} />
+<div className='w-full flex justify-center items-center gap-20 bg-blue-200 p-4'>
+        <div className='flex flex-col mt-6 '>
+          <button onClick={handleCalender} className='bg-blue-500 text-white px-4 py-2 rounded'>Select Date</button>
+          <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100",{"hidden": !visibleCalender,
+          "opacity-100": visibleCalender,})}>
+          <Calendar onChange={handleDate} value={date} />
+          </div>
         </div>
 
         <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
