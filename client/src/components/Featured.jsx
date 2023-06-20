@@ -2,13 +2,19 @@ import React from 'react'
 import lab_img from "../assets/Lab_Img.png"
 import { useNavigate } from 'react-router-dom'
 
-const Featured = ({_id,labName, labNo, department, labIncharge}) => {
+const Featured = ({_id,labName, labNo, department, labIncharge,logIn}) => {
   const navigate = useNavigate();
   console.log(_id)
 
   const handleClick=(e)=>{
     e.preventDefault();
-    navigate(`/equipDetail/${_id}`);
+    if(logIn){
+      navigate(`/equipDetail/${_id}`);
+    }
+    else{
+      alert("Please Login First")
+      navigate("/login")
+    }
   }
 
   return (

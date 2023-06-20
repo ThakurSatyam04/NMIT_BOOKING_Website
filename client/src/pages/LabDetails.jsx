@@ -1,7 +1,6 @@
 import React from 'react'
 import lab_img from "../assets/Lab_Img.png"
 import { useNavigate} from 'react-router-dom'
-import Button from "../components/Button_comp.js";
 
 const LabDetails = ({_id,labName,labNo,labIncharge,contact,email,department,picture,equipments,featured}) => {    
 

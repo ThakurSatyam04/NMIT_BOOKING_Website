@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import bg_img from "../assets/Bg_Img.png"
 
-const Signup = () => {
+const Signup = ({setLoginUser}) => {
 
 const navigate = useNavigate();
 const [userType, setUserType] = useState("");
@@ -37,7 +37,7 @@ const handleSignUp = async(e)=>{
       if(name && email && password === confirmPassword){
        await axios.post("http://localhost:3001/api/auth/signup",user,userType)
         .then(res =>{
-          console.log(res)
+          // console.log(res)
           alert("Sign Up Successful, Please Login");
           navigate("/login");
         })

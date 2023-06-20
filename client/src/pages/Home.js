@@ -6,11 +6,11 @@ import FeaturedPage from './FeaturedPage.js';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer.js'
 
-const Home = ({setLoginUser}) => {
+const Home = ({user,logIn}) => {
+  // console.log(user)
   return (
     <div>
-      <Navbar setLoginUser={setLoginUser}/>
-      
+      {/* <Navbar setLoginUser={setLoginUser}/> */}
       <div className='relative overflow-x-hidden'>
         <img className='h-[600px] w-screen' src={bg_img} alt="Bg_img" />
         <div className='absolute top-52 left-32 p-2 w-[350px] bg-[#B0D0C4] rounded-md bg-opacity-70'>
@@ -42,7 +42,7 @@ const Home = ({setLoginUser}) => {
       </div>
       <div className='flex justify-center items-center mt-4'>
         <div className='w-full flex items-center justify-center'>
-          <FeaturedPage/>
+          <FeaturedPage logIn={logIn}/>
         </div>
       </div>
       <div className='w-11/12 flex justify-end items-center'>

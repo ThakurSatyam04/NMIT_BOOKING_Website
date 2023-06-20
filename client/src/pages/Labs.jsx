@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import LabDetails from './LabDetails.jsx';
-import Navbar from "../components/Navbar.js";
+// import Navbar from "../components/Navbar.js";
 import { Link } from 'react-router-dom';
 import Button from "../components/Button_comp.js";
 import Footer from '../components/Footer.js'
 
-const Labs = ({setLoginUser}) => {
+const Labs = ({logIn}) => {
 
     const [data,setData] = useState([]);
 
@@ -26,7 +26,7 @@ const Labs = ({setLoginUser}) => {
 
   return (    
     <>
-    <Navbar setLoginUser={setLoginUser}/>  
+    {/* <Navbar setLoginUser={setLoginUser}/>   */}
   <div className='w-full flex items-center justify-center'>
     <div className='w-11/12 flex justify-between items-center'>
         <form class="w-[300px] flex items-center m-4">   
@@ -43,20 +43,22 @@ const Labs = ({setLoginUser}) => {
             </button>
         </form>
         <div className="text-center md:text-left">
-          <Link to="/labForm">
-            <Button btn="+ Add Labs" type="submit"/>
-          </Link>
+          {
+            <Link to="/labForm">
+              <Button btn="+ Add Labs" type="submit"/>
+            </Link>
+          }
         </div>
         
     </div>
   </div>
         
       <div className=' xl:grid xl:grid-cols-2'>
-        {
-            data.map((item) => {
-                return <LabDetails key={item.id} {...item}/>
-            })
-        }
+          {
+              data.map((item) => {
+                  return <LabDetails key={item.id} {...item}/>
+              })
+          }
       </div>
 
       <div className='mt-6'>

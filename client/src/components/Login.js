@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link, useNavigate, } from 'react-router-dom'
 import bg_img from "../assets/Bg_Img.png"
 
-const Login = ({setLoginUser}) => {
+const Login = ({setLoginUser,setIsloggedIn}) => {
 
     const navigate = useNavigate();
 
@@ -25,7 +25,8 @@ const Login = ({setLoginUser}) => {
         try{
           await axios.post("http://localhost:3001/api/auth/login",user)
           .then(res =>{
-            console.log(res)
+            // console.log(res)
+            setIsloggedIn(true)
             setLoginUser(res.data.user)
             alert("Login Successful");
             navigate("/");
@@ -34,6 +35,7 @@ const Login = ({setLoginUser}) => {
           console.log(err);
         }
       } 
+      // console.log(user)
 
   return (
     <div>

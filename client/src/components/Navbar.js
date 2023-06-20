@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from "../assets/Logo.png"
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button_comp'
+import profile from "../assets/profile-icon-login-img.jpg"
+import classNames from 'classnames';
 
-
-const Navbar = ({setLoginUser}) => {
+const Navbar = ({user}) => {
   const navigate = useNavigate();
+  const [visibleProfile, setVisibleProfile] = useState(false);
+  // console.log(user)
 
   const handleClick=()=>{
     navigate("/login")
+  }
+
+  const handleProfile = ()=>{
+    setVisibleProfile(!visibleProfile);
   }
   return (
     <div className='w-full flex items-center justify-center bg-blue-50'>
@@ -34,9 +41,18 @@ const Navbar = ({setLoginUser}) => {
               </li>
         </ul>
       </div>
-        <div onClick={handleClick}> 
-          <Button btn="Logout" setLoginUser={setLoginUser}/>
+      <div className=''>
+        <img className='h-[30px]' src={profile} alt="" onClick={handleProfile}/>
+        <div className={classNames("absolute right-6 top-12 h-[300px] w-[300px] bg-gray-200 flex flex-col transition-opacity duration-500 ease-in-out opacity-100 z-10 rounded-xl p-4",{"hidden": !visibleProfile,
+          "opacity-100": visibleProfile,})}>
+          <p>{user.name}</p>
+          <p>{user.email}</p>
+
+          <div onClick={handleClick} className='w-full flex items-center justify-center'> 
+            <Button btn="Logout" />
+          </div>
         </div>
+      </div>
       </div>
     </div>
   )

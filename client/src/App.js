@@ -9,27 +9,30 @@ import LabForm from "./components/LabForm/LabForm.jsx"
 import { useState } from 'react';
 import Labs from "./pages/Labs";
 import Equipments from './pages/Equipments';
+import Navbar from './components/Navbar';
  
 function App() {
 
+  const [logIn,setIsloggedIn] = useState(false);
   const [user, setLoginUser] = useState({});
-  console.log(user);
+  // console.log(user);
   
   return (
     <>
+      <Navbar user={user}/>
       <Routes>
-        <Route exact path="/" element={<Home setLoginUser={setLoginUser}/>}/>
+        <Route exact path="/" element={<Home  user={user} logIn={logIn}/>}/>
         {/* <Route exact path="/">
             {
               user && user._id ? <Home/> : <Login setLoginUser={setLoginUser}/>
             }
         </Route> */}
-        <Route path="/login" element={<Login setLoginUser={setLoginUser}/>}/>
-        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/login" element={<Login setLoginUser={setLoginUser} setIsloggedIn={setIsloggedIn}/>}/>
+        <Route path="/signup" element={<Signup setLoginUser={setLoginUser}/>}/>
         <Route path="/equipForm/:_id" element={<EquipForm/>}/>
         <Route path='/equipDetail/:_id' element={<Equipments/>}/>
         <Route path='/labForm' element={<LabForm/>}/>
-        <Route path='/labs' element={<Labs setLoginUser={setLoginUser}/>}/>
+        <Route path='/labs' element={<Labs logIn={logIn}/>}/>
       </Routes>
     </>
   );

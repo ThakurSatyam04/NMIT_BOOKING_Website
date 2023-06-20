@@ -76,7 +76,7 @@ const Equipments = ({setLoginUser}) => {
 
   return (
     <div>
-      <Navbar setLoginUser={setLoginUser}/>
+      {/* <Navbar setLoginUser={setLoginUser}/> */}
       <div className='h-[300px]'>
         <div className='relative h-[180px] bg-[#78C7DF] flex justify-center items-center'>
           <div className='absolute h-[120px] w-7/12 bg-[#D5E6EB] top-28 rounded-b-3xl'>
