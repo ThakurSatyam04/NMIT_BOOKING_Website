@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import "./EquipForm.css"
+import "./EquipmentForm/EquipForm.css"
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
-import Button from "../Button_comp";
+import Button from "../components/Button_comp";
 
-const EquipForm = () => {
+const EditEquipForm = () => {
 
   const { labId } = useParams();
   const { _id } = useParams();
+  console.log(_id)
   console.log(labId)
 
 
@@ -21,7 +22,6 @@ const EquipForm = () => {
     makeOfEquip:"",
     model:"",
     quantity:"",
-    slots:[],
   })
 
   const handleChange =(e)=>{
@@ -32,12 +32,28 @@ const EquipForm = () => {
     })
   }
 
+  const FormData = async()=>{
+    try{
+    const data = await axios.get(`http://localhost:3001/api/equip/${_id}`)
+      setEquip(
+      {
+        equipName:data.data.equipName,
+        makeOfEquip:data.data.makeOfEquip,
+        model:data.data.model,
+        quantity:data.data.quantity
+      }
+      )
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   const handleSubmit = async(e)=>{
     e.preventDefault();
     try{
       const { equipName, makeOfEquip, model, quantity } = equip;
       if(equipName && makeOfEquip && model && quantity){
-       await axios.post(`http://localhost:3001/api/equip/${labId}`,equip)
+       await axios.put(`http://localhost:3001/api/equip/${_id}`,equip)
         .then(res =>{
           // console.log(res)
           alert("Equipment added successfully");
@@ -51,6 +67,10 @@ const EquipForm = () => {
       console.log(err);
     }
   }
+
+  useEffect(()=>{
+    FormData();
+  },[])
     
   return (
     <div>
@@ -138,4 +158,4 @@ const EquipForm = () => {
   )
 }
 
-export default EquipForm
+export default EditEquipForm

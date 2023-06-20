@@ -1,11 +1,13 @@
 import express from "express"
-import { createEquip, getEquip, createSlot, updateSlot, getSlots, getSlot,  equipStatus } from "../controllers/EquipController.js";
+import { createEquip, getEquip, createSlot, updateSlot, getSlots, getSlot,  equipStatus,deleteEquip, updateEquip } from "../controllers/EquipController.js";
 // import { createEquip, getEquip, getSlot, updateSlot, createSlot, getSlots } from "../controllers/EquipController.js";
 
 const router = express.Router();
 
 router.post("/:labid", createEquip)
-router.get("/:labid/:equipid", getEquip)
+router.get("/:equipid", getEquip)
+router.put("/:equipid", updateEquip)
+router.delete("/:labid/:equipid",deleteEquip)
 
 router.put("/slots/:equipid", createSlot)
 router.put("/slots/:equipid/:slotid", updateSlot)

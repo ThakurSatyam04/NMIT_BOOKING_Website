@@ -9,6 +9,7 @@ import LabForm from "./components/LabForm/LabForm.jsx"
 import { useState } from 'react';
 import Labs from "./pages/Labs";
 import Equipments from './pages/Equipments';
+import EditEquipForm from './components/EditEquipForm';
 import Navbar from './components/Navbar';
  
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/login" element={<Login setLoginUser={setLoginUser} setIsloggedIn={setIsloggedIn}/>}/>
         <Route path="/signup" element={<Signup setLoginUser={setLoginUser}/>}/>
         <Route path="/equipForm/:_id" element={<EquipForm/>}/>
+        <Route path="/editEquipForm/:labId/:_id" element={<EditEquipForm/>}/>
         <Route path='/equipDetail/:_id' element={<Equipments/>}/>
         <Route path='/labForm' element={<LabForm/>}/>
         <Route path='/labs' element={<Labs logIn={logIn}/>}/>

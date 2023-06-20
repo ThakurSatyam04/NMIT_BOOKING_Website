@@ -56,7 +56,7 @@ const Labs = ({logIn}) => {
       <div className=' xl:grid xl:grid-cols-2'>
           {
               data.map((item) => {
-                  return <LabDetails key={item.id} {...item}/>
+                  return <LabDetails key={item.id} {...item} labId={item._id}/>
               })
           }
       </div>

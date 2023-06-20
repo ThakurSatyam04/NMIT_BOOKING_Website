@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import EquipDetails from '../components/EquipDetails'
 import axios from "axios"
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import Navbar from "../components/Navbar.js";
+// import Navbar from "../components/Navbar.js";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../components/Footer'
@@ -16,11 +16,11 @@ const Equipments = ({setLoginUser}) => {
   const [date, setDate] = useState(new Date());
   const [fromTime, setFromTime] = useState("");
   const [toTime, setToTime] = useState("");
-  const [status, setStatus] = useState('available');
+  const [visibleCalender, setVisibleCalender] = useState(false);
+  const [status, setStatus] = useState('');
   const [equipid, setEquipid] = useState("");
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
-  const [visibleCalender, setVisibleCalender] = useState(false);
   
   const getEquipData = async () => {
     try{
@@ -63,34 +63,38 @@ const Equipments = ({setLoginUser}) => {
     //     setStatus("available")
     //   }
     // }
-
-    const handleStatus = async () => {
-      if(quantity===0){
-        setStatus("pending");
-      }
-      else{
-        setStatus("available")
-      }
-      try {
-        await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {status, quantity})
-      } catch (error) {
-        console.log(error.message)
-      }
-    }
+    
+    // const handleStatus = () => {
+    //   console.log(quantity)
+    //   if(quantity==0){
+    //     setStatus("unavailable");
+    //   }
+    //   else{
+    //     setStatus("available")
+    //   }
+    // }
     
     const handleSubmit = async () => {
+      if(quantity>0){
+        setQuantity(quantity-1);
+      }
+      else{
+        setQuantity(0);
+      }
       try{
         await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
-        setQuantity(quantity-1);
-        handleStatus();
-      } 
+        // handleStatus();
+        await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {status, quantity})
+      }
       catch(err){
         console.error(err);
       }
+      console.log(status)
     }
 
   useEffect(() => {
     getEquipData();
+    // handleStatus();
   },[])
   
 
@@ -221,11 +225,10 @@ const Equipments = ({setLoginUser}) => {
                     </thead>
                       {
                           data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus}
+                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} 
                               />
                           })
                       }
-
                   </table>
                 </div>
               </div>

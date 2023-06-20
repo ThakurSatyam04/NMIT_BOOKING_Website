@@ -2,16 +2,19 @@ import React, { useState,useEffect } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom'
+import classNames from "classnames";
 
 const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus}) => {
-
+// console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
-
+  const navigate = useNavigate();
+  
   const handleChange=(e)=>{
     const id = e.target.value;
     if(e.target.checked){
       console.log(status)
-      setEquipid(_id)
+      setEquipid(_id) 
       setQuantity(quantity)
       setStatus(status)
       setSelectedEquip((prev)=> [...prev,id]);
@@ -32,15 +35,27 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     }
   }
 
-  const toggleCheckbox=()=>{
-    var checkbox = document.querySelector(".EquipCheckbox");
-    checkbox.checked = !checkbox.checked
+  const handleEdit = async()=>{
+    try{
+      alert("press Ok to edit");
+      navigate(`/editEquipForm/${labId}/${_id}`)
+    }catch(e){
+
+    }
   }
+
+  // const toggleCheckbox=()=>{
+  //   var checkbox = document.querySelector(".EquipCheckbox");
+  //   checkbox.checked = !checkbox.checked
+  // }
+  useEffect(()=>{
+    quantity();
+  },[])
 
   return (
     <>
       <tbody className="bg-white divide-y divide-gray-200 dark:bg-[#EBF0FA] dark:divide-[#75cce7]">
-            <tr onClick={toggleCheckbox} className="hover:bg-[#a2cdda] dark:hover:[#75cce7]">
+            <tr className="hover:bg-[#a2cdda] dark:hover:[#75cce7]">
               <td  className="p-4 w-4">
                 <div  className="flex items-center">
                   <input
@@ -75,7 +90,10 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                 {quantity}
               </td>
               <td
-                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
+              className={classNames("py-4 px-6 text-sm font-medium text-black whitespace-nowrap ",{
+                "text-green-600": status === 'available',
+                "text-red-600": status!== 'available'
+              })}
               >
                 {status}
               </td>
@@ -88,18 +106,13 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                     </button>
                   </div>
                   <div>
-                    <button>
+                    <button onClick={handleEdit}>
                       <FaEdit />                  
                     </button>
                   </div>
                 </div>
               </td>
-
-              
-              
             </tr>
-            
-            
           </tbody>
     </>
   );

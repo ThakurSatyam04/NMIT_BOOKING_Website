@@ -19,6 +19,19 @@ export const createEquip = async (req,res,next) => {
     }
 }
 
+export const updateEquip = async (req,res,next)=>{
+    try{
+        const equip = await Equip.findByIdAndUpdate(
+            req.params.equipid,
+            { $set : req.body },
+            { new : true }
+        );
+        res.status(200).json(equip);
+    }catch(err){
+        next(err)
+    }
+}
+
 export const getEquip = async (req,res,next) => {
     try {
         const equip = await Equip.findById(req.params.equipid);
@@ -115,4 +128,21 @@ export const equipStatus = async (req,res,next) => {
       } catch (error) {
         next(error);
       }
+}
+
+export const deleteEquip = async (req,res,next) => {
+    const labId = req.params.labid;
+    try {
+        await Equip.findByIdAndDelete(
+            req.params.equipid
+        )
+        try {
+            await Lab.findByIdAndUpdate(labId, {$pull: {equipments : req.params.equipid}})
+        } catch (err) {
+            next(err);
+        }
+        res.status(200).json("Equipment has been deleted")
+    } catch (err) {
+        next(err);
+    }
 }
