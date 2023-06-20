@@ -7,6 +7,7 @@ import authRoute from "./routes/authRoute.js"
 import labsRoute from "./routes/labsRoute.js"
 import equipRoute from "./routes/equipRoute.js"
 import userRoute from "./routes/userRoute.js"
+import emailRoute from "./routes/emailRoute.js"
 
 const app = express();
 dotenv.config(); 
@@ -35,6 +36,7 @@ app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
 app.use("/api/labs", labsRoute)
 app.use("/api/equip", equipRoute)
+app.use("/api/send-mail", emailRoute)
 
 app.use((err,req,res,next) => {
     const errorStatus = err.status || 500

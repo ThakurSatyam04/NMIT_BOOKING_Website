@@ -20,10 +20,24 @@ const EquipSchema = new mongoose.Schema(
         },
         slots: [
             {
-                unavailableDates: {type: [Date]},
-                unavailableTimeSlots : {type: [Date]}
+                date: Date,
+                fromTime: String,
+                toTime: String,
+                
+                // {
+                //     type: String,
+                //     enum : ['pending', 'available', 'unavailable'],
+                //     default: 'pending'
+                // }
             }
-        ]
+        ],
+        status : {
+            type: String,
+            default: 'available'
+        }
+        // slots : {
+        //     type: [String]
+        // }
     }, 
     {timestamps: true}
 )

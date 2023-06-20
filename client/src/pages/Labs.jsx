@@ -14,11 +14,11 @@ const Labs = ({logIn}) => {
       try{
         const {data} = await axios.get("http://localhost:3001/api/labs")
         setData(data)
+        // console.log(data)
       }catch(e){
         console.log(e)
       }
     }
-    // console.log(data)
 
     useEffect(() => {
         getData();

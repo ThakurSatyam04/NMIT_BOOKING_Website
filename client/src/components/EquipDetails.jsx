@@ -1,33 +1,22 @@
 import React, { useState,useEffect } from "react";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import axios from "axios";
+import axios from "axios"
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,quantity,labId}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,quantity,status,setEquipid,setQuantity,setStatus}) => {
 
-  const[selectedEquip, setSelectedEquip] = useState([])
-  // console.log(_id)
+  const [selectedEquip, setSelectedEquip] = useState([])
+
   const handleChange=(e)=>{
-    // console.log(_id)
-    const value = e.target.value;
-    console.log(value)
+    const id = e.target.value;
     if(e.target.checked){
-      setSelectedEquip((prev)=>[...prev,value]);
+      console.log(status)
+      setEquipid(_id)
+      setQuantity(quantity)
+      setStatus(status)
+      setSelectedEquip((prev)=> [...prev,id]);
     }else{
-      setSelectedEquip((prev)=> prev.filter((item)=>item !== value));
-    }
-    console.log(selectedEquip)
-    // setSelectedEquip(updatedList)
-    // console.log(value)
-  }
-
-  const handleDelete = async() =>{
-    try{
-      alert("press Ok to delete");
-      const deleteEquip = await axios.delete(`http://localhost:3001/api/equip/${labId}/${_id}`)
-      console.log(deleteEquip)
-    }catch(e){
-      console.log(e)
+      setSelectedEquip((prev)=> {
+        return prev.filter((item)=>item !== id)
+      });
     }
   }
 
@@ -76,22 +65,10 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,quantity,labId}) => {
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
-                available
+                {status}
               </td>
-              <td>
-                <div  className="gap-6 flex ml-6">
-                  <div>
-                    <button onClick={handleDelete}>
-                      <MdDeleteForever />
-                    </button>
-                  </div>
-                  <div>
-                    <button>
-                      <FaEdit />                  
-                    </button>
-                  </div>
-                </div>
-              </td>
+
+              
               
             </tr>
             
