@@ -12,6 +12,7 @@ const Navbar = ({user}) => {
 
   const handleClick=()=>{
     navigate("/login")
+    setVisibleProfile(false);
   }
 
   const handleProfile = ()=>{

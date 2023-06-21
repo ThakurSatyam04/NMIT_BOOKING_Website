@@ -21,7 +21,8 @@ const Equipments = ({setLoginUser}) => {
   const [equipid, setEquipid] = useState("");
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
-  
+  const [labDetails, setLabDetails] = useState()
+
   const getEquipData = async () => {
     try{
       const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
@@ -31,6 +32,16 @@ const Equipments = ({setLoginUser}) => {
         console.log(e)
     }
   }
+
+  // const getLabDetails = async () =>{
+  //   try{
+  //     const {labDetails} = await axios.get(`http://localhost:3001/api/labs/${_id}`)
+  //     setLabDetails(labDetails)
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
+  // console.log(labDetails)
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -53,48 +64,33 @@ const Equipments = ({setLoginUser}) => {
     setVisibleCalender(!visibleCalender);
   }
 
-    const newTimeSlot = { date, fromTime, toTime }
-
-    // const handleQuantity = () => {
-    //   if(quantity<1){
-    //     setStatus("unavailable");
-    //   }
-    //   else{
-    //     setStatus("available")
-    //   }
-    // }
-    
-    // const handleStatus = () => {
-    //   console.log(quantity)
-    //   if(quantity==0){
-    //     setStatus("unavailable");
-    //   }
-    //   else{
-    //     setStatus("available")
-    //   }
-    // }
-    
-    const handleSubmit = async () => {
+  const newTimeSlot = { date, fromTime, toTime }
+  
+  const handleSubmit = async (e) => {
       if(quantity>0){
         setQuantity(quantity-1);
+        setStatus("available");    
       }
       else{
         setQuantity(0);
+        setStatus("unavailable")
       }
+    // window.location.reload();
       try{
         await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
-        // handleStatus();
-        await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {status, quantity})
+        await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {status,quantity})
       }
       catch(err){
         console.error(err);
       }
       console.log(status)
+      console.log(quantity)
     }
 
   useEffect(() => {
     getEquipData();
     // handleStatus();
+    // getLabDetails();
   },[])
   
 

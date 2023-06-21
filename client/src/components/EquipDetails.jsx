@@ -5,7 +5,7 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,quantityArr}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
   const navigate = useNavigate();
@@ -29,27 +29,50 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     try{
       alert("press Ok to delete");
       const deleteEquip = await axios.delete(`http://localhost:3001/api/equip/${labId}/${_id}`)
+      window.location.reload();
       console.log(deleteEquip)
     }catch(e){
       console.log(e)
     }
   }
 
+  const handleStatus =()=>{
+    if(quantity>0){
+      setStatus("available");
+    }
+    else{
+      setStatus("unavailable")
+    }
+  }
+
   const handleEdit = async()=>{
     try{
+      console.log(quantity)
       alert("press Ok to edit");
       navigate(`/editEquipForm/${labId}/${_id}`)
     }catch(e){
-
     }
   }
+
+  const getEquipQuantity=async()=>{
+    try{
+      const equipQuantity = await axios.get(`http://localhost:3001/api/equip/${_id}`)
+      const quantity = equipQuantity.data.quantity
+      console.log(quantity)
+    }catch(e){
+      console.log(e)
+    }
+  }
+
 
   // const toggleCheckbox=()=>{
   //   var checkbox = document.querySelector(".EquipCheckbox");
   //   checkbox.checked = !checkbox.checked
   // }
   useEffect(()=>{
-    quantity();
+    // handleQuantity();
+    handleStatus();
+    getEquipQuantity();
   },[])
 
   return (

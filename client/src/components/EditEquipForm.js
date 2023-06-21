@@ -9,13 +9,8 @@ const EditEquipForm = () => {
 
   const { labId } = useParams();
   const { _id } = useParams();
-  console.log(_id)
-  console.log(labId)
 
-
-  // console.log(_id)
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [equip, setEquip] = useState({
     equipName:"",
