@@ -7,6 +7,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../components/Footer'
 import classNames from 'classnames';
+// import useFetch from '../hooks/useFetch';
 
 const Equipments = ({setLoginUser}) => {
 
@@ -21,7 +22,7 @@ const Equipments = ({setLoginUser}) => {
   const [equipid, setEquipid] = useState("");
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
-  const [labDetails, setLabDetails] = useState()
+  const [labDetail, setLabDetail] = useState([])
 
   const getEquipData = async () => {
     try{
@@ -33,15 +34,15 @@ const Equipments = ({setLoginUser}) => {
     }
   }
 
-  // const getLabDetails = async () =>{
-  //   try{
-  //     const {labDetails} = await axios.get(`http://localhost:3001/api/labs/${_id}`)
-  //     setLabDetails(labDetails)
-  //   }catch(err){
-  //     console.log(err)
-  //   }
-  // }
-  // console.log(labDetails)
+  const getLabDetails = async () =>{
+    try{
+      const labDetail = await axios.get(`http://localhost:3001/api/labs/${_id}`)
+      setLabDetail(labDetail.data)
+    }catch(err){
+      console.log(err)
+    }
+  }
+  // console.log(labDetail)
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -87,12 +88,19 @@ const Equipments = ({setLoginUser}) => {
       console.log(quantity)
     }
 
-  useEffect(() => {
-    getEquipData();
-    // handleStatus();
-    // getLabDetails();
-  },[])
-  
+
+  // console.log(labDetails)
+
+
+  // const {lab} = useFetch(`labs/${_id}`)
+  // console.log(lab)
+
+    useEffect(() => {
+      getEquipData();
+      // handleStatus();
+      getLabDetails();
+      // getLabData();
+    },[])
 
   return (
     <div>
@@ -100,7 +108,12 @@ const Equipments = ({setLoginUser}) => {
       <div className='h-[300px]'>
         <div className='relative h-[180px] bg-[#78C7DF] flex justify-center items-center'>
           <div className='absolute h-[120px] w-7/12 bg-[#D5E6EB] top-28 rounded-b-3xl'>
-            satyam
+            {labDetail.labName}
+            {labDetail.labNo}
+            {labDetail.department}
+            {labDetail.labIncharge}
+            {labDetail.contact}
+            {labDetail.email}
           </div>
         </div>
       </div>
