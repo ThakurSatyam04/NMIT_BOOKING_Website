@@ -30,7 +30,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
       alert("press Ok to delete");
       const deleteEquip = await axios.delete(`http://localhost:3001/api/equip/${labId}/${_id}`)
       window.location.reload();
-      console.log(deleteEquip)
+      // console.log(deleteEquip)
     }catch(e){
       console.log(e)
     }
@@ -58,22 +58,38 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     try{
       const equipQuantity = await axios.get(`http://localhost:3001/api/equip/${_id}`)
       const quantity = equipQuantity.data.quantity
-      console.log(quantity)
+      // console.log(quantity)
     }catch(e){
       console.log(e)
     }
   }
 
-
   // const toggleCheckbox=()=>{
   //   var checkbox = document.querySelector(".EquipCheckbox");
   //   checkbox.checked = !checkbox.checked
   // }
+
+  // const [data,setLab] = useState();
+
+  // const getLabData = async () => {
+  //   try{
+  //     const {data} = await axios.get(`http://localhost:3001/api/labs/${labId}`)
+  //     setLab(data)
+  //     setLabDetails(data)
+  //     console.log(data)
+  //   }catch(e){
+  //     console.log(e)
+  //   }
+  // }
+
   useEffect(()=>{
     // handleQuantity();
     handleStatus();
     getEquipQuantity();
+    // getLabData();
   },[])
+
+
 
   return (
     <>
