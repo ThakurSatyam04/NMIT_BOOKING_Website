@@ -146,3 +146,4 @@ export const deleteEquip = async (req,res,next) => {
         next(err);
     }
 }
+

@@ -15,7 +15,7 @@ const Home = ({user,logIn}) => {
         <img className='h-[600px] w-screen' src={bg_img} alt="Bg_img" />
         <div className='absolute top-52 left-32 p-2 w-[350px] bg-[#B0D0C4] rounded-md bg-opacity-70'>
           <h1 className='font-bold'>Get Your System Booked</h1>
-          <p className='font-serif'>We are providing this platform to book your required system or any equipment you want for your desired time slots.</p>
+          <p className='font-style'>We are providing this platform to book your required system or any equipment you want for your desired time slots.</p>
         </div>
       </div>
     <section className="h-full flex flex-col md:flex-row justify-evenly space-y-10 md:space-y-0 md:space-x-16 items-center mx-5 md:mx-0 md:my-0 bg-blue-50 pb-10">
@@ -29,7 +29,7 @@ const Home = ({user,logIn}) => {
       <div className="md:w-1/3 max-w-sm">
         <div className="items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 scroll-smooth">
              <h1  className='font-bold'>About Us</h1>
-        <p className='font-serif'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis sapiente voluptatem at, molestiae maiores, voluptas rerum eaque quia ab enim assumenda quaerat debitis? Veniam animi, quasi, at cum voluptatum facere iusto vero aliquid omnis voluptate culpa, dignissimos fugiat accusamus placeat. Minima vel qui iusto nihil accusamus rerum magni ipsa esse.</p>
+        <p className='font-style'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis sapiente voluptatem at, molestiae maiores, voluptas rerum eaque quia ab enim assumenda quaerat debitis? Veniam animi, quasi, at cum voluptatum facere iusto vero aliquid omnis voluptate culpa, dignissimos fugiat accusamus placeat. Minima vel qui iusto nihil accusamus rerum magni ipsa esse.</p>
         </div>
       </div>
     </section><hr />

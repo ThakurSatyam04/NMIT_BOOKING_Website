@@ -1,6 +1,5 @@
 import express from "express"
 import { createEquip, getEquip, createSlot, updateSlot, getSlots, getSlot,  equipStatus,deleteEquip, updateEquip } from "../controllers/EquipController.js";
-// import { createEquip, getEquip, getSlot, updateSlot, createSlot, getSlots } from "../controllers/EquipController.js";
 
 const router = express.Router();
 

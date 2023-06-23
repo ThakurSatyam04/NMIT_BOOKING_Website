@@ -25,11 +25,17 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
         try{
           await axios.post("http://localhost:3001/api/auth/login",user)
           .then(res =>{
-            // console.log(res)
-            setIsloggedIn(true)
-            setLoginUser(res.data.user)
-            alert("Login Successful");
-            navigate("/");
+            if(user){
+              // console.log(res)
+              setIsloggedIn(true)
+              setLoginUser(res.data.user)
+              alert("Login Successful");
+              navigate("/");
+            }
+            else{
+              alert("Please Signup First")
+              navigate("/signup")
+            }
           } )
         }catch(err){ 
           console.log(err);

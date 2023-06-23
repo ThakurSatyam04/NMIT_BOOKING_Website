@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import EquipDetails from '../components/EquipDetails'
 import axios from "axios"
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -23,6 +23,7 @@ const Equipments = ({setLoginUser}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([])
+  const timeValues = ['09:00 am','11:15 am', '13:30 pm', '15:45 pm'];
 
   const getEquipData = async () => {
     try{
@@ -77,8 +78,9 @@ const Equipments = ({setLoginUser}) => {
         setStatus("unavailable")
       }
     // window.location.reload();
-      try{
+    try{
         await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
+      // console.log(newTimeSlot)
         await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {status,quantity})
       }
       catch(err){
@@ -87,13 +89,6 @@ const Equipments = ({setLoginUser}) => {
       console.log(status)
       console.log(quantity)
     }
-
-
-  // console.log(labDetails)
-
-
-  // const {lab} = useFetch(`labs/${_id}`)
-  // console.log(lab)
 
     useEffect(() => {
       getEquipData();
@@ -107,14 +102,29 @@ const Equipments = ({setLoginUser}) => {
       {/* <Navbar setLoginUser={setLoginUser}/> */}
       <div className='h-[300px]'>
         <div className='relative h-[180px] bg-[#78C7DF] flex justify-center items-center'>
-          <div className='absolute h-[120px] w-7/12 bg-[#D5E6EB] top-28 rounded-b-3xl'>
-            {labDetail.labName}
-            {labDetail.labNo}
-            {labDetail.department}
-            {labDetail.labIncharge}
-            {labDetail.contact}
-            {labDetail.email}
-          </div>
+          <div className='absolute h-[170px] w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2'>
+            {/* <div className='p-2'> */}
+            <h3 className='font-bold mb-1'>Lab Details</h3>
+              <ul>
+                <li>
+                  <span className='font-semibold'>{labDetail.labName} ({labDetail.labNo})  </span>             
+                </li>
+                <li>
+                <span className='font-semibold'>Department: </span>{labDetail.department}                
+                </li>
+                <li>
+                  <span className='font-semibold'>Faculty In Charge: </span> {labDetail.labIncharge} , Professor & Head              
+                </li>
+                <li>
+                  <a className='text-green-600' href="tel:{labDetail.contact}">{labDetail.contact}</a>
+                </li>
+                <li>
+                  <a className='text-blue-900' href="mailto:{labDetail.email}">{labDetail.email}</a>
+                </li>
+                             
+              </ul>
+            </div>            
+          {/* </div> */}
         </div>
       </div>
 
@@ -132,7 +142,7 @@ const Equipments = ({setLoginUser}) => {
             <label htmlFor="gender" id='gender' className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
               Select Slots
             </label>
-            <div className="relative">
+            <div className="relative w-[200px]">
               <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                 id="gender"
                 value={fromTime}
@@ -140,24 +150,18 @@ const Equipments = ({setLoginUser}) => {
                 name='gender'
                 required
                 >
-                <option value="">
-                  From
-                </option>
-                <option value="8:45am">
-                  8:45am
-                </option>
-                <option value="12:00pm">
-                  12:00pm
-                </option>
-                <option value="2:45pm">
-                  2:45pm
-                </option>
+                  <option value="">-- Select start time --</option>
+                  {timeValues.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
               </div>
             </div>
-            <div className="relative mt-4">
+            <div className="relative mt-4 w-[200px]">
               <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                 id="gender"
                 value={toTime}
@@ -165,18 +169,17 @@ const Equipments = ({setLoginUser}) => {
                 name='gender'
                 required
                 >
-                <option value="">
-                  To
-                </option>
-                <option value="11:00am">
-                  11:00am
-                </option>
-                <option value="2:45pm">
-                  2:45pm
-                </option>
-                <option value="4:00pm">
-                  4:00pm
-                </option>
+                  <option value="">-- Select end time --</option>
+                {timeValues.map((time) => {
+                  if (time > fromTime || !fromTime) {
+                    return (
+                      <option key={time} value={time}>
+                        {time}
+                      </option>
+                    );
+                  }
+                  return null;
+                })}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>

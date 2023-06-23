@@ -6,7 +6,6 @@ import bg_img from "../assets/Bg_Img.png"
 const Signup = ({setLoginUser}) => {
 
 const navigate = useNavigate();
-const [userType, setUserType] = useState("");
 const [secretKey, setSecretKey] = useState("");
 
 const [user, setUser] = useState({
@@ -14,7 +13,7 @@ const [user, setUser] = useState({
   email:"",
   password:"",
   confirmPassword:"",
-  userType:""
+  // userType:""
 }) 
 
 const handleChange =(e)=>{
@@ -26,16 +25,16 @@ const handleChange =(e)=>{
 }
 
 const handleSignUp = async(e)=>{
-  if(userType=="Admin" && secretKey!="NMIT123"){
-    e.preventDefault();
-    alert("Invalid Admin")
-  }else{
+  // if(userType=="Admin" && secretKey!="NMIT123"){
+  //   e.preventDefault();
+  //   alert("Invalid Admin")
+  // }else{
     e.preventDefault();
     try{
       const {name,email,password,confirmPassword} = user;
-      console.log(userType)
+      // console.log(userType)
       if(name && email && password === confirmPassword){
-       await axios.post("http://localhost:3001/api/auth/signup",user,userType)
+       await axios.post("http://localhost:3001/api/auth/signup",user)
         .then(res =>{
           // console.log(res)
           alert("Sign Up Successful, Please Login");
@@ -48,7 +47,7 @@ const handleSignUp = async(e)=>{
     }catch(err){
       console.log(err);
     }
-  }
+  // }
 }
 
   return (
@@ -64,7 +63,7 @@ const handleSignUp = async(e)=>{
           <p className="mx-4 mb-0 text-center font-semibold text-slate-500">Sign Up</p>
         </div>
 
-        <div>
+        {/* <div>
           Register as: 
           <input 
             type="radio" 
@@ -78,7 +77,7 @@ const handleSignUp = async(e)=>{
             value="Admin"
             onChange={(e)=> setUserType(e.target.value)}
           />Admin
-        </div>
+        </div> */}
 
         <div className='mt-2'>
         <label>Name</label>
@@ -100,12 +99,12 @@ const handleSignUp = async(e)=>{
         <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="confirmPassword" value={user.confirmPassword} onChange={handleChange} type="password" placeholder="Confirm Password" />
         </div>
 
-        <div className='mt-2'>
+        {/* <div className='mt-2'>
         {userType=="Admin" ? <div>
           <label>Secret Key</label>
           <input className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="UserType" type="text" onChange={(e)=> setSecretKey(e.target.value)} placeholder="Secret Key" />          
         </div> : null}
-        </div>
+        </div> */}
 
         <div className="mt-4 flex justify-between font-semibold text-sm">
           <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">

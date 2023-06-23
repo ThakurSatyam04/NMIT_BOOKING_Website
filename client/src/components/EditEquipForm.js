@@ -7,7 +7,7 @@ import Button from "../components/Button_comp";
 
 const EditEquipForm = () => {
 
-  const { labId } = useParams();
+  const { labId } = useParams()
   const { _id } = useParams();
 
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const EditEquipForm = () => {
     makeOfEquip:"",
     model:"",
     quantity:"",
+    status:""
   })
 
   const handleChange =(e)=>{
@@ -32,10 +33,11 @@ const EditEquipForm = () => {
     const data = await axios.get(`http://localhost:3001/api/equip/${_id}`)
       setEquip(
       {
-        equipName:data.data.equipName,
+        equipName: data.data.equipName,
         makeOfEquip:data.data.makeOfEquip,
         model:data.data.model,
-        quantity:data.data.quantity
+        quantity:data.data.quantity,
+        status:data.data.status,
       }
       )
     }catch(err){
@@ -43,12 +45,26 @@ const EditEquipForm = () => {
     }
   }
 
+  // const [status, setStatus] = useState();
+
+  // const handleStatus =()=>{
+  //   // console.log(quantity)
+  //   if(quantity>0){
+  //     setStatus("available");
+  //   }
+  //   else{
+  //     setStatus("unavailable")
+  //   }
+  // }
+
   const handleSubmit = async(e)=>{
     e.preventDefault();
     try{
-      const { equipName, makeOfEquip, model, quantity } = equip;
-      if(equipName && makeOfEquip && model && quantity){
+      const { equipName, makeOfEquip, model, quantity, status } = equip;
+      if(equipName && makeOfEquip && model && quantity!=0 && status){
        await axios.put(`http://localhost:3001/api/equip/${_id}`,equip)
+       await axios.put(`http://localhost:3001/api/equip/status/${_id}`, {status:"available"})
+
         .then(res =>{
           // console.log(res)
           alert("Equipment added successfully");
@@ -66,6 +82,10 @@ const EditEquipForm = () => {
   useEffect(()=>{
     FormData();
   },[])
+ 
+  useEffect(() => {
+    // handleStatus();
+  },[handleSubmit])
     
   return (
     <div>
@@ -153,4 +173,4 @@ const EditEquipForm = () => {
   )
 }
 
-export default EditEquipForm
+export default EditEquipForm

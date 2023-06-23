@@ -24,17 +24,17 @@ const Featured = ({_id,labName, labNo, department, labIncharge,logIn}) => {
             <div className='flex justify-center items-center'>  
                 <img className="h-[200px] w-full rounded-none" src={lab_img} alt="Sunset in the mountains" />
             </div>
-            <div className="flex flex-col justify-center items-start p-6 ">
-                <h5 className="mb-1 text-sm font-medium">
+            <div className="flex flex-col justify-center items-start p-4 ">
+                <h5 className=" text-sm font-medium">
                   Lab Name : {labName}
                 </h5>
-                <h5 className="mb-1 text-sm font-medium">
+                <h5 className=" text-sm font-medium">
                   Department : {department}
                 </h5>
-                <h5 className="mb-1 text-sm font-medium">
+                <h5 className=" text-sm font-medium">
                   Lab No. : {labNo}
                 </h5>
-                <h5 className="mb-1 text-sm font-medium">
+                <h5 className=" text-sm font-medium">
                   Lab Incharge : {labIncharge}
                 </h5>
             </div>            

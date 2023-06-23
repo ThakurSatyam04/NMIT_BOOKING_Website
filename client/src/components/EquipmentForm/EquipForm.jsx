@@ -7,9 +7,9 @@ import Button from "../Button_comp";
 
 const EquipForm = () => {
 
-  const { labId } = useParams();
+  // const { labId } = useParams();
   const { _id } = useParams();
-  console.log(labId)
+  console.log(_id)
 
 
   // console.log(_id)
@@ -37,11 +37,11 @@ const EquipForm = () => {
     try{
       const { equipName, makeOfEquip, model, quantity } = equip;
       if(equipName && makeOfEquip && model && quantity){
-       await axios.post(`http://localhost:3001/api/equip/${labId}`,equip)
+       await axios.post(`http://localhost:3001/api/equip/${_id}`,equip)
         .then(res =>{
           // console.log(res)
           alert("Equipment added successfully");
-          navigate(`/equipDetail/${labId}`);
+          navigate(`/equipDetail/${_id}`);
         })
       }
       else{

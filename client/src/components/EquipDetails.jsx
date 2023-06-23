@@ -9,11 +9,12 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
   const navigate = useNavigate();
+  // console.log(quantity)
   
   const handleChange=(e)=>{
     const id = e.target.value;
     if(e.target.checked){
-      console.log(status)
+      // console.log(status)
       setEquipid(_id) 
       setQuantity(quantity)
       setStatus(status)
@@ -54,42 +55,12 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     }
   }
 
-  const getEquipQuantity=async()=>{
-    try{
-      const equipQuantity = await axios.get(`http://localhost:3001/api/equip/${_id}`)
-      const quantity = equipQuantity.data.quantity
-      // console.log(quantity)
-    }catch(e){
-      console.log(e)
-    }
-  }
-
-  // const toggleCheckbox=()=>{
-  //   var checkbox = document.querySelector(".EquipCheckbox");
-  //   checkbox.checked = !checkbox.checked
-  // }
-
-  // const [data,setLab] = useState();
-
-  // const getLabData = async () => {
-  //   try{
-  //     const {data} = await axios.get(`http://localhost:3001/api/labs/${labId}`)
-  //     setLab(data)
-  //     setLabDetails(data)
-  //     console.log(data)
-  //   }catch(e){
-  //     console.log(e)
-  //   }
-  // }
-
   useEffect(()=>{
     // handleQuantity();
     handleStatus();
-    getEquipQuantity();
+    // getEquipQuantity();
     // getLabData();
   },[])
-
-
 
   return (
     <>

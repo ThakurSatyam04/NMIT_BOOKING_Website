@@ -1,6 +1,6 @@
 import Equip from "../models/Equip.js";
 import Lab from "../models/Lab.js"
-
+import jwt from "jsonwebtoken"
 
 export const createLab = async (req,res,next) => {
     const newLab = new Lab(req.body);
@@ -41,9 +41,12 @@ export const deleteLab = async (req,res,next) => {
 }
 
 export const getLab = async (req,res,next) => {
+    // const token = req.cookies.jwt;
+    // console.log(req.cookie.jwt)
+    // console.log(`This is the cookie of login ${req.cookies.jwt}`)
     try {
         const labs = await Lab.findById( req.params.id );
-        res.status(200).json(labs);
+        res.status(200).json(labs); 
     } catch (err) {
         next(err);
     }

@@ -1,14 +1,13 @@
 import User from "../models/User.js"
 import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
 import { createError } from "../utils/error.js"; 
 import dotenv from "dotenv"
-dotenv.config();  
+dotenv.config();
 
 export const signup = async (req,res,next) => {
     try {
         console.log(req.body);
-        const {name, email, password,UserType } = req.body;
+        const {name, email, password } = req.body;
 
         // check if user already exists  
         const existingUser = await User.findOne({email}); 
@@ -19,12 +18,22 @@ export const signup = async (req,res,next) => {
         }
 
         const hash = await bcrypt.hash(password, 10);
-
+        
         const newUser = new User({ 
             ...req.body,
             password: hash,
-            UserType
         })
+        console.log(newUser);
+
+        const token = await newUser.generateAuthToken();
+        // console.log(token)
+        res.cookie("jwt",token,{
+            // expires:new Date(Date.now() + 10000),
+            httpOnly:true,
+            // secure:true
+        })
+        // console.log(cookie)
+
         await newUser.save();
         console.log("User Created Successfully")
         res.status(200).send("User Created Successfully")
@@ -50,25 +59,16 @@ export const login = async (req,res,next) => {
         
         const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
 
-        if(isPasswordCorrect){
-            let token = jwt.sign(
-                { id: user._id, email:user._id, isAdmin: user.isAdmin },
-                process.env.JWT_SECRET, 
-            )  
-            // user = user.toObject();
-            // user.token = token;
-            user.password = undefined;
+        const token = await user.generateAuthToken();
+        console.log(token)
 
-            res.cookie("access_token", token, {
-                httpOnly: true,
-            })
-            .status(200)
-            .json({ 
-                success:true,
-                user,
-                token,
-                message:"Login Successful",
-            })
+        res.cookie("jwt",token,{
+            // expires:new Date(Date.now() + 10000),
+            httpOnly:true,
+            // secure:true
+        })
+
+        if(isPasswordCorrect){
             res.send({message:"Login Successful" , user:user})
             console.log("Login Successful")
         }
