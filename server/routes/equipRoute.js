@@ -1,5 +1,5 @@
 import express from "express"
-import { createEquip, getEquip, createSlot, updateSlot, getSlots, getSlot,  equipStatus,deleteEquip, updateEquip } from "../controllers/EquipController.js";
+import { createEquip, getEquip, createSlot, updateSlot, getSlots, getSlot,  equipStatus,deleteEquip, updateEquip,getAllSlots } from "../controllers/EquipController.js";
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.delete("/:labid/:equipid",deleteEquip)
 
 router.put("/slots/:equipid", createSlot)
 router.put("/slots/:equipid/:slotid", updateSlot)
+router.get("/slots/:labid", getAllSlots)
 router.get("/slots/:equipid", getSlots)
 router.get("/slots/:equipid/:slotid", getSlot)
 router.put("/status/:equipid/", equipStatus)

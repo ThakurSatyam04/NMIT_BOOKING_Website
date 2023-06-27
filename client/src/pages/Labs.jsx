@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Button from "../components/Button_comp.js";
 import Footer from '../components/Footer.js'
 
-const Labs = ({logIn}) => {
+const Labs = () => {
 
     const [data,setData] = useState([]);
 

@@ -7,7 +7,7 @@ dotenv.config();
 export const signup = async (req,res,next) => {
     try {
         console.log(req.body);
-        const {name, email, password } = req.body;
+        const {name, email, password,userType } = req.body;
 
         // check if user already exists  
         const existingUser = await User.findOne({email}); 

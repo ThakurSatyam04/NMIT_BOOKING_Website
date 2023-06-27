@@ -5,17 +5,29 @@ import Button from '../components/Button_comp'
 import profile from "../assets/profile-icon-login-img.jpg"
 import classNames from 'classnames';
 
-const Navbar = ({user}) => {
+const Navbar = ({isloggedIn,userDetails,setUserDetails,setIsloggedIn,loggedIn}) => {
   const navigate = useNavigate();
   const [visibleProfile, setVisibleProfile] = useState(false);
   const divRef = useRef(null);
-  // console.log(user)
-
-  const handleClick=()=>{
+  
+  
+  // console.log(userDetails)
+  // console.log(userDetails)
+  
+  const handleLogout=()=>{
+    localStorage.removeItem("isLoggedIn")
+    localStorage.removeItem("userDetails")
+    navigate("/login")
+    setUserDetails({})
+    setIsloggedIn(false)
+    setVisibleProfile(false);
+  }
+  
+  const handleLogin=()=>{
     navigate("/login")
     setVisibleProfile(false);
   }
-
+  
   const handleScreenClick  = (event)=>{
     if(divRef.current && !divRef.current.contains(event.target)){
       setVisibleProfile(false);
@@ -25,14 +37,15 @@ const Navbar = ({user}) => {
   const handleProfile = ()=>{
     setVisibleProfile(!visibleProfile)
   }
-
+  
   useEffect(()=>{
     document.addEventListener('click',handleScreenClick );
     return ()=>{
       document.removeEventListener('click',handleScreenClick );
     };
   },[]);
-
+  
+  
   return (
     <div className='w-full flex items-center justify-center bg-blue-50'>
     <div className='w-11/12 flex justify-between items-center'>
@@ -61,12 +74,20 @@ const Navbar = ({user}) => {
         <img className='h-[30px]' src={profile} alt="" onClick={handleProfile} />
           <div className={classNames("absolute right-6 top-12 h-[300px] w-[300px] bg-gray-200 flex flex-col transition-opacity duration-500 ease-in-out opacity-100 z-10 rounded-xl p-4",{"hidden": !visibleProfile,
             "opacity-100": visibleProfile,})}>
-            <p>{user.name}</p>
-            <p>{user.email}</p>
-
-            <div onClick={handleClick} className='w-full flex items-center justify-center'> 
-              <Button btn="Logout" />
-            </div>
+              {
+                loggedIn?
+                <>
+                <p>{userDetails.name}</p>
+                <p>{userDetails.email}</p>
+                <p>{userDetails.userType}</p>
+                <div onClick={handleLogout} className='w-full flex items-center justify-center'> 
+                  <Button btn="Logout" />
+                </div>
+                </>:
+                <div onClick={handleLogin} className='w-full flex items-center justify-center'> 
+                  <Button btn="Login" />
+                </div>
+              }
           </div>
       </div>
       </div>

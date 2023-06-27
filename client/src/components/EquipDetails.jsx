@@ -5,7 +5,7 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,quantityArr}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,quantityArr,userDetails,labDetail}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
   const navigate = useNavigate();
@@ -107,21 +107,26 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
               >
                 {status}
               </td>
-
-              <td>
-                <div  className="gap-6 flex ml-6">
-                  <div>
-                    <button onClick={handleDelete}>
-                      <MdDeleteForever />
-                    </button>
-                  </div>
-                  <div>
-                    <button onClick={handleEdit}>
-                      <FaEdit />                  
-                    </button>
-                  </div>
-                </div>
-              </td>
+              {
+                userDetails.email == labDetail && userDetails.userType == "Admin"?(
+                  <>
+                    <td>
+                      <div  className="gap-6 flex ml-6">
+                        <div>
+                          <button onClick={handleDelete}>
+                            <MdDeleteForever />
+                          </button>
+                        </div>
+                        <div>
+                          <button onClick={handleEdit}>
+                            <FaEdit />                  
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </>
+                ):(null)
+              }
             </tr>
           </tbody>
     </>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Featured from '../components/Featured'
 import axios from 'axios';
 
-const FeaturedPage = ({logIn}) => {
+const FeaturedPage = ({loggedIn}) => {
 
     const [data, setData] = useState([]);
 
@@ -11,7 +11,7 @@ const FeaturedPage = ({logIn}) => {
       try{
         const {data} = await axios.get("http://localhost:3001/api/labs?featured=true")
         setData(data)
-        console.log(data)
+        // console.log(data)
       }catch(err){
         console.log(err)
       }
@@ -28,7 +28,7 @@ const FeaturedPage = ({logIn}) => {
         <div className='font-style grid grid-cols-3 items-center justify-evenly mt-4'>
           {
               data.map((item) => {
-                  return <Featured key={item.id} {...item} logIn={logIn}/>
+                  return <Featured key={item._id} {...item} loggedIn={loggedIn}/>
               })
           }
         </div>

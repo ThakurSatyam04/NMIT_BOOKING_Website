@@ -93,6 +93,28 @@ export const getSlots = async (req,res,next) => {
       }
 }
 
+export const getAllSlots = async (req,res,next) => {
+    try {
+      const labId = req.params.labid; // Retrieve labid from req.params
+  
+      const lab = await Lab.findById(labId)
+      .populate({
+        path: 'equipments',
+        populate: {
+          path: 'slots',
+        },
+      });
+      const allSlots = lab.equipments.reduce((slots, equipment) => {
+        return slots.concat(equipment.slots);
+      }, []);
+  
+      res.status(200).json(allSlots);
+    } catch (error) {
+      next(error)
+      res.status(500).json({ error: 'Failed to retrieve slots in lab' });
+    }
+  }
+
 export const getSlot = async (req,res,next) => {
     try {
         const { equipid, slotid } = req.params;

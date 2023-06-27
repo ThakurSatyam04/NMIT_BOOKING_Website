@@ -25,15 +25,10 @@ const LabSchema = new mongoose.Schema(
         department: {
             type: String,
         },
-        equipments:
-        [
-            // {
-            //     type: mongoose.Schema.Types.ObjectId,
-            //     ref: "Equipment",
-            //     unavailableDates: {type: [Date]}
-            // }
-            String,
-        ],
+        equipments: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Equipment",
+        }],
         featured:{
             type: Boolean,
             default: false

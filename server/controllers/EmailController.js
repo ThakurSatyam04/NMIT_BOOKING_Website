@@ -1,28 +1,40 @@
 import nodemailer from 'nodemailer'
 
-
-export const sendEmail = async (req,res,next) => {
-
-    const transporter = nodemailer.createTransport ({
-        service: 'Gmail',
+export const sendEmail = async (req,res,next)=>{
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
-            user: 'riya@gmail.com',
-            pass: '123456'
+          user: 'human9479@gmail.com',
+          pass: 'human@7654'
         }
-    })
-    const { recipient, subject, message } = req.body;
+    });
 
-    const mailOptions = {
-        from : "riya@gmail.com",
-        to: recipient,
-        subject: subject,
-        text: message, 
+    var mailOptions = {
+        from: 'human9479@gmail.com',// sender address
+        to: "kumarsatyam04.2000@gmail.com", // list of receivers
+        subject: "email send", // Subject line
+        text:"Email Send successfully",
+        html: `
+        <div style="padding:10px;border-style: ridge">
+        <p>You have a new contact request.</p>
+        <h3>Contact Details</h3>
+        <ul>
+            <li>Email: "Welcome"</li>
+            <li>Subject: "Come"</li>
+            <li>Message: "Description"</li>
+        </ul>
+        `
     };
 
-    try{
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ message : "email sent successfully"})
-    } catch(err){
-        next(err)
-    }
-}
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error)
+        {
+          res.json({status: true, respMesg: error})
+        } 
+        else
+        {
+          res.json({status: true, respMesg: 'Email Sent Successfully'})
+        }
+     
+      });
+};

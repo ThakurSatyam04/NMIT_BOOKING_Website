@@ -6,7 +6,7 @@ import FeaturedPage from './FeaturedPage.js';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer.js'
 
-const Home = ({user,logIn}) => {
+const Home = ({loggedIn}) => {
   // console.log(user)
   return (
     <div>
@@ -42,7 +42,7 @@ const Home = ({user,logIn}) => {
       </div>
       <div className='flex justify-center items-center mt-4'>
         <div className='w-full flex items-center justify-center'>
-          <FeaturedPage logIn={logIn}/>
+          <FeaturedPage loggedIn={loggedIn}/>
         </div>
       </div>
       <div className='w-11/12 flex justify-end items-center'>

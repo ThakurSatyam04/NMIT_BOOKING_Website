@@ -1,19 +1,18 @@
-import React, { useEffect, useState,useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import EquipDetails from '../components/EquipDetails'
 import axios from "axios"
 import { Link, useNavigate, useParams } from 'react-router-dom';
-// import Navbar from "../components/Navbar.js";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../components/Footer'
 import classNames from 'classnames';
-// import useFetch from '../hooks/useFetch';
 
-const Equipments = ({setLoginUser}) => {
+const Equipments = ({userDetails}) => {
 
   const [data,setData] = useState([]);
   const navigate = useNavigate();    
   const { _id } = useParams();
+  console.log(_id)
   const [date, setDate] = useState(new Date());
   const [fromTime, setFromTime] = useState("");
   const [toTime, setToTime] = useState("");
@@ -23,13 +22,20 @@ const Equipments = ({setLoginUser}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([])
-  const timeValues = ['09:00 am','11:15 am', '13:30 pm', '15:45 pm'];
+  const timeValues = ['09:00 am','11:15 am','13:30 pm','15:45 pm'];
+  const [ismsg,setIsMsg] = useState("");
+  // const [isEmail, setIsEmail] = useState({
+  //   to:"kumarsatyam04.2000@gmail.com",
+  //   subject:"",
+  //   message:""
+  // });
+
+  // const {to,subject,message} = isEmail;
 
   const getEquipData = async () => {
     try{
       const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
           setData(data)
-          // console.log(data)
     } catch(e){
         console.log(e)
     }
@@ -51,8 +57,17 @@ const Equipments = ({setLoginUser}) => {
   }
     
   const handleDate = (date)=>{
-    setDate(date);
-  }
+    const utcDate = new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      )
+    );
+    setDate(utcDate);
+    console.log(date)
+    // setDate(date);
+  }
 
   const handleFromTimeChange = (e) => {
     setFromTime(e.target.value);
@@ -66,43 +81,52 @@ const Equipments = ({setLoginUser}) => {
     setVisibleCalender(!visibleCalender);
   }
 
-  const newTimeSlot = { date, fromTime, toTime }
+  const newTimeSlot = { date, fromTime, toTime }  
   
-  const handleSubmit = async (e) => {
-      if(quantity>0){
-        setQuantity(quantity-1);
-        setStatus("available");    
-      }
-      else{
-        setQuantity(0);
-        setStatus("unavailable")
-      }
-    // window.location.reload();
+  const handleBookSlot = async (e) => {
+
+    // const utcDate = date.toISOString();
+    // setDate(utcDate)
+    // Decrease the quantity and update the status
+    const newQuantity = quantity > 0 ? quantity - 1 : 0;
+    const newStatus = newQuantity > 0 ? "available" : "unavailable";
+
     try{
-        await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
-      // console.log(newTimeSlot)
-        await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {status,quantity})
-      }
-      catch(err){
-        console.error(err);
-      }
-      console.log(status)
-      console.log(quantity)
+      const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
+        status: newStatus,
+        quantity: newQuantity
+      })
+      const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
+
+      // const sendEmail = await axios.post("http://localhost:3001/api/send-mail/",isEmail)
+      // .then(response => setIsMsg(response.data.respMesg));
+
+      window.location.reload();
     }
+    catch(err){
+      console.error(err);
+    }
+  }
+  console.log(ismsg);
 
     useEffect(() => {
       getEquipData();
-      // handleStatus();
       getLabDetails();
-      // getLabData();
     },[])
+
+    const handleAdminPreview= ()=>{
+      navigate(`/adminPreview/${_id}`)
+    }
 
   return (
     <div>
       {/* <Navbar setLoginUser={setLoginUser}/> */}
       <div className='h-[300px]'>
         <div className='relative h-[180px] bg-[#78C7DF] flex justify-center items-center'>
-          <div className='absolute h-[170px] w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2'>
+          <div className='absolute h-full top-[25%] left-[19%] text-3xl font-bold text-white'>
+            <h2>Book Equipments</h2>
+          </div>
+          <div className='absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2'>
             {/* <div className='p-2'> */}
             <h3 className='font-bold mb-1'>Lab Details</h3>
               <ul>
@@ -120,8 +144,7 @@ const Equipments = ({setLoginUser}) => {
                 </li>
                 <li>
                   <a className='text-blue-900' href="mailto:{labDetail.email}">{labDetail.email}</a>
-                </li>
-                             
+                </li>          
               </ul>
             </div>            
           {/* </div> */}
@@ -129,12 +152,16 @@ const Equipments = ({setLoginUser}) => {
       </div>
 
 {/* Selecting Time slot */}
-<div className='w-full flex justify-center items-center gap-20 bg-blue-200 p-4'>
+<div className='w-full flex justify-center items-center gap-20 bg-blue-200 p-4 mb-6'>
         <div className='flex flex-col mt-6 '>
           <button onClick={handleCalender} className='bg-blue-500 text-white px-4 py-2 rounded'>Select Date</button>
           <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100",{"hidden": !visibleCalender,
           "opacity-100": visibleCalender,})}>
-          <Calendar onChange={handleDate} value={date} />
+            <Calendar 
+              onChange={handleDate} 
+              value={date}
+              minDate={new Date()}
+            />
           </div>
         </div>
 
@@ -188,9 +215,14 @@ const Equipments = ({setLoginUser}) => {
           </div>
       </div>
 
-        <div className="text-center md:text-left flex justify-end mr-14 mt-10 mb-4" > 
+      {
+        userDetails.email == labDetail.email && userDetails.userType == "Admin" ? (
+          <div className="text-center md:text-left flex justify-end mr-14 mt-10 mb-4" > 
           <button onClick={handleClick} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>+ Add Equipments</button>
         </div>
+        ):(null)
+      }
+        
 
 {/* Equipment table */}
         <div className="w-11/12 justify-center mx-auto flex flex-col">
@@ -237,7 +269,7 @@ const Equipments = ({setLoginUser}) => {
                     </thead>
                       {
                           data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} 
+                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email}
                               />
                           })
                       }
@@ -247,10 +279,16 @@ const Equipments = ({setLoginUser}) => {
             </div>
           </div>
 
+          {
+            userDetails.email == labDetail.email ? (
+              <button onClick={handleAdminPreview}>
+                  All Bookings
+              </button>
+            ):(null)
+          }
           <div 
             className="text-center md:text-left flex justify-center mr-14 mt-10 mb-4" 
-            onClick={handleSubmit}
-          > 
+            onClick={handleBookSlot}> 
             <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
               Confirm Slot
             </button>
