@@ -51,7 +51,7 @@ function App() {
         <Route path='/equipDetail/:_id' element={<Equipments userDetails={userDetails}/>}/>
         <Route path='/labForm' element={<LabForm/>}/>
         <Route path='/labs' element={<Labs/>}/>
-        <Route path='/adminPreview/:_id' element={<AdminPreview/>} isloggedIn={isloggedIn}/>
+        <Route path='/adminPreview/:_id' element={<AdminPreview userDetails={userDetails}/>} />
       </Routes>
     </>
   );

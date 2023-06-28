@@ -44,10 +44,10 @@ export const getEquip = async (req,res,next) => {
 
 export const createSlot = async (req,res,next) => {
     try{
-        const { date, fromTime, toTime, status } = req.body;
+        const { date, fromTime, toTime, status,userDetails } = req.body;
         const equipment = await Equip.findById(req.params.equipid);
         const newSlot = {
-            date, fromTime, toTime, status
+            date, fromTime, toTime, status,userDetails
         }
         equipment.slots.push(newSlot);
         await equipment.save();
@@ -93,24 +93,30 @@ export const getSlots = async (req,res,next) => {
       }
 }
 
-export const getAllSlots = async (req,res,next) => {
+export const getAllSlots = async (req, res, next) => {
     try {
-      const labId = req.params.labid; // Retrieve labid from req.params
+      const labId = req.params.labid;
   
-      const lab = await Lab.findById(labId)
-      .populate({
-        path: 'equipments',
-        populate: {
-          path: 'slots',
-        },
-      });
-      const allSlots = lab.equipments.reduce((slots, equipment) => {
-        return slots.concat(equipment.slots);
+      const lab = await Lab.findById(labId).populate('equipments');
+  
+      const result = lab.equipments.reduce((slots, equipment) => {
+        const equipmentSlots = equipment.slots.map((slot) => {
+          return {
+            equipName: equipment.equipName,
+            makeOfEquip: equipment.makeOfEquip,
+            model: equipment.model,
+            slots: {
+                ...slot.toObject(),
+                userDetails: slot.userDetails, // Assuming userDetails is already populated
+              },
+          };
+        });
+        return slots.concat(equipmentSlots);
       }, []);
   
-      res.status(200).json(allSlots);
+      res.status(200).json(result);
     } catch (error) {
-      next(error)
+      next(error);
       res.status(500).json({ error: 'Failed to retrieve slots in lab' });
     }
   }

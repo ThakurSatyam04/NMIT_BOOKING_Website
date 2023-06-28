@@ -81,7 +81,7 @@ const Equipments = ({userDetails}) => {
     setVisibleCalender(!visibleCalender);
   }
 
-  const newTimeSlot = { date, fromTime, toTime }  
+  const newTimeSlot = { date, fromTime, toTime,userDetails }  
   
   const handleBookSlot = async (e) => {
 

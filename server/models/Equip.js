@@ -23,7 +23,10 @@ const EquipSchema = new mongoose.Schema(
                 date: Date,
                 fromTime: String,
                 toTime: String,
-                
+                userDetails: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'User',
+                 },
                 // {
                 //     type: String,
                 //     enum : ['pending', 'available', 'unavailable'],
