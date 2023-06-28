@@ -1,7 +1,16 @@
 import React from 'react'
 
-const AdminPreviewSlots = ({date,fromTime,toTime,userDetails,equipName}) => {
-  // console.log(userDetails)
+const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip}) => {
+  const newdate = slots.date
+  const date = new Date(newdate);
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  
   return (
     <div className='w-full'>
       <tbody className="bg-white divide-y divide-gray-200 dark:bg-[#EBF0FA] dark:divide-[#75cce7]">
@@ -9,17 +18,42 @@ const AdminPreviewSlots = ({date,fromTime,toTime,userDetails,equipName}) => {
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
-              {userDetails.name}
+              {slots.name}
               </td>
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
                 >
-                {userDetails.email}
+                {slots.email}
               </td>
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
               >
                 {equipName}
+              </td>
+              <td
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
+              >
+                {formattedDate}
+              </td>
+              <td
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
+              >
+                {slots.fromTime}
+              </td>
+              <td
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
+              >
+                {slots.toTime}
+              </td>
+              <td
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
+              >
+                {makeOfEquip}
+              </td>
+              <td
+                className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
+              >
+                {model}
               </td>
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"

@@ -44,10 +44,10 @@ export const getEquip = async (req,res,next) => {
 
 export const createSlot = async (req,res,next) => {
     try{
-        const { date, fromTime, toTime, status,userDetails } = req.body;
+        const { date, fromTime, toTime, status,name,email } = req.body;
         const equipment = await Equip.findById(req.params.equipid);
         const newSlot = {
-            date, fromTime, toTime, status,userDetails
+            date, fromTime, toTime, status,name,email
         }
         equipment.slots.push(newSlot);
         await equipment.save();
@@ -59,7 +59,7 @@ export const createSlot = async (req,res,next) => {
 
 export const updateSlot = async (req,res,next) => {
     try {
-        const { date, fromTime, toTime, status } = req.body;
+        const { date, fromTime, toTime, status,name,email } = req.body;
         const { equipid, slotid } = req.params;
 
         const equipment = await Equip.findById(equipid);
@@ -73,6 +73,8 @@ export const updateSlot = async (req,res,next) => {
         equipment.slots[slotIndex].fromTime = fromTime;
         equipment.slots[slotIndex].toTime = toTime;
         equipment.slots[slotIndex].status = status;
+        equipment.slots[slotIndex].name = name;
+        equipment.slots[slotIndex].email = email;
 
         await equipment.save();
 

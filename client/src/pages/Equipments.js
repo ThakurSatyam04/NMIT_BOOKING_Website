@@ -33,8 +33,6 @@ const Equipments = ({userDetails}) => {
 
   // const {to,subject,message} = isEmail;
 
-  const email = useRef();
-
   const getEquipData = async () => {
     try{
       const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
@@ -83,8 +81,11 @@ const Equipments = ({userDetails}) => {
   const handleCalender = ()=>{
     setVisibleCalender(!visibleCalender);
   }
+  const name = userDetails.name;
+  const email = userDetails.email
 
-  const newTimeSlot = { date, fromTime, toTime }  
+
+  const newTimeSlot = { date, fromTime, toTime,name,email }  
   
   const handleBookSlot = async (e) => {
     e.preventDefault();
@@ -103,15 +104,6 @@ const Equipments = ({userDetails}) => {
 
       // const sendEmail = await axios.post("http://localhost:3001/api/send-mail/",isEmail)
       // .then(response => setIsMsg(response.data.respMesg));
-
-      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', email.current, 'YOUR_PUBLIC_KEY')
-      .then((result) => {
-          console.log(result.text);
-          console.log("Email sent Successfully");
-      }, (error) => {
-          console.log(error.text);
-      });
-
       window.location.reload();
     }
     catch(err){
@@ -230,7 +222,7 @@ const Equipments = ({userDetails}) => {
         {
             userDetails.email == labDetail.email ? (
               <div className="text-center md:text-left flex justify-end mr-4 mt-10 mb-4"> 
-                <button ref={email} onClick={handleAdminPreview} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
+                <button onClick={handleAdminPreview} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
                     Booking Requests
                 </button>
               </div>              
