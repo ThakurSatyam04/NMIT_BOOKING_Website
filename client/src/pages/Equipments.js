@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
+import emailjs from '@emailjs/browser';
 import EquipDetails from '../components/EquipDetails'
 import axios from "axios"
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -31,6 +32,8 @@ const Equipments = ({userDetails}) => {
   // });
 
   // const {to,subject,message} = isEmail;
+
+  const email = useRef();
 
   const getEquipData = async () => {
     try{
@@ -81,10 +84,10 @@ const Equipments = ({userDetails}) => {
     setVisibleCalender(!visibleCalender);
   }
 
-  const newTimeSlot = { date, fromTime, toTime,userDetails }  
+  const newTimeSlot = { date, fromTime, toTime }  
   
   const handleBookSlot = async (e) => {
-
+    e.preventDefault();
     // const utcDate = date.toISOString();
     // setDate(utcDate)
     // Decrease the quantity and update the status
@@ -100,6 +103,14 @@ const Equipments = ({userDetails}) => {
 
       // const sendEmail = await axios.post("http://localhost:3001/api/send-mail/",isEmail)
       // .then(response => setIsMsg(response.data.respMesg));
+
+      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', email.current, 'YOUR_PUBLIC_KEY')
+      .then((result) => {
+          console.log(result.text);
+          console.log("Email sent Successfully");
+      }, (error) => {
+          console.log(error.text);
+      });
 
       window.location.reload();
     }
@@ -123,7 +134,7 @@ const Equipments = ({userDetails}) => {
       {/* <Navbar setLoginUser={setLoginUser}/> */}
       <div className='h-[300px]'>
         <div className='relative h-[180px] bg-[#78C7DF] flex justify-center items-center'>
-          <div className='absolute h-full top-[25%] left-[19%] text-3xl font-bold text-white'>
+          <div className='absolute h-fit top-[25%] left-[19%] text-3xl font-bold text-white'>
             <h2>Book Equipments</h2>
           </div>
           <div className='absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2'>
@@ -215,13 +226,27 @@ const Equipments = ({userDetails}) => {
           </div>
       </div>
 
-      {
-        userDetails.email == labDetail.email && userDetails.userType == "Admin" ? (
-          <div className="text-center md:text-left flex justify-end mr-14 mt-10 mb-4" > 
-          <button onClick={handleClick} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>+ Add Equipments</button>
-        </div>
-        ):(null)
-      }
+      <div className='flex w-full justify-end'>
+        {
+            userDetails.email == labDetail.email ? (
+              <div className="text-center md:text-left flex justify-end mr-4 mt-10 mb-4"> 
+                <button ref={email} onClick={handleAdminPreview} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
+                    Booking Requests
+                </button>
+              </div>              
+            ):(null)
+        }
+        {
+          userDetails.email == labDetail.email && userDetails.userType == "Admin" ? (
+            <div className="text-center md:text-left flex justify-end mr-14 mt-10 mb-4" > 
+            <button onClick={handleClick} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>+ Add Equipments</button>
+          </div>
+          ):(null)
+        }
+
+      </div>
+
+
         
 
 {/* Equipment table */}
@@ -279,13 +304,7 @@ const Equipments = ({userDetails}) => {
             </div>
           </div>
 
-          {
-            userDetails.email == labDetail.email ? (
-              <button onClick={handleAdminPreview}>
-                  All Bookings
-              </button>
-            ):(null)
-          }
+         
           <div 
             className="text-center md:text-left flex justify-center mr-14 mt-10 mb-4" 
             onClick={handleBookSlot}> 

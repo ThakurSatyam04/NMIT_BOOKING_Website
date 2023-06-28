@@ -4,9 +4,9 @@ import React, { useState,useEffect } from 'react';
 import {Routes, Route} from 'react-router-dom';
 import EquipForm from './components/EquipmentForm/EquipForm.jsx';
 import Login from "./components/Login.js";
-import Home from "./pages/Home.js"
-import Signup from "./components/Signup"
-import LabForm from "./components/LabForm/LabForm.jsx"
+import Home from "./pages/Home.js";
+import Signup from "./components/Signup";
+import LabForm from "./components/LabForm/LabForm.jsx";
 import Labs from "./pages/Labs";
 import Equipments from './pages/Equipments';
 import EditEquipForm from './components/EditEquipForm';
@@ -14,14 +14,14 @@ import Navbar from './components/Navbar';
 import AdminPreview from './pages/AdminPreview';
  
 function App() {
-  const loggedIn = localStorage.getItem("isLoggedIn")
+  const loggedIn = localStorage.getItem("isLoggedIn");
   // console.log(loggedIn,"login");
   const [isloggedIn,setIsloggedIn] = useState(false);
   const [user, setLoginUser] = useState({});
-  const [userDetails, setUserDetails] = useState({})
+  const [userDetails, setUserDetails] = useState({});
   
   useEffect(()=>{
-    const storedUser = localStorage.getItem("userDetails")
+    const storedUser = localStorage.getItem("userDetails");
     if(loggedIn){
       setUserDetails(JSON.parse(storedUser));
     }
