@@ -1,5 +1,5 @@
 import express from "express"
-import { createEquip, getEquip, createSlot, updateSlot, getSlots, getSlot,  equipStatus,deleteEquip, updateEquip,getAllSlots } from "../controllers/EquipController.js";
+import { createEquip, getEquip, createSlot, updateSlot, getSlots, getSlot,  equipStatus,deleteEquip, updateEquip,getAllSlots,deleteExpiredSlots } from "../controllers/EquipController.js";
 
 const router = express.Router();
 
@@ -14,6 +14,7 @@ router.get("/slots/:labid", getAllSlots)
 router.get("/slots/:equipid", getSlots)
 router.get("/slots/:equipid/:slotid", getSlot)
 router.put("/status/:equipid/", equipStatus)
+router.delete('/deleteExpiredSlots', deleteExpiredSlots);
 
 
 // router.post("/:labid/:equipid/slots", createSlot)

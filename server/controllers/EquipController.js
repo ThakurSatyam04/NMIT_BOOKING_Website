@@ -1,10 +1,11 @@
 import Lab from "../models/Lab.js"
 import Equip from "../models/Equip.js"
+import moment from 'moment'
 
 export const createEquip = async (req,res,next) => {
     const labId = req.params.labid;
     const newEquip = new Equip(req.body)
-
+ 
     try {
         const savedEquip = await newEquip.save();
         console.log(savedEquip)
@@ -176,4 +177,56 @@ export const deleteEquip = async (req,res,next) => {
         next(err);
     }
 }
+
+export const deleteExpiredSlots = async () => {
+    try {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month, and padding with leading zero if needed
+        const day = String(currentDate.getDate()).padStart(2, '0'); // Padding with leading zero if needed
+
+        const formattedDate = `${year}-${month}-${day}`;
+        const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
+      const currentTime = moment(currentDate).format('hh:mm a');
+
+      console.log(dateOnly)
+      console.log(currentTime) 
+
+      const findSlots = await Equip.find(
+        {
+            $or: [
+                { 'slots.date': { $eq: dateOnly }, 'slots.toTime': { $lt: currentTime } },
+                { 'slots.date': { $lt: dateOnly } },
+              ],
+        }
+      ) 
+      console.log(`Expired slots find: ${findSlots}`); 
+    //   console.log(`Expired slots deleted: ${findSlots.countDocuments()}`);
+
+  
+      const result = await Equip.updateMany(
+        {
+            $or: [
+              { 'slots.date': { $eq: dateOnly }, 'slots.toTime': { $lt: currentTime } },
+              { 'slots.date': { $lt: dateOnly } },
+            ],
+        },
+        {
+          $pull: {
+            'slots': {
+              $or: [
+                { date: { $eq: dateOnly }, toTime: { $lt: currentTime } },
+                { date: { $lt: dateOnly } },
+              ],
+            },
+        },
+        $inc: { quantity: 1 },
+        }
+      );
+  
+      console.log(`Expired slots deleted: ${result.deletedCount}`);
+    } catch (error) {
+      console.error('Failed to delete expired slots:', error);
+    }
+  };
 

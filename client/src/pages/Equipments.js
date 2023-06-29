@@ -23,7 +23,7 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([])
-  const timeValues = ['09:00 am','11:15 am','13:30 pm','15:45 pm'];
+  const timeValues = ['02:00 pm','11:23 am','05:57 pm','10:39 pm'];
   const [ismsg,setIsMsg] = useState("");
   // const [isEmail, setIsEmail] = useState({
   //   to:"kumarsatyam04.2000@gmail.com",
@@ -32,6 +32,17 @@ const Equipments = ({userDetails}) => {
   // });
 
   // const {to,subject,message} = isEmail;
+  console.log(equipid)
+
+  const Slots = async () => {
+    try {
+        const slots = await axios.get(`http://localhost:3001/api/equip/slots/${_id}`)
+        setSlots(slots.data)
+    } catch(e){
+        console.log(e)
+    }
+}
+console.log(slots.length)
 
   const getEquipData = async () => {
     try{
@@ -65,10 +76,15 @@ const Equipments = ({userDetails}) => {
         date.getDate()
       )
     );
-    setDate(utcDate);
-    console.log(date)
+    const year = utcDate.getFullYear();
+    const month = String(utcDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month, and padding with leading zero if needed
+    const day = String(utcDate.getDate()).padStart(2, '0'); // Padding with leading zero if needed
+
+const formattedDate = `${year}-${month}-${day}`;
+    setDate(formattedDate);
     // setDate(date);
-  }
+  }
+  console.log(date)
 
   const handleFromTimeChange = (e) => {
     setFromTime(e.target.value);
@@ -85,7 +101,8 @@ const Equipments = ({userDetails}) => {
   const email = userDetails.email
 
 
-  const newTimeSlot = { date, fromTime, toTime,name,email }  
+  const newTimeSlot = { date, fromTime, toTime,name,email }
+
   
   const handleBookSlot = async (e) => {
     e.preventDefault();
@@ -93,6 +110,7 @@ const Equipments = ({userDetails}) => {
     // setDate(utcDate)
     // Decrease the quantity and update the status
     const newQuantity = quantity > 0 ? quantity - 1 : 0;
+    // const newQuantity = quantity - slots.length
     const newStatus = newQuantity > 0 ? "available" : "unavailable";
 
     try{
@@ -101,9 +119,6 @@ const Equipments = ({userDetails}) => {
         quantity: newQuantity
       })
       const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
-
-      // const sendEmail = await axios.post("http://localhost:3001/api/send-mail/",isEmail)
-      // .then(response => setIsMsg(response.data.respMesg));
       window.location.reload();
     }
     catch(err){
@@ -112,9 +127,20 @@ const Equipments = ({userDetails}) => {
   }
   console.log(ismsg);
 
+  const deleteExpiredSlots = async () => {
+    try {
+      await axios.delete(`http://localhost:3001/api/equip/deleteExpiredSlots`);
+      console.log('Expired slots deleted successfully');
+    } catch (error) {
+      console.log('Error deleting expired slots:', error);
+    }
+  };
+
     useEffect(() => {
       getEquipData();
       getLabDetails();
+      deleteExpiredSlots()
+      Slots();
     },[])
 
     const handleAdminPreview= ()=>{

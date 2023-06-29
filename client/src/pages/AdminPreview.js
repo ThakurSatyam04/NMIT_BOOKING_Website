@@ -5,9 +5,10 @@ import AdminPreviewSlots from '../components/AdminPreviewSlots';
 
 const AdminPreview = ({userDetails}) => {
     const {_id} = useParams();
+    console.log(_id)
 
     const [ data, setData ] = useState([]);
-    console.log(data)
+    // console.log(data)
   
     const getData = async () => {
         try {
@@ -17,6 +18,7 @@ const AdminPreview = ({userDetails}) => {
             console.log(e)
         }
     }
+
 
     useEffect(()=>{
         getData();

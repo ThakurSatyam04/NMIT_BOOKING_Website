@@ -1,12 +1,13 @@
 import nodemailer from 'nodemailer'
 
 export const sendEmail = async (req,res,next)=>{
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'human9479@gmail.com',
-          pass: 'human@7654'
-        }
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      auth: {
+          user: 'eddie.beier@ethereal.email',
+          pass: 'T6NyvGeJX4WJXW2QSj'
+      }
     });
 
     var mailOptions = {

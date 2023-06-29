@@ -116,7 +116,7 @@ const EquipForm = () => {
 
               <div className="formbold-mb-3">
                 <label className="formbold-form-label">
-                  Quantity
+                  Total Quantity
                 </label>
                 <input
                   type="number"

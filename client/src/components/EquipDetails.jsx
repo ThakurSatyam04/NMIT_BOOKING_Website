@@ -8,6 +8,7 @@ import classNames from "classnames";
 const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
+  const [slots, setSlots] = useState([]);
   const navigate = useNavigate();
   // console.log(quantity)
   
