@@ -11,6 +11,7 @@ import classNames from 'classnames';
 const Equipments = ({userDetails}) => {
 
   const [data,setData] = useState([]);
+  const [equipName, setEquipName] = useState();
   const navigate = useNavigate();    
   const { _id } = useParams();
   console.log(_id)
@@ -22,17 +23,27 @@ const Equipments = ({userDetails}) => {
   const [equipid, setEquipid] = useState("");
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
-  const [labDetail, setLabDetail] = useState([])
-  const timeValues = ['02:00 pm','11:23 am','05:57 pm','10:39 pm'];
+  const [labDetail, setLabDetail] = useState([]);
+  const timeValues = ['01:00 am','11:23 am','05:57 pm','02:03 pm'];
+  
   const [ismsg,setIsMsg] = useState("");
-  // const [isEmail, setIsEmail] = useState({
-  //   to:"kumarsatyam04.2000@gmail.com",
-  //   subject:"",
-  //   message:""
-  // });
+  const [isEmail, setIsEmail] = useState({
+    to:"",
+    subject:"",
+    message:"",
+    name:""
+  });
 
   // const {to,subject,message} = isEmail;
-  console.log(equipid)
+
+  useEffect(() => {
+    setIsEmail({
+      to: labDetail.email,
+      subject:"Equipment Booking Request",
+      message:"",
+      name:labDetail.labIncharge
+    });
+  }, [labDetail]);
 
   const Slots = async () => {
     try {
@@ -42,7 +53,6 @@ const Equipments = ({userDetails}) => {
         console.log(e)
     }
 }
-console.log(slots.length)
 
   const getEquipData = async () => {
     try{
@@ -84,7 +94,7 @@ const formattedDate = `${year}-${month}-${day}`;
     setDate(formattedDate);
     // setDate(date);
   }
-  console.log(date)
+  // console.log(date)
 
   const handleFromTimeChange = (e) => {
     setFromTime(e.target.value);
@@ -106,11 +116,8 @@ const formattedDate = `${year}-${month}-${day}`;
   
   const handleBookSlot = async (e) => {
     e.preventDefault();
-    // const utcDate = date.toISOString();
-    // setDate(utcDate)
     // Decrease the quantity and update the status
     const newQuantity = quantity > 0 ? quantity - 1 : 0;
-    // const newQuantity = quantity - slots.length
     const newStatus = newQuantity > 0 ? "available" : "unavailable";
 
     try{
@@ -119,7 +126,11 @@ const formattedDate = `${year}-${month}-${day}`;
         quantity: newQuantity
       })
       const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
-      window.location.reload();
+
+      const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
+      const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/book",EmailDetails);
+      window.location.reload(); 
+
     }
     catch(err){
       console.error(err);
@@ -312,7 +323,7 @@ const formattedDate = `${year}-${month}-${day}`;
                     </thead>
                       {
                           data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email}
+                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName}
                               />
                           })
                       }

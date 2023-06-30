@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import bg_img from "../assets/Bg_Img.png"
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const EMAIL_REGEX =  /^[A-z][A-z0-9-_](?=.*[0-9])(?=.*[@.]).{8,24}$/;
+const EMAIL_REGEX =  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,24}$/;
 
 const Signup = () => {
@@ -81,14 +81,13 @@ const handleSignUp = async(e)=>{
   e.preventDefault();
   const v1 = USER_REGEX.test(user.name);
   const v2 = PWD_REGEX.test(user.password);
-  const v3 = PWD_REGEX.test(user.email);
+  const v3 = EMAIL_REGEX.test(user.email);
   if (!v1 || !v2  || !v3) {
     setErrMsg("Invalid Entry");
     return;
   }
     try{
       const {name,email,password,confirmPassword} = user;
-      console.log(userType);
       if(name && email && password === confirmPassword){
       const X = {...user,userType} 
       await axios.post("http://localhost:3001/api/auth/signup",X)
@@ -98,6 +97,7 @@ const handleSignUp = async(e)=>{
           navigate("/login");
           setSuccess(true);
           setUser.name('');
+          setUser.email('');
           setUser.password('');
           setUser.confirmPassword('');
         })

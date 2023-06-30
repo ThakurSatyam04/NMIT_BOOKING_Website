@@ -60,7 +60,7 @@ export const createSlot = async (req,res,next) => {
 
 export const updateSlot = async (req,res,next) => {
     try {
-        const { date, fromTime, toTime, status,name,email } = req.body;
+        const { date, fromTime, toTime, status,name,email,slotStatus } = req.body;
         const { equipid, slotid } = req.params;
 
         const equipment = await Equip.findById(equipid);
@@ -190,19 +190,7 @@ export const deleteExpiredSlots = async () => {
       const currentTime = moment(currentDate).format('hh:mm a');
 
       console.log(dateOnly)
-      console.log(currentTime) 
-
-      const findSlots = await Equip.find(
-        {
-            $or: [
-                { 'slots.date': { $eq: dateOnly }, 'slots.toTime': { $lt: currentTime } },
-                { 'slots.date': { $lt: dateOnly } },
-              ],
-        }
-      ) 
-      console.log(`Expired slots find: ${findSlots}`); 
-    //   console.log(`Expired slots deleted: ${findSlots.countDocuments()}`);
-
+      console.log(currentTime)
   
       const result = await Equip.updateMany(
         {
@@ -220,13 +208,14 @@ export const deleteExpiredSlots = async () => {
               ],
             },
         },
-        $inc: { quantity: 1 },
         }
       );
   
-      console.log(`Expired slots deleted: ${result.deletedCount}`);
+      const modifiedCount = result.nModified;
+
+    // console.log(`Number of pulled slots: ${modifiedCount}`);
     } catch (error) {
-      console.error('Failed to delete expired slots:', error);
+      // console.error('Failed to delete expired slots:', error);
     }
   };
 

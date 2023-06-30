@@ -8,7 +8,13 @@ const AdminPreview = ({userDetails}) => {
     console.log(_id)
 
     const [ data, setData ] = useState([]);
-    // console.log(data)
+    
+    const slotStatus = data.map((item) => {
+      return item.slots.slotStatus
+    })
+    const [isSlotStaus, setIsSlotStatus] = useState("")
+
+    console.log(isSlotStaus)
   
     const getData = async () => {
         try {
@@ -26,18 +32,85 @@ const AdminPreview = ({userDetails}) => {
 
   return (
     <>
-      <div className='relative w-screen h-[150px] bg-blue-300'>
+      <div className='relative w-full h-[150px] bg-blue-300'>
         <div className='absolute top-[30%] left-[5%] text-3xl text-white font-bold'>
           <h2>All Booking Requests</h2>
         </div>
       </div>
-      <div className='w-screen h-fit'>
-        {
-            data.map((item) => {
-                return <AdminPreviewSlots key={item._id} {...item} userDetails={userDetails}/>;
-            })
-        }
-      </div>
+
+      <div className="w-full justify-center mx-auto flex flex-col">
+            <div className="overflow-x-auto shadow-md sm:rounded-lg">
+              <div className="inline-block min-w-full align-middle dark:bg-[#EBF0FA]">
+                <div className="overflow-hidden p-4">
+                  <table className="min-w-full table-fixed dark:bg-[#EBF0FA] divide-y divide-gray-400 ">
+                    <thead className="bg-bg-[#EBF0FA] dark:bg-[#EBF0FA] ">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          FACULTY NAME
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          FACULTY EMAIL
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          EQUIPMENT NAME
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          DATE
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          START TIME
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          END TIME
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          MAKE OF EQUIPMENT
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                          MODEL
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                        >
+                        </th>
+                        
+                      </tr>
+                    </thead>
+                      {
+                          data.map((item) => {
+                              return <AdminPreviewSlots key={item._id} {...item} userDetails={userDetails}/>;
+                          })
+                      }
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
     </>
   )
 }

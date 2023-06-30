@@ -5,7 +5,7 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
   const [slots, setSlots] = useState([]);
@@ -20,6 +20,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
       setQuantity(quantity)
       setStatus(status)
       setSelectedEquip((prev)=> [...prev,id]);
+      setEquipName(equipName)
     }else{
       setSelectedEquip((prev)=> {
         return prev.filter((item)=>item !== id)

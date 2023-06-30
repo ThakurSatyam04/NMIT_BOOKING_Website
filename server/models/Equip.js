@@ -24,7 +24,11 @@ const EquipSchema = new mongoose.Schema(
                 fromTime: String,
                 toTime: String,
                 name:String,
-                email:String
+                email:String,
+                slotStatus:{
+                    type:String,
+                    default:'Pending'
+                }
                 // {
                 //     type: String,
                 //     enum : ['pending', 'available', 'unavailable'],
