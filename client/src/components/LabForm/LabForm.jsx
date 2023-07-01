@@ -1,5 +1,6 @@
 import React from 'react'
 import "../EquipmentForm/EquipForm.css"
+import {toast} from "react-hot-toast";
 import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -34,7 +35,9 @@ const EquipForm = () => {
         await axios.post("http://localhost:3001/api/labs/",lab)
          .then(res =>{
            console.log(res)
-           alert("Lab added Successfully!");
+           toast.success("Lab added Successfully!", {
+            autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+          });
            navigate("/labs");
          })
       }else{
@@ -94,7 +97,7 @@ const EquipForm = () => {
                   Lab Number
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="labNo"
                   id="labNo"
                   className="formbold-form-input"

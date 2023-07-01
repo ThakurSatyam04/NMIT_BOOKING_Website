@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useRef } from 'react'
-import emailjs from '@emailjs/browser';
+import {toast} from "react-hot-toast";
 import EquipDetails from '../components/EquipDetails'
 import axios from "axios"
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -14,7 +14,6 @@ const Equipments = ({userDetails}) => {
   const [equipName, setEquipName] = useState();
   const navigate = useNavigate();    
   const { _id } = useParams();
-  console.log(_id)
   const [date, setDate] = useState(new Date());
   const [fromTime, setFromTime] = useState("");
   const [toTime, setToTime] = useState("");
@@ -24,7 +23,7 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const timeValues = ['01:00 am','11:23 am','05:57 pm','02:03 pm'];
+  const timeValues = ['01:00 pm','11:23 am','05:57 pm','03:06 pm'];
   
   const [ismsg,setIsMsg] = useState("");
   const [isEmail, setIsEmail] = useState({
@@ -33,6 +32,11 @@ const Equipments = ({userDetails}) => {
     message:"",
     name:""
   });
+
+  
+
+  // console.log(SlotsDetails)
+ 
 
   // const {to,subject,message} = isEmail;
 
@@ -129,15 +133,20 @@ const formattedDate = `${year}-${month}-${day}`;
 
       const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
       const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/book",EmailDetails);
-      window.location.reload(); 
-
+      // Show the toast with a longer duration
+      toast.success("Booking Request Sent Successfully", {
+        autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000); 
+      // window.location.reload();
+      // toast.success("Booking Request Sent Successfully");    
     }
     catch(err){
       console.error(err);
     }
   }
-  console.log(ismsg);
-
   const deleteExpiredSlots = async () => {
     try {
       await axios.delete(`http://localhost:3001/api/equip/deleteExpiredSlots`);
@@ -161,99 +170,110 @@ const formattedDate = `${year}-${month}-${day}`;
   return (
     <div>
       {/* <Navbar setLoginUser={setLoginUser}/> */}
-      <div className='h-[300px]'>
-        <div className='relative h-[180px] bg-[#78C7DF] flex justify-center items-center'>
-          <div className='absolute h-fit top-[25%] left-[19%] text-3xl font-bold text-white'>
-            <h2>Book Equipments</h2>
-          </div>
-          <div className='absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2'>
-            {/* <div className='p-2'> */}
-            <h3 className='font-bold mb-1'>Lab Details</h3>
-              <ul>
-                <li>
-                  <span className='font-semibold'>{labDetail.labName} ({labDetail.labNo})  </span>             
-                </li>
-                <li>
-                <span className='font-semibold'>Department: </span>{labDetail.department}                
-                </li>
-                <li>
-                  <span className='font-semibold'>Faculty In Charge: </span> {labDetail.labIncharge} , Professor & Head              
-                </li>
-                <li>
-                  <a className='text-green-600' href="tel:{labDetail.contact}">{labDetail.contact}</a>
-                </li>
-                <li>
-                  <a className='text-blue-900' href="mailto:{labDetail.email}">{labDetail.email}</a>
-                </li>          
-              </ul>
-            </div>            
-          {/* </div> */}
-        </div>
-      </div>
+      <div className="h-[350px] ">
+  <div className="relative h-[200px] bg-[#78C7DF] flex justify-center items-center">
+    <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white">
+      <h2>Book Equipments</h2>
+    </div>
+    <div className="absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2">
+      <h3 className="font-bold mb-2">Lab Details</h3>
+      <ul className="space-y-2">
+        <li>
+          <span className="font-semibold">
+            {labDetail.labName} ({labDetail.labNo})
+          </span>
+        </li>
+        <li>
+          <span className="font-semibold">Department: </span>
+          {labDetail.department}
+        </li>
+        <li>
+          <span className="font-semibold">Faculty In Charge: </span>
+          {labDetail.labIncharge}, Professor &amp; Head
+        </li>
+        <li>
+          <a className="text-green-600" href={`tel:${labDetail.contact}`}>
+            {labDetail.contact}
+          </a>
+        </li>
+        <li>
+          <a className="text-blue-900" href={`mailto:${labDetail.email}`}>
+            {labDetail.email}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 
 {/* Selecting Time slot */}
-<div className='w-full flex justify-center items-center gap-20 bg-blue-200 p-4 mb-6'>
-        <div className='flex flex-col mt-6 '>
-          <button onClick={handleCalender} className='bg-blue-500 text-white px-4 py-2 rounded'>Select Date</button>
-          <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100",{"hidden": !visibleCalender,
-          "opacity-100": visibleCalender,})}>
-            <Calendar 
-              onChange={handleDate} 
-              value={date}
-              minDate={new Date()}
-            />
-          </div>
-        </div>
+<div className="w-full flex flex-col md:flex-row justify-center items-center gap-20 bg-blue-200 p-4 mb-6">
+  <div className="flex flex-col mt-6">
+    <button onClick={handleCalender} className="bg-blue-500 text-white px-4 py-2 rounded">Select Date</button>
+    <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100", {"hidden": !visibleCalender, "opacity-100": visibleCalender})}>
+      <Calendar 
+        onChange={handleDate} 
+        value={date}
+        minDate={new Date()}
+      />
+    </div>
+  </div>
 
-        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-            <label htmlFor="gender" id='gender' className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-              Select Slots
-            </label>
-            <div className="relative w-[200px]">
-              <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                id="gender"
-                value={fromTime}
-                onChange={handleFromTimeChange}
-                name='gender'
-                required
-                >
-                  <option value="">-- Select start time --</option>
-                  {timeValues.map((time) => (
-                  <option key={time} value={time}>
-                    {time}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-            </div>
-            <div className="relative mt-4 w-[200px]">
-              <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                id="gender"
-                value={toTime}
-                onChange={handleToTimeChange}
-                name='gender'
-                required
-                >
-                  <option value="">-- Select end time --</option>
-                {timeValues.map((time) => {
-                  if (time > fromTime || !fromTime) {
-                    return (
-                      <option key={time} value={time}>
-                        {time}
-                      </option>
-                    );
-                  }
-                  return null;
-                })}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-            </div>
-          </div>
+  <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 flex items-center justify-center flex-col">
+    <label htmlFor="start-time" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+      Select Start Time
+    </label>
+    <div className="relative w-[200px]">
+      <select 
+        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+        id="start-time"
+        value={fromTime}
+        onChange={handleFromTimeChange}
+        required
+      >
+        <option value="">-- Select start time --</option>
+        {timeValues.map((time) => (
+          <option key={time} value={time}>
+            {time}
+          </option>
+        ))}
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
       </div>
+    </div>
+    
+    <label htmlFor="end-time" className="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+      Select End Time
+    </label>
+    <div className="relative w-[200px]">
+      <select 
+        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+        id="end-time"
+        value={toTime}
+        onChange={handleToTimeChange}
+        required
+      >
+        <option value="">-- Select end time --</option>
+        {timeValues.map((time) => {
+          if (time > fromTime || !fromTime) {
+            return (
+              <option key={time} value={time}>
+                {time}
+              </option>
+            );
+          }
+          return null;
+        })}
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
 
       <div className='flex w-full justify-end'>
         {

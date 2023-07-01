@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./EquipForm.css"
+import {toast} from "react-hot-toast";
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
@@ -40,7 +41,9 @@ const EquipForm = () => {
        await axios.post(`http://localhost:3001/api/equip/${_id}`,equip)
         .then(res =>{
           // console.log(res)
-          alert("Equipment added successfully");
+          toast.success("Equipment added successfully", {
+            autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+          });
           navigate(`/equipDetail/${_id}`);
         })
       }

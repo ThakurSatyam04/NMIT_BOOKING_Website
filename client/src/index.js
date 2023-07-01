@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { Toaster } from "react-hot-toast";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 
@@ -10,6 +11,7 @@ root.render(
   <BrowserRouter>
     <React.StrictMode>
       <App />
+      <Toaster/>
     </React.StrictMode>  
   </BrowserRouter>
 );

@@ -178,20 +178,19 @@ export const deleteEquip = async (req,res,next) => {
     }
 }
 
-export const deleteExpiredSlots = async () => {
+export const deleteExpiredSlots = async (req,res,next) => {
     try {
       const currentDate = new Date();
       const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month, and padding with leading zero if needed
-        const day = String(currentDate.getDate()).padStart(2, '0'); // Padding with leading zero if needed
-
-        const formattedDate = `${year}-${month}-${day}`;
-        const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month, and padding with leading zero if needed
+      const day = String(currentDate.getDate()).padStart(2, '0'); // Padding with leading zero if needed
+      const formattedDate = `${year}-${month}-${day}`;
+      const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
       const currentTime = moment(currentDate).format('hh:mm a');
 
       console.log(dateOnly)
       console.log(currentTime)
-  
+
       const result = await Equip.updateMany(
         {
             $or: [
@@ -207,15 +206,16 @@ export const deleteExpiredSlots = async () => {
                 { date: { $lt: dateOnly } },
               ],
             },
-        },
+          },
+          $inc: {quantity : 1}
         }
       );
-  
+      // const totalSlots = equipment.slots.length;
       const modifiedCount = result.nModified;
 
-    // console.log(`Number of pulled slots: ${modifiedCount}`);
+    console.log(`Number of pulled slots: ${modifiedCount}`);
     } catch (error) {
-      // console.error('Failed to delete expired slots:', error);
+      console.error('Failed to delete expired slots:', error);
     }
   };
 

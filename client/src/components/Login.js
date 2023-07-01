@@ -2,9 +2,12 @@ import React, {useState,useRef,useEffect} from 'react'
 import axios from 'axios'
 import { Link, useNavigate, } from 'react-router-dom'
 import bg_img from "../assets/Bg_Img.png"
+import {AiFillEye,AiFillEyeInvisible} from "react-icons/ai";
+import {toast} from "react-hot-toast";
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
 
 const Login = ({setLoginUser,setIsloggedIn}) => {
+    const[showPassword , setShowPassword] = useState(false);
     const userRef = useRef();
     const errRef = useRef();
     const [errMsg, setErrMsg] = useState('');
@@ -41,12 +44,16 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
             if(user){
               // console.log(res)
               localStorage.setItem("isLoggedIn",true);
-              alert("Login Successful");
               navigate("/");
               setSuccess(true);
               setLoginUser(res.data.user)
               localStorage.setItem("userDetails",JSON.stringify(res.data.user))
-              window.location.reload();
+              toast.success("logged In", {
+                autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+              });
+              setTimeout(() => {
+                window.location.reload();
+              },1000); 
               setIsloggedIn(true)
             }
             else{
@@ -96,28 +103,31 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
           type="text" 
           placeholder="Email Address" />
 
-          <div className='mt-4'>
+          <div className='mt-4 relative'>
           <label >Password</label> 
           <input 
-          className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" 
-          name="password" 
-          value={user.password} 
-          onChange={handleChange} 
-          type="password" 
-          placeholder="Password" 
-          required
+            className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" 
+            name="password" 
+            value={user.password} 
+            onChange={handleChange} 
+            type={showPassword?("text"):("password")} 
+            placeholder="Password" 
+            required
           />
+
+            <span className="absolute right-3 top-[30px] cursor-pointer" onClick={()=> setShowPassword((prev)=>!prev)}>
+                {showPassword ? (<AiFillEyeInvisible fontSize={24} fill='#AFB2BF'/>):(<AiFillEye fontSize={24} fill='#AFB2BF'/>)}
+            </span>
+
           </div>
 
           <div className="mt-4 flex justify-between font-semibold text-sm">
             <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">
-              <input className="mr-1" type="checkbox" />
-              <span>Remember Me</span>
             </label>
             <a className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4" href="#">Forgot Password?</a>
           </div>
           <div className="text-center md:text-left">
-              <button className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" type="submit">Login</button>
+              <button className=" bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" type="submit">Login</button>
           </div>
           <div className="mt-4 font-semibold text-sm text-slate-500 text-center md:text-left">
             Don't have an account? <Link to="/signup" className="text-red-600 hover:underline hover:underline-offset-4" href="#">Sign Up</Link>

@@ -16,10 +16,13 @@
     "react-calendar": "^4.2.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^4.9.0",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.3",
+    "react-typewriter-effect": "^1.1.0",
+    "typewriter-effect": "^2.20.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import Footer from '../components/Footer.js';
 import AdminPreviewSlots from '../components/AdminPreviewSlots';
 
 const AdminPreview = ({userDetails}) => {
@@ -38,7 +39,7 @@ const AdminPreview = ({userDetails}) => {
         </div>
       </div>
 
-      <div className="w-full justify-center mx-auto flex flex-col">
+      <div className="w-full justify-center mx-auto flex flex-col mt-10">
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
               <div className="inline-block min-w-full align-middle dark:bg-[#EBF0FA]">
                 <div className="overflow-hidden p-4">
@@ -110,6 +111,9 @@ const AdminPreview = ({userDetails}) => {
                 </div>
               </div>
             </div>
+          </div>
+          <div id="footer" className='mt-10'>
+            <Footer/>
           </div>
     </>
   )

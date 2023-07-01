@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button_comp'
 import profile from "../assets/profile-icon-login-img.jpg"
 import classNames from 'classnames';
+import HambergerMenu from './HambergerMenu'
 
 const Navbar = ({isloggedIn,userDetails,setUserDetails,setIsloggedIn,loggedIn}) => {
   const navigate = useNavigate();
@@ -52,38 +53,23 @@ const Navbar = ({isloggedIn,userDetails,setUserDetails,setIsloggedIn,loggedIn}) 
       <div>
         <img className='h-[50px]' src={Logo} alt="Logo" />
       </div>
-
-      <div className='mt-2'>
-        <ul className='w-[400px] flex justify-between'>
-            <Link to="/">
-                <li>Home</li>
-            </Link>
-              <li>
-                <a href="/#about">About</a>
-              </li>
-              <li>
-                <a href="/#labs">Book Now</a>
-              </li>
-            
-              <li>
-                <a href="/#footer">Contact Us</a>
-              </li>
-        </ul>
-      </div>
+      <HambergerMenu/>
       <div ref={divRef} className=''>
         <img className='h-[30px]' src={profile} alt="" onClick={handleProfile} />
-          <div className={classNames("absolute right-6 top-12 h-[300px] w-[300px] bg-gray-200 flex flex-col transition-opacity duration-500 ease-in-out opacity-100 z-10 rounded-xl p-4",{"hidden": !visibleProfile,
-            "opacity-100": visibleProfile,})}>
+          <div className={classNames("absolute right-6 top-12 h-fit w-[300px] bg-gray-200 flex flex-col transition-opacity duration-500 ease-in-out opacity-100 z-10 rounded-xl p-4",{"hidden": !visibleProfile,
+            "opacity-100": visibleProfile,
+          })}>
               {
                 loggedIn?
-                <>
-                <p>{userDetails.name}</p>
-                <p>{userDetails.email}</p>
-                <p>{userDetails.userType}</p>
-                <div onClick={handleLogout} className='w-full flex items-center justify-center'> 
-                  <Button btn="Logout" />
-                </div>
-                </>:
+                <div className='font-semibold font-sans'>
+                  <h2 className='mb-2'>HELLO!</h2>
+                  {userDetails.userType} : {userDetails.name}
+                  <p>{userDetails.email}</p>
+                  
+                  <div onClick={handleLogout} className='w-full flex items-center justify-center mt-4'> 
+                    <Button btn="Logout" />
+                  </div>
+                </div>:
                 <div onClick={handleLogin} className='w-full flex items-center justify-center'> 
                   <Button btn="Login" />
                 </div>

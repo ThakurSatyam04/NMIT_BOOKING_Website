@@ -1,6 +1,8 @@
 import React, { useState,useRef,useEffect} from 'react'
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {AiFillEye,AiFillEyeInvisible} from "react-icons/ai";
+import {toast} from 'react-hot-toast'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import bg_img from "../assets/Bg_Img.png"
@@ -12,6 +14,8 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,24}$/;
 const Signup = () => {
   const userRef = useRef();
   const errRef = useRef();
+  const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // const [user, setUser] = useState('');
   // const [email, setEmail] = useState('');
@@ -93,9 +97,9 @@ const handleSignUp = async(e)=>{
       await axios.post("http://localhost:3001/api/auth/signup",X)
         .then(res =>{
           // console.log(res)
-          alert("Sign Up Successful, Please Login");
           navigate("/login");
           setSuccess(true);
+          toast.success("Account created Please Login");
           setUser.name('');
           setUser.email('');
           setUser.password('');
@@ -132,6 +136,29 @@ const handleSignUp = async(e)=>{
         </div>
 
         <div>
+          Register as:
+          <label class="inline-flex items-center ml-2">
+            <input 
+              type="radio" 
+              name="UserType"
+              value="User"
+              onChange={(e)=> setUserType(e.target.value)}
+              className="form-radio text-indigo-600 h-4 w-4" 
+            />
+            <span class="ml-2 text-gray-700">User</span>
+          </label>
+          <label class="inline-flex items-center ml-6">
+            <input 
+             type="radio" 
+             name="UserType"
+             value="Admin"
+             onChange={(e)=> setUserType(e.target.value)}
+              className="form-radio text-indigo-600 h-4 w-4" />
+            <span class="ml-2 text-gray-700">Admin</span>
+          </label>
+        </div>
+
+        {/* <div>
           Register as: 
           <input 
           type="radio" 
@@ -145,7 +172,7 @@ const handleSignUp = async(e)=>{
             value="Admin"
             onChange={(e)=> setUserType(e.target.value)}
             />Admin
-          </div>
+          </div> */}
 
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
@@ -205,7 +232,7 @@ const handleSignUp = async(e)=>{
             </div>
 
             
-            <div className='mt-2'>
+            <div className='mt-2 relative'>
               <label>
                 Password
                 <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
@@ -217,7 +244,7 @@ const handleSignUp = async(e)=>{
               id="password"
               onChange={handleChange}
               value={user.password}
-              type="password" 
+              type={showPassword ? ("text"):("password")} 
               placeholder="Password"
               required
               aria-invalid={validPwd ? "false" : "true"}
@@ -225,32 +252,44 @@ const handleSignUp = async(e)=>{
               onFocus={() => setPwdFocus(true)}
               onBlur={() => setPwdFocus(false)}
               />
+
+              <span className="absolute right-3 top-[30px] cursor-pointer" onClick={()=> setShowPassword((prev)=> !prev)}>
+                {showPassword? (<AiFillEyeInvisible fontSize={24} fill='#AFB2BF'/>):(<AiFillEye fontSize={24} fill='#AFB2BF'/>)}
+              </span>
+
               <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
               <FontAwesomeIcon icon={faInfoCircle} />
               6 to 24 characters.<br />
               Must include uppercase and lowercase letters, a number and a special character.<br />
               Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
               </p>
+
             </div>
-            <div className='mt-2'>
+
+            <div className='mt-2 relative'>
               <label>
                 Confirm Password
                 <FontAwesomeIcon icon={faCheck} className={validMatch && user.confirmPassword ? "valid" : "hide"} />
                 <FontAwesomeIcon icon={faTimes} className={validMatch || !user.confirmPassword ? "hide" : "invalid"} />
               </label>
               <input 
-              className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="confirmPassword" 
-              id="confirm_pwd"
-              onChange={handleChange}
-              value={user.confirmPassword}
-              type="password" 
-              placeholder="Confirm Password"
-              required
-              aria-invalid={validMatch ? "false" : "true"}
-              aria-describedby="confirmnote"
-              onFocus={() => setMatchFocus(true)}
-              onBlur={() => setMatchFocus(false)}
+                className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" name="confirmPassword" 
+                id="confirm_pwd"
+                onChange={handleChange}
+                value={user.confirmPassword}
+                type={showConfirmPassword ? ("text"):("password")}
+                placeholder="Confirm Password"
+                required
+                aria-invalid={validMatch ? "false" : "true"}
+                aria-describedby="confirmnote"
+                onFocus={() => setMatchFocus(true)}
+                onBlur={() => setMatchFocus(false)}
               />
+
+                <span className="absolute right-3 top-[30px] cursor-pointer" onClick={()=> setShowConfirmPassword((prev)=> !prev)}>
+                {showConfirmPassword? (<AiFillEyeInvisible fontSize={24} fill='#AFB2BF'/>):(<AiFillEye fontSize={24} fill='#AFB2BF'/>)}
+                </span>
+
               <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
               <FontAwesomeIcon icon={faInfoCircle} />
               Must match the first password input field.
@@ -267,14 +306,6 @@ const handleSignUp = async(e)=>{
               onChange={(e)=> setSecretKey(e.target.value)} 
               placeholder="Secret Key" />          
             </div> : null}
-            </div>
-
-            <div className="mt-4 flex justify-between font-semibold text-sm">
-              <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">
-                <input className="mr-1" type="checkbox" />
-                <span>Remember Me</span>
-              </label>
-              <a className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4" href="#">Forgot Password?</a>
             </div>
             <div className="text-center md:text-left">
               <button 
