@@ -228,11 +228,11 @@ const Equipments = ({userDetails}) => {
     }
 
   return (
-    <div>
+    <div className='bg-blue-100'>
       {/* <Navbar setLoginUser={setLoginUser}/> */}
-      <div className="h-[350px] ">
+      <div className="h-[300px] bg-blue-100">
   <div className="relative h-[200px] bg-[#78C7DF] flex justify-center items-center">
-    <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white">
+    <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white ">
       <h2>Book Equipments</h2>
     </div>
     <div className="absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2">
@@ -266,77 +266,7 @@ const Equipments = ({userDetails}) => {
   </div>
 </div>
 
-
-{/* Selecting Time slot */}
-<div className="w-full flex flex-col md:flex-row justify-center items-center gap-20 bg-blue-200 p-4 mb-6">
-  <div className="flex flex-col mt-6">
-    <button onClick={handleCalender} className="bg-blue-500 text-white px-4 py-2 rounded">Select Date</button>
-    <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100", {"hidden": !visibleCalender, "opacity-100": visibleCalender})}>
-      <Calendar 
-        onChange={handleDate} 
-        value={date}
-        minDate={new Date()}
-      />
-    </div>
-  </div>
-
-  <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 flex items-center justify-center flex-col">
-  <label htmlFor="start-time" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    Select Start Time
-  </label>
-  <div className="relative w-[200px]">
-    <select 
-      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-      id="start-time"
-      value={fromTime}
-      onChange={handleFromTimeChange}
-      required
-    >
-      <option value="">-- Select start time --</option>
-      {timeValues.map((time) => (
-        <option key={time} value={time}>
-          {moment(time, 'HH:mm').format('hh:mm A')}
-        </option>
-      ))}
-    </select>
-    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-    </div>
-  </div>
-  
-  <label htmlFor="end-time" className="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    Select End Time
-  </label>
-  <div className="relative w-[200px]">
-    <select 
-      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-      id="end-time"
-      value={toTime}
-      onChange={handleToTimeChange}
-      required
-    >
-      <option value="">-- Select end time --</option>
-      {timeValues.map((time) => {
-        if (time > fromTime || !fromTime) {
-          return (
-            <option key={time} value={time}>
-              {moment(time, 'HH:mm').format('hh:mm A')}
-            </option>
-          );
-        }
-        return null;
-      })}
-    </select>
-    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-    </div>
-  </div>
-</div>
-
-</div>
-
-
-      <div className='flex w-full justify-end'>
+      <div className='flex w-full justify-end bg-blue-100'>
         {
             userDetails.email == labDetail.email ? (
               <div className="text-center md:text-left flex justify-end mr-4 mt-10 mb-4"> 
@@ -353,19 +283,14 @@ const Equipments = ({userDetails}) => {
           </div>
           ):(null)
         }
-
       </div>
-
-
-        
-
 {/* Equipment table */}
-        <div className="w-11/12 justify-center mx-auto flex flex-col">
-            <div className="overflow-x-auto shadow-md sm:rounded-lg">
-              <div className="inline-block min-w-full align-middle dark:bg-[#EBF0FA]">
-                <div className="overflow-hidden">
+        <div className="w-11/12 justify-center mx-auto flex flex-col ">
+            <div className="overflow-x-auto shadow-md sm:rounded-lg border border-black">
+              <div className="inline-block min-w-full align-middle dark:bg-[#EBF0FA] ">
+                <div className="overflow-hidden ">
                   <table className="min-w-full table-fixed dark:bg-[#EBF0FA] divide-y divide-gray-400 ">
-                    <thead className="bg-bg-[#EBF0FA] dark:bg-[#EBF0FA]">
+                    <thead className="bg-bg-[#EBF0FA] dark:bg-[#EBF0FA] ">
                       <tr>
                         <th scope="col" className="p-4">
                         </th>
@@ -414,15 +339,78 @@ const Equipments = ({userDetails}) => {
             </div>
           </div>
 
+          {/* Selecting Time slot */}
+<div className='w-full flex items-center justify-center bg-blue-100'>
+<div className="w-8/12 flex flex-col md:flex-row justify-center items-center gap-20 bg-[#D5E6EB] bg-slate-100 mt-10 rounded-xl shadow-md border-white border p-10">
+  <div className="flex flex-col mt-6">
+    <button onClick={handleCalender} className="bg-blue-500 text-white px-4 py-2 rounded">Select Date</button>
+    <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100", {"hidden": !visibleCalender, "opacity-100": visibleCalender})}>
+      <Calendar 
+        onChange={handleDate} 
+        value={date}
+        minDate={new Date()}
+      />
+    </div>
+  </div>
+
+  <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 flex items-center justify-center flex-col">
+
+  <div className="relative w-[200px]">
+    <select 
+      className="block appearance-none w-full bg-gray-300 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+      id="start-time"
+      value={fromTime}
+      onChange={handleFromTimeChange}
+      required
+    >
+      <option value="">-- Select start time --</option>
+      {timeValues.map((time) => (
+        <option key={time} value={time}>
+          {moment(time, 'HH:mm').format('hh:mm A')}
+        </option>
+      ))}
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+    </div>
+  </div>
+
+  <div className="relative w-[200px]">
+    <select 
+      className="block appearance-none w-full bg-gray-300 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-4" 
+      id="end-time"
+      value={toTime}
+      onChange={handleToTimeChange}
+      required
+    >
+      <option value="">-- Select end time --</option>
+      {timeValues.map((time) => {
+        if (time > fromTime || !fromTime) {
+          return (
+            <option key={time} value={time}>
+              {moment(time, 'HH:mm').format('hh:mm A')}
+            </option>
+          );
+        }
+        return null;
+      })}
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 mt-4 right-0 flex items-center px-2 text-gray-700">
+      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+    </div>
+  </div>
+</div>
+</div>
+</div>
          
-          <div 
-            className="text-center md:text-left flex justify-center mr-14 mt-10 mb-4" 
+          <div
+            className="text-center md:text-left flex justify-center pt-6 pb-4 items-center bg-blue-100" 
             onClick={handleBookSlot}> 
             <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
               Confirm Slot
             </button>
           </div>
-            <div className='mt-6'>
+            <div className=''>
               <Footer/>
             </div>
     </div>

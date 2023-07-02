@@ -12,8 +12,8 @@ export const createEquip = async (req,res,next) => {
         try {
             await Lab.findByIdAndUpdate(labId, {$push: {equipments : savedEquip._id}})
         } catch (err) {
-            next(err); 
-        }
+            next(err);  
+        } 
         res.status(200).json(savedEquip)
     } catch (err) {
         next(err); 
@@ -41,7 +41,7 @@ export const getEquip = async (req,res,next) => {
     } catch (err){
         next(err);
     } 
-} 
+}  
 
 export const createSlot = async (req,res,next) => {
     try{
@@ -60,7 +60,7 @@ export const createSlot = async (req,res,next) => {
 
 export const updateSlot = async (req,res,next) => {
     try {
-        const { date, fromTime, toTime, status,name,email,slotStatus } = req.body;
+        const { date, fromTime, toTime, status,name,email } = req.body;
         const { equipid, slotid } = req.params;
 
         const equipment = await Equip.findById(equipid);
@@ -69,14 +69,12 @@ export const updateSlot = async (req,res,next) => {
         if(slotIndex === -1){
             return res.status(404).json("Slot not found");
         }
-
         equipment.slots[slotIndex].date = date;
         equipment.slots[slotIndex].fromTime = fromTime;
         equipment.slots[slotIndex].toTime = toTime;
         equipment.slots[slotIndex].status = status;
         equipment.slots[slotIndex].name = name;
         equipment.slots[slotIndex].email = email;
-
         await equipment.save();
 
         res.status(201).json("Slot updated successfully")
@@ -108,6 +106,7 @@ export const getAllSlots = async (req, res, next) => {
     const allSlots = lab.equipments.reduce((slots, equipment) => {
       const equipmentSlots = equipment.slots.map((slot) => {
         return {
+          equipId:equipment._id,
           equipName: equipment.equipName, 
           makeOfEquip: equipment.makeOfEquip,
           model: equipment.model,

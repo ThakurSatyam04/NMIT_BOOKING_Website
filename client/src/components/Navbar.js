@@ -54,7 +54,7 @@ const Navbar = ({isloggedIn,userDetails,setUserDetails,setIsloggedIn,loggedIn}) 
         <img className='h-[50px]' src={Logo} alt="Logo" />
       </div>
       <HambergerMenu/>
-      <div ref={divRef} className=''>
+      <div ref={divRef} className='cursor-pointer'>
         <img className='h-[30px]' src={profile} alt="" onClick={handleProfile} />
           <div className={classNames("absolute right-6 top-12 h-fit w-[300px] bg-gray-200 flex flex-col transition-opacity duration-500 ease-in-out opacity-100 z-10 rounded-xl p-4",{"hidden": !visibleProfile,
             "opacity-100": visibleProfile,

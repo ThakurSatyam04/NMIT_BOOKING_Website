@@ -52,9 +52,6 @@ const EquipForm = () => {
     <div>
       <div className="formbold-main-wrapper">
           <div className="formbold-form-wrapper">
-
-            {/* <img src="your-image-url-here.jpg" /> */}
-
             <form onSubmit={handleSubmit} >
               <div className="formbold-form-title">
                 <h2 className="flex justify-center">Add Lab Details</h2>              

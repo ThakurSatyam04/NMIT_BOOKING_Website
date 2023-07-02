@@ -23,7 +23,7 @@ const FeaturedPage = ({loggedIn}) => {
 
 
   return (
-        <div className="w-11/12 font-style grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 items-center mt-4">
+        <div className="w-11/12 grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 items-center mt-4">
             {data.map((item) => {
             return <Featured key={item._id} {...item} loggedIn={loggedIn} />;
           })}

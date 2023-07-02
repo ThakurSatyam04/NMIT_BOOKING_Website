@@ -78,11 +78,10 @@ const Home = ({loggedIn}) => {
   </a>
   <p className="text-xl">(Equipments)</p>
 </div>
-
-      <div className="w-screen flex justify-center items-center">
-        <div className="w-screen  flex items-center justify-center">
-           <FeaturedPage loggedIn={loggedIn} />
-        </div>
+      <div className='w-full flex items-center justify-center'>
+        <div className="w-11/12 flex justify-center items-center">
+            <FeaturedPage loggedIn={loggedIn} />
+        </div> 
       </div>
 
       <div className='w-11/12 flex justify-end items-center'>

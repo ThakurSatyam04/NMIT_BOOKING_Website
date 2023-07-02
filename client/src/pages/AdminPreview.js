@@ -9,13 +9,6 @@ const AdminPreview = ({userDetails}) => {
     // console.log(_id)
 
     const [ data, setData ] = useState([]);
-    
-    const slotStatus = data.map((item) => {
-      return item.slots.slotStatus
-    })
-    const [isSlotStaus, setIsSlotStatus] = useState("")
-
-    console.log(isSlotStaus)
   
     const getData = async () => {
         try {
@@ -25,7 +18,6 @@ const AdminPreview = ({userDetails}) => {
             console.log(e)
         }
     }
-
 
     useEffect(()=>{
         getData();

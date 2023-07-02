@@ -8,7 +8,6 @@ import classNames from "classnames";
 const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
-  const [slots, setSlots] = useState([]);
   const navigate = useNavigate();
   
   const handleChange=(e)=>{
@@ -62,7 +61,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
 
   return (
     <>
-      <tbody className="bg-white divide-y divide-gray-200 dark:bg-[#EBF0FA] dark:divide-[#75cce7]">
+      <tbody className="divide-y divide-gray-200 dark:bg-[#EBF0FA] dark:divide-[#75cce7]">
             <tr className="hover:bg-[#a2cdda] dark:hover:[#75cce7]">
               <td  className="p-4 w-4">
                 <div  className="flex items-center">

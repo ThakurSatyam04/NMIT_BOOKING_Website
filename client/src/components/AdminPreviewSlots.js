@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
-import { MdAlternateEmail } from 'react-icons/md';
+
 const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails}) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [slotStatus, setSlotStatus] = useState();
   const newdate = slots.date
   const date = new Date(newdate);
   const slotDate = slots.date
@@ -11,9 +12,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails}) => {
   const slotToTime = slots.toTime
   const FacultyEmail = slots.email
   const FacultyName = slots.name
-  const slotStatus = slots.slotStatus
-  
-  // console.log(slotStatus)
+
   const [isEmail, setIsEmail] = useState({
     to:"",
     subject:"",
@@ -29,6 +28,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails}) => {
     });
   }, [slots]);
 
+
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -40,8 +40,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails}) => {
     e.preventDefault();
     const EmailDetails = {...isEmail,userDetails,slotDate,slotToTime,slotFromTime,equipName,FacultyEmail,FacultyName}
     const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/confirm",EmailDetails);
-    alert("Request Confirm")
-    
+    alert("Request Confirmed")
     setIsClicked(true);
   }
 
@@ -103,15 +102,15 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails}) => {
                     <button 
                     className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ${isClicked ? 'opacity-50 cursor-not-allowed' : ''}`} 
                     onClick={handleConfirm} 
-                    disabled={isClicked}>
-                      {isClicked ? 'Deactivated' : 'Confirm'}         
+                    disabled={slotStatus === 'confirm'}>
+                      Confirm    
                     </button>
                   </div>
                   <div>
                     <button 
                      className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ${isClicked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={handleReject} 
-                    disabled={isClicked}>
+                    disabled={slotStatus === 'rejected'}>
                       Reject
                     </button>
                   </div>
