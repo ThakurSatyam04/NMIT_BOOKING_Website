@@ -6,7 +6,7 @@ import AdminPreviewSlots from '../components/AdminPreviewSlots';
 
 const AdminPreview = ({userDetails}) => {
     const {_id} = useParams();
-    console.log(_id)
+    // console.log(_id)
 
     const [ data, setData ] = useState([]);
     

@@ -41,6 +41,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails}) => {
     const EmailDetails = {...isEmail,userDetails,slotDate,slotToTime,slotFromTime,equipName,FacultyEmail,FacultyName}
     const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/confirm",EmailDetails);
     alert("Request Confirm")
+    
     setIsClicked(true);
   }
 

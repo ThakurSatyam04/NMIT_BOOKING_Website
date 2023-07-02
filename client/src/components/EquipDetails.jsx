@@ -5,22 +5,21 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
   const [slots, setSlots] = useState([]);
   const navigate = useNavigate();
-  // console.log(quantity)
   
   const handleChange=(e)=>{
     const id = e.target.value;
     if(e.target.checked){
-      // console.log(status)
       setEquipid(_id) 
       setQuantity(quantity)
       setStatus(status)
       setSelectedEquip((prev)=> [...prev,id]);
       setEquipName(equipName)
+      setTotalQuantity(totalQuantity)
     }else{
       setSelectedEquip((prev)=> {
         return prev.filter((item)=>item !== id)
@@ -58,10 +57,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
   }
 
   useEffect(()=>{
-    // handleQuantity();
     handleStatus();
-    // getEquipQuantity();
-    // getLabData();
   },[])
 
   return (

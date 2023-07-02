@@ -77,3 +77,26 @@ export const getEquips = async (req,res,next) => {
         next(err)
     }
 }
+
+export const updateEquips = async (req, res, next) => {
+    try {
+      const lab = await Lab.findById(req.params.id);
+  
+      for (const equip of lab.equipments) {
+        await Equip.findByIdAndUpdate(equip, req.body, { new: true });
+      }
+  
+    //   const updatedList = await Promise.all(
+    //     lab.equipments.map(async (equip) => {
+    //       return Equip.findById(equip);
+    //     })
+    //   );
+  
+    //   res.status(200).json(updatedList);
+    } catch (err) {
+      next(err);
+    }
+  };
+  
+
+

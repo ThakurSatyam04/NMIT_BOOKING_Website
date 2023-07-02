@@ -7,6 +7,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../components/Footer'
 import classNames from 'classnames';
+import moment from 'moment'
 
 const Equipments = ({userDetails}) => {
 
@@ -23,22 +24,14 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const timeValues = ['01:00 pm','11:23 am','05:57 pm','03:06 pm'];
-  
-  const [ismsg,setIsMsg] = useState("");
+  const timeValues = ['08:00','10:00','12:41','14:00','16:00','18:51'];
+  const [totalQuantity,setTotalQuantity] = useState()
   const [isEmail, setIsEmail] = useState({
     to:"",
     subject:"",
     message:"",
     name:""
   });
-
-  
-
-  // console.log(SlotsDetails)
- 
-
-  // const {to,subject,message} = isEmail;
 
   useEffect(() => {
     setIsEmail({
@@ -94,30 +87,63 @@ const Equipments = ({userDetails}) => {
     const month = String(utcDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month, and padding with leading zero if needed
     const day = String(utcDate.getDate()).padStart(2, '0'); // Padding with leading zero if needed
 
-const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate = `${year}-${month}-${day}`;
     setDate(formattedDate);
-    // setDate(date);
   }
-  // console.log(date)
 
   const handleFromTimeChange = (e) => {
     setFromTime(e.target.value);
   }
-
-  const handleToTimeChange = (e) => {
-    setToTime(e.target.value);
+  
+  const handleToTimeChange = async(e) => {
+    setToTime(e.target.value)
+    const selectedToTime = e.target.value
+    try {
+      const bookedSlots = await handleEquipQuantity(selectedToTime,date);
+      const remaining = totalQuantity - bookedSlots
+      const newStatus = remaining > 0 ? "available" : "unavailable";
+      // console.log(bookedSlots)
+      try{
+        const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
+          quantity: totalQuantity - bookedSlots,
+          status: newStatus
+      })
+      }catch(e){
+        console.log(e)
+      }
+      setQuantity(totalQuantity - bookedSlots)
+      // Perform further actions with the bookedSlots value
+    } catch (error) {
+      console.error(error);
+    }
   }
-
+  
+  const handleEquipQuantity = async (selectedToTime,date) => {
+    try {
+      const getEquipSlots  = await axios.get(`http://localhost:3001/api/equip/slots/equip/${equipid}`)
+      // console.log(getEquipSlots)
+      // Filter the slots based on the toTime value
+        const bookedSlots = getEquipSlots.data.filter((slot) => {
+        const slotTime = slot.toTime;
+        const slotDate = slot.date;
+        const formattedDate = slotDate.split('T')[0];
+  
+        return formattedDate === date && slotTime === selectedToTime;
+      });
+      return bookedSlots.length;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   const handleCalender = ()=>{
     setVisibleCalender(!visibleCalender);
   }
   const name = userDetails.name;
   const email = userDetails.email
 
-
   const newTimeSlot = { date, fromTime, toTime,name,email }
 
-  
   const handleBookSlot = async (e) => {
     e.preventDefault();
     // Decrease the quantity and update the status
@@ -129,32 +155,66 @@ const formattedDate = `${year}-${month}-${day}`;
         status: newStatus,
         quantity: newQuantity
       })
+
       const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
 
       const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
       const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/book",EmailDetails);
       // Show the toast with a longer duration
       toast.success("Booking Request Sent Successfully", {
-        autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+        autoClose: 3000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
       });
+      
+      // console.log(totalQuantity)
       setTimeout(() => {
         window.location.reload();
       }, 1000); 
-      // window.location.reload();
-      // toast.success("Booking Request Sent Successfully");    
+
+      updateTotalQty();
     }
     catch(err){
       console.error(err);
     }
   }
+  const updateTotalQty = async()=>{
+    const newStatus = quantity > 0 ? "available" : "unavailable";
+    try{
+      const updateTotalQuantity  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
+            status:newStatus,
+            quantity: totalQuantity
+          })
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+  const handleStatus =()=>{
+    if(quantity>0){
+      setStatus("available");
+    }
+    else{
+      setStatus("unavailable")
+    }
+  }
+
+  useEffect(()=>{
+    handleStatus();
+  },[])
+  // console.log(totalQuantity)
+  
+  useEffect(()=>{
+    getEquipData();
+  },[handleBookSlot])
+
   const deleteExpiredSlots = async () => {
     try {
       await axios.delete(`http://localhost:3001/api/equip/deleteExpiredSlots`);
       console.log('Expired slots deleted successfully');
     } catch (error) {
       console.log('Error deleting expired slots:', error);
-    }
-  };
+    }
+  };
+
 
     useEffect(() => {
       getEquipData();
@@ -221,57 +281,58 @@ const formattedDate = `${year}-${month}-${day}`;
   </div>
 
   <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 flex items-center justify-center flex-col">
-    <label htmlFor="start-time" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-      Select Start Time
-    </label>
-    <div className="relative w-[200px]">
-      <select 
-        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-        id="start-time"
-        value={fromTime}
-        onChange={handleFromTimeChange}
-        required
-      >
-        <option value="">-- Select start time --</option>
-        {timeValues.map((time) => (
-          <option key={time} value={time}>
-            {time}
-          </option>
-        ))}
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-      </div>
-    </div>
-    
-    <label htmlFor="end-time" className="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-      Select End Time
-    </label>
-    <div className="relative w-[200px]">
-      <select 
-        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-        id="end-time"
-        value={toTime}
-        onChange={handleToTimeChange}
-        required
-      >
-        <option value="">-- Select end time --</option>
-        {timeValues.map((time) => {
-          if (time > fromTime || !fromTime) {
-            return (
-              <option key={time} value={time}>
-                {time}
-              </option>
-            );
-          }
-          return null;
-        })}
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-      </div>
+  <label htmlFor="start-time" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+    Select Start Time
+  </label>
+  <div className="relative w-[200px]">
+    <select 
+      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+      id="start-time"
+      value={fromTime}
+      onChange={handleFromTimeChange}
+      required
+    >
+      <option value="">-- Select start time --</option>
+      {timeValues.map((time) => (
+        <option key={time} value={time}>
+          {moment(time, 'HH:mm').format('hh:mm A')}
+        </option>
+      ))}
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
     </div>
   </div>
+  
+  <label htmlFor="end-time" className="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+    Select End Time
+  </label>
+  <div className="relative w-[200px]">
+    <select 
+      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+      id="end-time"
+      value={toTime}
+      onChange={handleToTimeChange}
+      required
+    >
+      <option value="">-- Select end time --</option>
+      {timeValues.map((time) => {
+        if (time > fromTime || !fromTime) {
+          return (
+            <option key={time} value={time}>
+              {moment(time, 'HH:mm').format('hh:mm A')}
+            </option>
+          );
+        }
+        return null;
+      })}
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+    </div>
+  </div>
+</div>
+
 </div>
 
 
@@ -343,7 +404,7 @@ const formattedDate = `${year}-${month}-${day}`;
                     </thead>
                       {
                           data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName}
+                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity}
                               />
                           })
                       }

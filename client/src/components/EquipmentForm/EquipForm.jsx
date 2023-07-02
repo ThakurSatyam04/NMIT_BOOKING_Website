@@ -17,13 +17,17 @@ const EquipForm = () => {
 
     const navigate = useNavigate();
 
-  const [equip, setEquip] = useState({
-    equipName:"",
-    makeOfEquip:"",
-    model:"",
-    quantity:"",
-    slots:[],
-  })
+    
+    const [equip, setEquip] = useState({
+      equipName:"",
+      makeOfEquip:"",
+      model:"",
+      totalQuantity:"",
+    })
+    
+    const [newquantity, setQuantity] = useState();
+    // setQuantity(equip.totalQuantity)
+    // console.log(equip.totalQuantity)
 
   const handleChange =(e)=>{
     const{name,value} = e.target;
@@ -33,12 +37,18 @@ const EquipForm = () => {
     })
   }
 
+  useEffect(() => {
+    setQuantity(equip.totalQuantity);
+  }, [equip.totalQuantity]);
+
   const handleSubmit = async(e)=>{
     e.preventDefault();
     try{
-      const { equipName, makeOfEquip, model, quantity } = equip;
-      if(equipName && makeOfEquip && model && quantity){
-       await axios.post(`http://localhost:3001/api/equip/${_id}`,equip)
+      const { equipName, makeOfEquip, model, totalQuantity } = equip;
+      // setQuantity(equip.totalQuantity)
+      if(equipName && makeOfEquip && model && totalQuantity){
+        const X = { ...equip, quantity: newquantity };
+        await axios.post(`http://localhost:3001/api/equip/${_id}`,X)
         .then(res =>{
           // console.log(res)
           toast.success("Equipment added successfully", {
@@ -123,11 +133,11 @@ const EquipForm = () => {
                 </label>
                 <input
                   type="number"
-                  name="quantity"
-                  id="quantity"
+                  name="totalQuantity"
+                  id="totalQuantity"
                   className="formbold-form-input"
                   onChange={handleChange}
-                  value={equip.quantity}
+                  value={equip.totalQuantity}
                 />
               </div>              
               
@@ -141,4 +151,4 @@ const EquipForm = () => {
   )
 }
 
-export default EquipForm
+export default EquipForm

@@ -12,17 +12,17 @@ export const createEquip = async (req,res,next) => {
         try {
             await Lab.findByIdAndUpdate(labId, {$push: {equipments : savedEquip._id}})
         } catch (err) {
-            next(err);
+            next(err); 
         }
         res.status(200).json(savedEquip)
     } catch (err) {
-        next(err);
+        next(err); 
     }
 }
-
+ 
 export const updateEquip = async (req,res,next)=>{
     try{
-        const equip = await Equip.findByIdAndUpdate(
+        const equip = await Equip.findByIdAndUpdate(  
             req.params.equipid,
             { $set : req.body },
             { new : true }
@@ -30,7 +30,7 @@ export const updateEquip = async (req,res,next)=>{
         res.status(200).json(equip);
     }catch(err){
         next(err)
-    }
+    }  
 }
 
 export const getEquip = async (req,res,next) => {
@@ -40,8 +40,8 @@ export const getEquip = async (req,res,next) => {
         res.status(200).json(equip);
     } catch (err){
         next(err);
-    }
-}
+    } 
+} 
 
 export const createSlot = async (req,res,next) => {
     try{
@@ -49,7 +49,7 @@ export const createSlot = async (req,res,next) => {
         const equipment = await Equip.findById(req.params.equipid);
         const newSlot = {
             date, fromTime, toTime, status,name,email
-        }
+        } 
         equipment.slots.push(newSlot);
         await equipment.save();
         res.status(201).json("slot created successfully")
@@ -85,44 +85,48 @@ export const updateSlot = async (req,res,next) => {
         next(error);
     }
 }
-
-export const getSlots = async (req,res,next) => {
-    try {
-        const equipment = await Equip.findById(req.params.equipid);
-        const slots = equipment.slots;
-        res.status(200).json(slots);
-      } catch (err) {
-        next(err);
-      }
-}
-
+  
+export const getSlots = async (req, res, next) => {
+  try {
+    const equipment = await Equip.findById(req.params.equipid);
+    if (!equipment) {
+      return res.status(404).json({ error: 'Equipment not found' });
+    }
+    const slots = equipment.slots;
+    res.status(200).json(slots);
+  } catch (err) {
+    next(err); 
+  } 
+}; 
+ 
 export const getAllSlots = async (req, res, next) => {
-    try {
-      const labId = req.params.labid;
-  
-      const lab = await Lab.findById(labId).populate('equipments');
-  
-      const result = lab.equipments.reduce((slots, equipment) => {
-        const equipmentSlots = equipment.slots.map((slot) => {
-          return {
-            equipName: equipment.equipName,
-            makeOfEquip: equipment.makeOfEquip,
-            model: equipment.model,
-            slots: {
-                ...slot.toObject(),
-                userDetails: slot.userDetails, // Assuming userDetails is already populated
-              },
-          };
-        });
-        return slots.concat(equipmentSlots);
-      }, []);
-  
-      res.status(200).json(result);
-    } catch (error) {
-      next(error);
-      res.status(500).json({ error: 'Failed to retrieve slots in lab' });
-    }
+  try {
+    const labId = req.params.labid;
+    
+    const lab = await Lab.findById(labId).populate('equipments');
+    
+    const allSlots = lab.equipments.reduce((slots, equipment) => {
+      const equipmentSlots = equipment.slots.map((slot) => {
+        return {
+          equipName: equipment.equipName, 
+          makeOfEquip: equipment.makeOfEquip,
+          model: equipment.model,
+          slots: {
+            ...slot.toObject(),
+            userDetails: slot.userDetails, // Assuming userDetails is already populated
+          },
+        };
+      });
+      return slots.concat(equipmentSlots);
+    }, []);
+    
+    res.status(200).json(allSlots);
+  } catch (error) {
+    next(error);
+    res.status(500).json({ error: 'Failed to retrieve slots in lab' });
   }
+};
+
 
 export const getSlot = async (req,res,next) => {
     try {
@@ -140,9 +144,9 @@ export const getSlot = async (req,res,next) => {
       }
 }
 
-export const equipStatus = async (req,res,next) => {
+export const equipStatus = async (req,res,next) =>  {
     try {
-        const { equipid } = req.params;
+        const { equipid } = req.params; 
         const { status, quantity } = req.body;
     
         const equipment = await Equip.findByIdAndUpdate(
@@ -177,7 +181,7 @@ export const deleteEquip = async (req,res,next) => {
         next(err);
     }
 }
-
+ 
 export const deleteExpiredSlots = async (req,res,next) => {
     try {
       const currentDate = new Date();
@@ -186,7 +190,7 @@ export const deleteExpiredSlots = async (req,res,next) => {
       const day = String(currentDate.getDate()).padStart(2, '0'); // Padding with leading zero if needed
       const formattedDate = `${year}-${month}-${day}`;
       const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
-      const currentTime = moment(currentDate).format('hh:mm a');
+      const currentTime = moment(currentDate).format('HH:mm');
 
       console.log(dateOnly)
       console.log(currentTime)
@@ -207,7 +211,6 @@ export const deleteExpiredSlots = async (req,res,next) => {
               ],
             },
           },
-          $inc: {quantity : 1}
         }
       );
       // const totalSlots = equipment.slots.length;

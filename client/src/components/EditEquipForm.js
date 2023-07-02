@@ -16,7 +16,7 @@ const EditEquipForm = () => {
     equipName:"",
     makeOfEquip:"",
     model:"",
-    quantity:"",
+    totalQuantity:"",
     status:""
   })
 
@@ -36,7 +36,7 @@ const EditEquipForm = () => {
         equipName: data.data.equipName,
         makeOfEquip:data.data.makeOfEquip,
         model:data.data.model,
-        quantity:data.data.quantity,
+        totalQuantity:data.data.totalQuantity,
         status:data.data.status,
       }
       )
@@ -45,23 +45,11 @@ const EditEquipForm = () => {
     }
   }
 
-  // const [status, setStatus] = useState();
-
-  // const handleStatus =()=>{
-  //   // console.log(quantity)
-  //   if(quantity>0){
-  //     setStatus("available");
-  //   }
-  //   else{
-  //     setStatus("unavailable")
-  //   }
-  // }
-
   const handleSubmit = async(e)=>{
     e.preventDefault();
     try{
-      const { equipName, makeOfEquip, model, quantity, status } = equip;
-      if(equipName && makeOfEquip && model && quantity!=0 && status){
+      const { equipName, makeOfEquip, model, totalQuantity, status } = equip;
+      if(equipName && makeOfEquip && model && totalQuantity!=0 && status){
        await axios.put(`http://localhost:3001/api/equip/${_id}`,equip)
        await axios.put(`http://localhost:3001/api/equip/status/${_id}`, {status:"available"})
 
@@ -151,15 +139,15 @@ const EditEquipForm = () => {
 
               <div className="formbold-mb-3">
                 <label className="formbold-form-label">
-                  Quantity
+                  Total Quantity
                 </label>
                 <input
                   type="number"
-                  name="quantity"
-                  id="quantity"
+                  name="totalQuantity"
+                  id="totalQuantity"
                   className="formbold-form-input"
                   onChange={handleChange}
-                  value={equip.quantity}
+                  value={equip.totalQuantity}
                 />
               </div>              
               

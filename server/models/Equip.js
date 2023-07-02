@@ -14,9 +14,13 @@ const EquipSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        totalQuantity : {
+            type:Number,
+            required:true,
+        },
         quantity: {
             type: Number,
-            required:true
+            // required:true
         },
         slots: [
             {
@@ -29,22 +33,15 @@ const EquipSchema = new mongoose.Schema(
                     type:String,
                     default:'Pending'
                 }
-                // {
-                //     type: String,
-                //     enum : ['pending', 'available', 'unavailable'],
-                //     default: 'pending'
-                // }
             }
         ],
         status : {
             type: String,
             default: 'available'
         }
-        // slots : {
-        //     type: [String]
-        // }
     }, 
     {timestamps: true}
 )
 
-export default mongoose.model("Equipment", EquipSchema)
+
+export default mongoose.model("Equipment", EquipSchema)
