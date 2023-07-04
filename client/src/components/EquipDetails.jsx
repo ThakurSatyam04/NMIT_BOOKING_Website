@@ -5,7 +5,7 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity,setIsChecked}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState([])
   const navigate = useNavigate();
@@ -19,7 +19,9 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
       setSelectedEquip((prev)=> [...prev,id]);
       setEquipName(equipName)
       setTotalQuantity(totalQuantity)
+      setIsChecked(true);
     }else{
+      setIsChecked(false);
       setSelectedEquip((prev)=> {
         return prev.filter((item)=>item !== id)
       });
@@ -65,6 +67,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
             <tr className="hover:bg-[#a2cdda] dark:hover:[#75cce7]">
               <td  className="p-4 w-4">
                 <div  className="flex items-center">
+                  {/* <a href="#showCalender"> */}
                   <input
                     id="EquipCheckbox"
                     type="checkbox"
@@ -73,12 +76,13 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                     className="EquipCheckbox w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     onChange={handleChange}
                   />
-                  <label htmlFor="checkbox-search-1" className="sr-only">checkbox</label>
+                   <label htmlFor="EquipCheckbox" className="sr-only">checkbox</label>
+                  {/* </a> */}
                 </div>
               </td>
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-nowrap dark:text-black"
-              >
+                >
                 {equipName}
               </td>
               <td

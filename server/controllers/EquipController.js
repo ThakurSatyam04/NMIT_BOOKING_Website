@@ -66,7 +66,7 @@ export const updateSlot = async (req,res,next) => {
         const equipment = await Equip.findById(equipid);
         const slotIndex = equipment.slots.findIndex((slot) => slot._id.toString() === slotid);
 
-        if(slotIndex === -1){
+        if(slotIndex === -1){ 
             return res.status(404).json("Slot not found");
         }
         equipment.slots[slotIndex].date = date;

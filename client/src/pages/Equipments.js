@@ -24,7 +24,7 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const timeValues = ['08:00','10:00','12:41','14:00','16:00','18:51'];
+  const timeValues = ['08:45','11:00','13:00','14:00','16:00'];
   const [totalQuantity,setTotalQuantity] = useState()
   const [isEmail, setIsEmail] = useState({
     to:"",
@@ -32,6 +32,8 @@ const Equipments = ({userDetails}) => {
     message:"",
     name:""
   });
+  const [isChecked, setIsChecked] = useState(false)
+  // console.log(isChecked)
 
   useEffect(() => {
     setIsEmail({
@@ -40,7 +42,7 @@ const Equipments = ({userDetails}) => {
       message:"",
       name:labDetail.labIncharge
     });
-  }, [labDetail]);
+  }, []);
 
   const Slots = async () => {
     try {
@@ -196,10 +198,6 @@ const Equipments = ({userDetails}) => {
       setStatus("unavailable")
     }
   }
-
-  useEffect(()=>{
-    handleStatus();
-  },[])
   // console.log(totalQuantity)
   
   useEffect(()=>{
@@ -219,7 +217,8 @@ const Equipments = ({userDetails}) => {
     useEffect(() => {
       getEquipData();
       getLabDetails();
-      deleteExpiredSlots()
+      deleteExpiredSlots();
+      handleStatus();
       Slots();
     },[])
 
@@ -329,7 +328,7 @@ const Equipments = ({userDetails}) => {
                     </thead>
                       {
                           data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity}
+                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked}
                               />
                           })
                       }
@@ -338,70 +337,74 @@ const Equipments = ({userDetails}) => {
               </div>
             </div>
           </div>
+          <div id="showCalender" className='h-[1px] bg-black mt-10'>
 
-          {/* Selecting Time slot */}
-<div className='w-full flex items-center justify-center bg-blue-100'>
-<div className="w-8/12 flex flex-col md:flex-row justify-center items-center gap-20 bg-[#D5E6EB] bg-slate-100 mt-10 rounded-xl shadow-md border-white border p-10">
-  <div className="flex flex-col mt-6">
-    <button onClick={handleCalender} className="bg-blue-500 text-white px-4 py-2 rounded">Select Date</button>
-    <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100", {"hidden": !visibleCalender, "opacity-100": visibleCalender})}>
-      <Calendar 
-        onChange={handleDate} 
-        value={date}
-        minDate={new Date()}
-      />
+          </div>
+{
+  isChecked?(<div  className={`w-full flex items-center justify-center bg-blue-100 transition-opacity duration-500 ${isChecked ? 'opacity-100' : 'opacity-0 transform scale-9'}`}>
+  <div id="date_time" className="w-8/12 flex flex-col md:flex-row justify-center items-center gap-20 bg-[#78c7df72] mt-10 rounded-xl shadow-md border-white border p-10">
+    <div className="flex flex-col mt-6">
+      <button onClick={handleCalender} className="bg-blue-500 text-white px-4 py-2 rounded">Select Date</button>
+      <div className={classNames("flex flex-col transition-opacity duration-500 ease-in-out opacity-100", {"hidden": !visibleCalender, "opacity-100": visibleCalender})}>
+        <Calendar 
+          onChange={handleDate} 
+          value={date}
+          minDate={new Date()}
+        />
+      </div>
+    </div>
+  
+    <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 flex items-center justify-center flex-col">
+  
+    <div className="relative w-[200px]">
+      <select 
+        className="block appearance-none w-full bg-gray-300 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+        id="start-time"
+        value={fromTime}
+        onChange={handleFromTimeChange}
+        required
+      >
+        <option value="">-- Select start time --</option>
+        {timeValues.map((time) => (
+          <option key={time} value={time}>
+            {moment(time, 'HH:mm').format('hh:mm A')}
+          </option>
+        ))}
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+      </div>
+    </div>
+  
+    <div className="relative w-[200px]">
+      <select 
+        className="block appearance-none w-full bg-gray-300 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-4" 
+        id="end-time"
+        value={toTime}
+        onChange={handleToTimeChange}
+        required
+      >
+        <option value="">-- Select end time --</option>
+        {timeValues.map((time) => {
+          if (time > fromTime || !fromTime) {
+            return (
+              <option key={time} value={time}>
+                {moment(time, 'HH:mm').format('hh:mm A')}
+              </option>
+            );
+          }
+          return null;
+        })}
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 mt-4 right-0 flex items-center px-2 text-gray-700">
+        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+      </div>
     </div>
   </div>
-
-  <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 flex items-center justify-center flex-col">
-
-  <div className="relative w-[200px]">
-    <select 
-      className="block appearance-none w-full bg-gray-300 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-      id="start-time"
-      value={fromTime}
-      onChange={handleFromTimeChange}
-      required
-    >
-      <option value="">-- Select start time --</option>
-      {timeValues.map((time) => (
-        <option key={time} value={time}>
-          {moment(time, 'HH:mm').format('hh:mm A')}
-        </option>
-      ))}
-    </select>
-    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-    </div>
   </div>
+  </div>):(null)
+}
 
-  <div className="relative w-[200px]">
-    <select 
-      className="block appearance-none w-full bg-gray-300 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-4" 
-      id="end-time"
-      value={toTime}
-      onChange={handleToTimeChange}
-      required
-    >
-      <option value="">-- Select end time --</option>
-      {timeValues.map((time) => {
-        if (time > fromTime || !fromTime) {
-          return (
-            <option key={time} value={time}>
-              {moment(time, 'HH:mm').format('hh:mm A')}
-            </option>
-          );
-        }
-        return null;
-      })}
-    </select>
-    <div className="pointer-events-none absolute inset-y-0 mt-4 right-0 flex items-center px-2 text-gray-700">
-      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-    </div>
-  </div>
-</div>
-</div>
-</div>
          
           <div
             className="text-center md:text-left flex justify-center pt-6 pb-4 items-center bg-blue-100" 
