@@ -25,7 +25,7 @@ const EquipForm = () => {
       totalQuantity:"",
     })
     
-    const [newquantity, setQuantity] = useState();
+    // const [newquantity, setQuantity] = useState();
     // setQuantity(equip.totalQuantity)
     // console.log(equip.totalQuantity)
 
@@ -37,9 +37,9 @@ const EquipForm = () => {
     })
   }
 
-  useEffect(() => {
-    setQuantity(equip.totalQuantity);
-  }, [equip.totalQuantity]);
+  // useEffect(() => {
+  //   setQuantity(equip.totalQuantity);
+  // }, [equip.totalQuantity]);
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -47,7 +47,7 @@ const EquipForm = () => {
       const { equipName, makeOfEquip, model, totalQuantity } = equip;
       // setQuantity(equip.totalQuantity)
       if(equipName || makeOfEquip || model || totalQuantity){
-        const X = { ...equip, quantity: newquantity };
+        const X = { ...equip, quantity: totalQuantity };
         await axios.post(`http://localhost:3001/api/equip/${_id}`,X)
         .then(res =>{
           // console.log(res)

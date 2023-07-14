@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./EquipmentForm/EquipForm.css"
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
+import {toast} from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 import Button from "../components/Button_comp";
 
@@ -37,7 +38,7 @@ const EditEquipForm = () => {
         makeOfEquip:data.data.makeOfEquip,
         model:data.data.model,
         totalQuantity:data.data.totalQuantity,
-        status:data.data.status,
+        status:data.data.status
       }
       )
     }catch(err){
@@ -50,12 +51,13 @@ const EditEquipForm = () => {
     try{
       const { equipName, makeOfEquip, model, totalQuantity, status } = equip;
       if(equipName && makeOfEquip && model && totalQuantity!=0 && status){
-       await axios.put(`http://localhost:3001/api/equip/${_id}`,equip)
+        const X = { ...equip, quantity: totalQuantity };
+       await axios.put(`http://localhost:3001/api/equip/${_id}`,X)
        await axios.put(`http://localhost:3001/api/equip/status/${_id}`, {status:"available"})
 
         .then(res =>{
           // console.log(res)
-          alert("Equipment added successfully");
+          toast.success("Equipment edited successfully")
           navigate(`/equipDetail/${labId}`);
         })
       }
@@ -82,7 +84,7 @@ const EditEquipForm = () => {
 
             <form onSubmit={handleSubmit}>
               <div className="formbold-form-title">
-                <h2 className="flex justify-center">Add Equipment Details</h2>
+                <h2 className="flex justify-center">Edit Equipment Details</h2>
               </div>
 
               <div className="formbold-input-flex">
@@ -151,7 +153,7 @@ const EditEquipForm = () => {
                 />
               </div>              
               
-              <Button btn="+ Add Equipment" type="submit"/>
+              <Button btn="+ Submit" type="submit"/>
 
     </form>
   </div>

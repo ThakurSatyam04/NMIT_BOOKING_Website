@@ -10,18 +10,17 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState("")
   const navigate = useNavigate();
-  console.log("fdsadgfs")
   
   const handleChange=(e)=>{
     const id = e.target.value;
     if(e.target.checked){
       setEquipid(_id) 
-      setQuantity(quantity)
-      setStatus(status)
       setSelectedEquip((prev)=> [...prev,id]);
       setEquipName(equipName)
-      setTotalQuantity(totalQuantity)
       setIsChecked(true);
+      setStatus(status)
+      setQuantity(quantity)
+      setTotalQuantity(totalQuantity)  
     }else{
       setIsChecked(false);
       setSelectedEquip((prev)=> {
