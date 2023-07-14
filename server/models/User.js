@@ -28,7 +28,10 @@ const UserSchema = new mongoose.Schema(
                 type: String,
                 require:true
             }
-        }]
+        }],
+        verifyToken:{
+            type:String
+           }
     }, 
     {timestamps: true}
 )

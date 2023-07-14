@@ -174,6 +174,8 @@ export const rejectEmail = async (req,res,next)=>{
     <p>
       <a class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" href="[Website URL]">Visit Website</a>
     </p>
+    <h2>Reason of Rejection</h2>
+    <p>${req.body.rejectResion}</p>
   </div>
 </body>
 </html>

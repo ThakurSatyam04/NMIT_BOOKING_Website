@@ -46,7 +46,7 @@ const EquipForm = () => {
     try{
       const { equipName, makeOfEquip, model, totalQuantity } = equip;
       // setQuantity(equip.totalQuantity)
-      if(equipName && makeOfEquip && model && totalQuantity){
+      if(equipName || makeOfEquip || model || totalQuantity){
         const X = { ...equip, quantity: newquantity };
         await axios.post(`http://localhost:3001/api/equip/${_id}`,X)
         .then(res =>{

@@ -33,6 +33,8 @@ const Equipments = ({userDetails}) => {
     name:""
   });
   const [isChecked, setIsChecked] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [clickToTime,setClickToTime] = useState(false);
   // console.log(isChecked)
 
   useEffect(() => {
@@ -54,12 +56,14 @@ const Equipments = ({userDetails}) => {
 }
 
   const getEquipData = async () => {
+    // setIsLoading(true);
     try{
       const {data} = await axios.get(`http://localhost:3001/api/labs/equip/${_id}`)
           setData(data)
     } catch(e){
         console.log(e)
     }
+    // setIsLoading(false);
   }
 
   const getLabDetails = async () =>{
@@ -70,7 +74,6 @@ const Equipments = ({userDetails}) => {
       console.log(err)
     }
   }
-  // console.log(labDetail)
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -99,6 +102,7 @@ const Equipments = ({userDetails}) => {
   
   const handleToTimeChange = async(e) => {
     setToTime(e.target.value)
+    setClickToTime(true);
     const selectedToTime = e.target.value
     try {
       const bookedSlots = await handleEquipQuantity(selectedToTime,date);
@@ -148,43 +152,51 @@ const Equipments = ({userDetails}) => {
 
   const handleBookSlot = async (e) => {
     e.preventDefault();
+    
     // Decrease the quantity and update the status
     const newQuantity = quantity > 0 ? quantity - 1 : 0;
     const newStatus = newQuantity > 0 ? "available" : "unavailable";
+    if(clickToTime){
 
-    try{
-      const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
-        status: newStatus,
-        quantity: newQuantity
-      })
-
-      const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
-
-      const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
-      const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/book",EmailDetails);
-      // Show the toast with a longer duration
-      toast.success("Booking Request Sent Successfully", {
-        autoClose: 3000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
-      });
-      
-      // console.log(totalQuantity)
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000); 
-
-      updateTotalQty();
+      setIsLoading(true);
+      try{
+        const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
+          status: newStatus,
+          quantity: newQuantity
+        })
+  
+        const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
+  
+        const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
+        const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/book",EmailDetails);
+        updateTotalQty();
+        // Show the toast with a longer duration
+        toast.success("Booking Request Sent Successfully", {
+          autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+        });
+        
+        // console.log(totalQuantity)
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); 
+        setIsLoading(false)
+        
+      }
+      catch(err){
+        console.error(err);
+      }
     }
-    catch(err){
-      console.error(err);
+    else{
+      toast.error("Please select slot's date and time..")
     }
   }
   const updateTotalQty = async()=>{
     const newStatus = quantity > 0 ? "available" : "unavailable";
     try{
-      const updateTotalQuantity  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
-            status:newStatus,
-            quantity: totalQuantity
-          })
+      const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
+        quantity: totalQuantity,
+        status: newStatus
+    })
     }catch(e){
       console.log(e);
     }
@@ -213,7 +225,6 @@ const Equipments = ({userDetails}) => {
     }
   };
 
-
     useEffect(() => {
       getEquipData();
       getLabDetails();
@@ -227,14 +238,21 @@ const Equipments = ({userDetails}) => {
     }
 
   return (
+
+    isLoading?(
+      <div className='w-full h-screen flex items-center justify-center'>
+              <div className="custom-loader "></div>
+            </div>
+    ):(
+
     <div className='bg-blue-100'>
       {/* <Navbar setLoginUser={setLoginUser}/> */}
       <div className="h-[300px] bg-blue-100">
   <div className="relative h-[200px] bg-[#78C7DF] flex justify-center items-center">
-    <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white ">
+    <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white cursor-context-menu">
       <h2>Book Equipments</h2>
     </div>
-    <div className="absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2">
+    <div className="absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
       <h3 className="font-bold mb-2">Lab Details</h3>
       <ul className="space-y-2">
         <li>
@@ -265,26 +283,42 @@ const Equipments = ({userDetails}) => {
   </div>
 </div>
 
-      <div className='flex w-full justify-end bg-blue-100'>
-        {
-            userDetails.email == labDetail.email ? (
-              <div className="text-center md:text-left flex justify-end mr-4 mt-10 mb-4"> 
-                <button onClick={handleAdminPreview} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
-                    Booking Requests
+      <div className='flex w-full justify-between bg-blue-100 mt-4'>
+          <form class="w-[300px] flex items-center ml-10">   
+                <label for="simple-search" class="sr-only">Search</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg aria-hidden="true" class="w-5 h-5 text-black dark:text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Equipment" required/>
+                </div>
+                <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <span class="sr-only">Search</span>
                 </button>
-              </div>              
-            ):(null)
-        }
-        {
-          userDetails.email == labDetail.email && userDetails.userType == "Admin" ? (
-            <div className="text-center md:text-left flex justify-end mr-14 mt-10 mb-4" > 
-            <button onClick={handleClick} className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>+ Add Equipments</button>
-          </div>
-          ):(null)
-        }
+            </form>
+            <div className='flex'>
+                {
+                    userDetails.email == labDetail.email || userDetails.userType == "SuperAdmin" ? (
+                      <div className="text-center md:text-left flex items-center justify-end mr-4 "> 
+                        <button onClick={handleAdminPreview} className='bg-[#75cce7] p-2 h-fit  rounded-md hover:brightness-90'>
+                            Booking Requests
+                        </button>
+                      </div>              
+                    ):(null)
+                }
+                {
+                  userDetails.email == labDetail.email && userDetails.userType == "Admin" ||  userDetails.userType == "SuperAdmin" ? (
+                    <div className="text-center md:text-left flex items-center justify-end mr-4" > 
+                    <button onClick={handleClick} className='bg-[#75cce7] p-2 h-fit rounded-md hover:brightness-90'>+ Add Equipments</button>
+                  </div>
+                  ):(null)
+                }
+            </div>
       </div>
 {/* Equipment table */}
-        <div className="w-11/12 justify-center mx-auto flex flex-col ">
+{
+        <div className="w-11/12 justify-center mx-auto flex flex-col mt-6">
             <div className="overflow-x-auto shadow-md sm:rounded-lg border border-black">
               <div className="inline-block min-w-full align-middle dark:bg-[#EBF0FA] ">
                 <div className="overflow-hidden ">
@@ -295,13 +329,13 @@ const Equipments = ({userDetails}) => {
                         </th>
                         <th
                           scope="col"
-                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA] flex items-center justify-center"
                         >
                           EQUIPMENT NAME
                         </th>
                         <th
                           scope="col"
-                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA] "
                         >
                           MAKE OF EQUIPMENT
                         </th>
@@ -327,16 +361,23 @@ const Equipments = ({userDetails}) => {
                       </tr>
                     </thead>
                       {
+                        isLoading?(
+                          <div className='w-full h-screen flex items-center justify-center'>
+                          <div className="custom-loader "></div>
+                          </div>
+                        ):(
                           data.map((item) => {
                               return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked}
                               />
                           })
+                          )
                       }
                   </table>
                 </div>
               </div>
             </div>
           </div>
+}
           <div id="showCalender" className='h-[1px] bg-black mt-10'>
 
           </div>
@@ -408,8 +449,8 @@ const Equipments = ({userDetails}) => {
          
           <div
             className="text-center md:text-left flex justify-center pt-6 pb-4 items-center bg-blue-100" 
-            onClick={handleBookSlot}> 
-            <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90'>
+            > 
+            <button className='bg-[#75cce7] p-2 rounded-md hover:brightness-90' onClick={handleBookSlot}>
               Confirm Slot
             </button>
           </div>
@@ -417,6 +458,7 @@ const Equipments = ({userDetails}) => {
               <Footer/>
             </div>
     </div>
+    )
   )
 }
 

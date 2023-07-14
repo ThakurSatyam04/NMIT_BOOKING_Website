@@ -8,7 +8,7 @@ const EquipSchema = new mongoose.Schema(
         },
         makeOfEquip: {
             type: String,
-            required: true,
+            required: false,
         },
         model: {
             type: String,

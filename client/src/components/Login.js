@@ -1,10 +1,9 @@
 import React, {useState,useRef,useEffect} from 'react'
 import axios from 'axios'
-import { Link, useNavigate, } from 'react-router-dom'
+import { Link, useNavigate,NavLink } from 'react-router-dom'
 import bg_img from "../assets/Bg_Img.png"
 import {AiFillEye,AiFillEyeInvisible} from "react-icons/ai";
 import {toast} from "react-hot-toast";
-import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
 
 const Login = ({setLoginUser,setIsloggedIn}) => {
     const[showPassword , setShowPassword] = useState(false);
@@ -121,10 +120,10 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
 
           </div>
 
-          <div className="mt-4 flex justify-between font-semibold text-sm">
-            <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">
-            </label>
-            <a className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4" href="#">Forgot Password?</a>
+          <div className="w-full mt-4 flex justify-end font-semibold text-sm text-blue-900 hover:text-red-900">
+              <NavLink to="/password-reset">
+                Forgot Password?
+              </NavLink>
           </div>
           <div className="text-center md:text-left">
               <button className=" bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" type="submit">Login</button>

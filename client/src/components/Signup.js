@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import bg_img from "../assets/Bg_Img.png"
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_ ]{3,23}$/;
 const EMAIL_REGEX =  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,24}$/;
 

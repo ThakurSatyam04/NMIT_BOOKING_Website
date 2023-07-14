@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/", createLab);
 router.put("/:id", updateLab);
-router.delete("/:id",verifyAdmin, deleteLab);
+router.delete("/deleteLab/:id", deleteLab);
 router.get("/:id", getLab);
 router.get("/", getAllLab);
 router.get("/equip/:id", getEquips)

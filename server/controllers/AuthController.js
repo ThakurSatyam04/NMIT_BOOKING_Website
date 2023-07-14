@@ -2,6 +2,11 @@ import User from "../models/User.js"
 import bcrypt from "bcrypt"
 import { createError } from "../utils/error.js"; 
 import dotenv from "dotenv"
+
+// For forgot password
+import nodemailer from 'nodemailer'
+import jwt from 'jsonwebtoken'
+
 dotenv.config();
 
 export const signup = async (req,res,next) => {
@@ -81,3 +86,107 @@ export const login = async (req,res,next) => {
         return next(createError(500, "Server Error"))
     }
 };
+
+const transporter = nodemailer.createTransport({
+    // service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'satyamrock04.2000@gmail.com',
+      pass: 'lupdurkjmcqggaha'
+    }
+});
+
+export const sendPasswordLink = async (req,res,next) => {
+
+    const {email} = req.body;
+
+    if(!email){
+        res.status(401).json({status:401, message:"Enter your email"})
+    }
+
+    try {
+        const userfind = await User.findOne({email:email});
+
+        // token generate for reset password
+        const token = jwt.sign({_id:userfind._id},process.env.JWT_SECRET,{
+            expiresIn:"1d"
+        });
+        // console.log(token)
+
+        // const token = await userfind.generateAuthToken();
+        
+        const setusertoken = await User.findByIdAndUpdate({_id:userfind._id},{verifyToken:token},{new:true});
+
+        if(setusertoken){
+            const mailOptions = {
+                from:'satyamrock04.2000@gmail.com',
+                to:email,
+                subject:"Sending Email For password Reset",
+                text:`This Link Valid For 2 MINUTES http://localhost:3000/forgotpassword/${userfind.id}/${setusertoken.verifyToken}`
+            }
+
+            transporter.sendMail(mailOptions,(error,info)=>{
+                if(error){
+                    console.log("error",error);
+                    res.status(401).json({status:401,message:"email not send"})
+                }else{
+                    console.log("Email sent",info.response);
+                    res.status(201).json({status:201,message:"Email sent Succsfully"})
+                }
+            })
+
+        }
+
+    } catch (error) {
+        next(error)
+    }
+} 
+
+export const VerifyUser = async (req,res,next) => {
+    const {id,token} = req.params;
+
+    try {
+        const validuser = await User.findOne({_id:id,verifyToken:token});
+        const VerifyToken = jwt.verify(token,process.env.JWT_SECRET);
+
+        // console.log(VerifyToken)
+
+        if(validuser && VerifyToken._id){
+            res.status(201).json({status:201,validuser})
+        }else{
+            res.status(401).json({status:401,message:"user not exist"})
+        }
+
+    } catch (error) {
+        res.status(401).json({status:401,error})
+    }
+
+}
+
+export const changePassword = async (req,res,next) => {
+    const {id,token} = req.params;
+
+    const {password} = req.body;
+
+    try {
+        const validuser = await User.findOne({_id:id,verifyToken:token});
+        
+        const VerifyToken = jwt.verify(token,process.env.JWT_SECRET);
+
+        if(validuser && VerifyToken._id){
+            const newpassword = await bcrypt.hash(password,12);
+
+            const setnewuserpass = await User.findByIdAndUpdate({_id:id},{password:newpassword});
+
+            setnewuserpass.save();
+            res.status(201).json({status:201,setnewuserpass})
+
+        }else{
+            res.status(401).json({status:401,message:"user not exist"})
+        }
+    } catch (error) {
+        res.status(401).json({status:401,error})
+    }
+}
