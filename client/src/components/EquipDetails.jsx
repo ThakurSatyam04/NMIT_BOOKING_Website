@@ -11,7 +11,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState("")
   const navigate = useNavigate();
-  
+
   const handleChange=(e)=>{
     const id = e.target.value;
     if(e.target.checked){
@@ -47,27 +47,26 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     }
   }
 
-  // const handleStatus =()=>{
-  //   if(quantity>0){
-  //     setStatus("available");
-  //   }
-  //   else{
-  //     setStatus("unavailable")
-  //   }
-  // }
+  const handleStatus =()=>{
+    if(quantity>0){
+      setStatus("available");
+    }
+    else{
+      setStatus("unavailable")
+    }
+  }
 
   const handleEdit = async()=>{
     try{
-      console.log(quantity)
       alert("press Ok to edit");
       navigate(`/editEquipForm/${labId}/${_id}`)
     }catch(e){
     }
   }
 
-  // useEffect(()=>{
-  //   handleStatus();
-  // },[])
+  useEffect(()=>{
+    handleStatus();
+  },[])
 
   return (
     <>
@@ -106,7 +105,13 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-pre-wrap dark:text-black break-words border-r-2 border-gray-300"
               >
-                {quantity}
+                {
+                  clickToTime?(
+                    quantity
+                  ):(
+                    totalQuantity
+                  )
+                }
               </td>
               <td
               className={classNames("py-4 px-6 text-sm font-medium text-black whitespace-nowrap border-r-2 border-gray-300",{

@@ -114,34 +114,30 @@ const Equipments = ({userDetails}) => {
   const handleFromTimeChange = (e) => {
     setFromTime(e.target.value);
   }
-  
+
   const handleToTimeChange = async(e) => {
     setToTime(e.target.value)
     setClickToTime(true);
     const selectedToTime = e.target.value
-    try {
+    console.log(totalQuantity)
       const bookedSlots = await handleEquipQuantity(selectedToTime,date);
-      console.log(bookedSlots)
-      const remaining = totalQuantity - bookedSlots
-      const newStatus = remaining > 0 ? "available" : "unavailable";
-      // console.log(bookedSlots)
-      if(remaining==0){
-        toast.error("Equipment not available for this slot")
-      }
-      // try{
-      //   const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, {
-      //     quantity: totalQuantity - bookedSlots,
-      //     status: newStatus
-      //   })
-      // }catch(e){
-      //   console.log(e)
-      // }
-      // console.log(totalQuantity - bookedSlots)
-      setQuantity(remaining)
-      setStatus(newStatus)
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   const remaining = totalQuantity - bookedSlots
+    //   const newStatus = remaining > 0 ? "available" : "unavailable";
+    //   console.log(totalQuantity)
+    //   try{
+    //     const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, {
+    //       quantity: totalQuantity - bookedSlots,
+    //       status: newStatus
+    //   })
+    //   }catch(e){
+    //     console.log(e)
+    //   }
+      setQuantity(totalQuantity - bookedSlots)
+      // Perform further actions with the bookedSlots value
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
   
   const handleEquipQuantity = async (selectedToTime,date) => {
@@ -412,7 +408,7 @@ const Equipments = ({userDetails}) => {
                           })
                             ) : (
                               filteredEquip.map((item) => {
-                                return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime}
+                                return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime} 
                                 />
                             })
                             )
