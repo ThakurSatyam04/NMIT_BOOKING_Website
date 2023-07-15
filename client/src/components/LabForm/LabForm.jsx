@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../Button_comp'
+import { APIURL } from '../../env';
 
 const EquipForm = () => {
 
@@ -32,7 +33,7 @@ const EquipForm = () => {
     try{
       const {labName,department,labNo,labIncharge,contact,email} = lab;
       if(labName && labNo && labIncharge && contact && email && department){
-        await axios.post("http://localhost:3001/api/labs/",lab)
+        await axios.post(`${APIURL}/api/labs/`,lab)
          .then(res =>{
            console.log(res)
            toast.success("Lab added Successfully!", {

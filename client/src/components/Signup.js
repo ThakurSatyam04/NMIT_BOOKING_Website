@@ -6,6 +6,7 @@ import {toast} from 'react-hot-toast'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import bg_img from "../assets/Bg_Img.png"
+import { APIURL } from '../env';
 
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_ ]{3,23}$/;
 const EMAIL_REGEX =  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -94,7 +95,7 @@ const handleSignUp = async(e)=>{
       const {name,email,password,confirmPassword} = user;
       if(name && email && password === confirmPassword){
       const X = {...user,userType} 
-      await axios.post("http://localhost:3001/api/auth/signup",X)
+      await axios.post(`${APIURL}/api/auth/signup`,X)
         .then(res =>{
           // console.log(res)
           navigate("/login");

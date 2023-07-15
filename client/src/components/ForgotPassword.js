@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router-dom'
 import {AiFillEye,AiFillEyeInvisible} from "react-icons/ai";
+import { APIURL } from '../env';
 
 const ForgotPassword = () => {
 
@@ -16,7 +17,7 @@ const ForgotPassword = () => {
 
   const userValid = async () => {
     try {
-      const data = await axios.get(`http://localhost:3001/api/auth/forgotpassword/${id}/${token}`)
+      const data = await axios.get(`${APIURL}/api/auth/forgotpassword/${id}/${token}`)
       .then( res => {
         if(res.status == 201){
           
@@ -37,7 +38,7 @@ const ForgotPassword = () => {
   const sendPassword = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post(`http://localhost:3001/api/auth/${id}/${token}`, {password})
+      const data = await axios.post(`${APIURL}/api/auth/${id}/${token}`, {password})
       .then( res => {
         if(res.status == 201){
           setPassword("")

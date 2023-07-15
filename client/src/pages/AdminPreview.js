@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Footer from '../components/Footer.js';
 import AdminPreviewSlots from '../components/AdminPreviewSlots';
+import { APIURL } from '../env.js';
 
 const AdminPreview = ({userDetails}) => {
 
@@ -15,7 +16,7 @@ const AdminPreview = ({userDetails}) => {
   
     const getData = async () => {
         try {
-            const {data} = await axios.get(`http://localhost:3001/api/equip/slots/${_id}`)
+            const {data} = await axios.get(`${APIURL}/api/equip/slots/${_id}`)
             setData(data)
         } catch(e){
             console.log(e)

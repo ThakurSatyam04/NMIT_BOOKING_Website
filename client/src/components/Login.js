@@ -4,6 +4,7 @@ import { Link, useNavigate,NavLink } from 'react-router-dom'
 import bg_img from "../assets/Bg_Img.png"
 import {AiFillEye,AiFillEyeInvisible} from "react-icons/ai";
 import {toast} from "react-hot-toast";
+import { APIURL } from '../env';
 
 const Login = ({setLoginUser,setIsloggedIn}) => {
     const[showPassword , setShowPassword] = useState(false);
@@ -38,7 +39,7 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
       const handleLogin = async(e)=>{
         e.preventDefault();
         try{
-          await axios.post("http://localhost:3001/api/auth/login",user)
+          await axios.post(`${APIURL}/api/auth/login`,user)
           .then(res =>{
             if(user){
               // console.log(res)

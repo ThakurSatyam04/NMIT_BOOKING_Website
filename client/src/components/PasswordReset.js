@@ -4,6 +4,7 @@ import { Link, useNavigate, NavLink } from 'react-router-dom'
 import bg_img from "../assets/Bg_Img.png"
 import {AiFillEye,AiFillEyeInvisible} from "react-icons/ai";
 import {toast} from "react-hot-toast";
+import { APIURL } from '../env';
 
 const PasswordReset = ({userDetails}) => {
 
@@ -22,7 +23,7 @@ const PasswordReset = ({userDetails}) => {
         setIsLoading(true);
         if(email == userDetails.email){
           try {
-            await axios.post("http://localhost:3001/api/auth/sendpasswordlink", {email})
+            await axios.post(`${APIURL}/api/auth/sendpasswordlink`, {email})
             .then( res => {
               if(res.status == 201){
                   setEmail("")

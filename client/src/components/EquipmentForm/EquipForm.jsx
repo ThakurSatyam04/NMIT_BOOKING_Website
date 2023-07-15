@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import Button from "../Button_comp";
+import { APIURL } from '../../env';
 
 const EquipForm = () => {
 
@@ -48,7 +49,7 @@ const EquipForm = () => {
       // setQuantity(equip.totalQuantity)
       if(equipName || makeOfEquip || model || totalQuantity){
         const X = { ...equip, quantity: totalQuantity };
-        await axios.post(`http://localhost:3001/api/equip/${_id}`,X)
+        await axios.post(`${APIURL}/api/equip/${_id}`,X)
         .then(res =>{
           // console.log(res)
           toast.success("Equipment added successfully", {

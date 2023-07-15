@@ -3,6 +3,7 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import PopupPage from "./RejectReasionPopUp";
 import {toast} from 'react-hot-toast'
+import { APIURL } from '../env';
 
 const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsLoading}) => {
   const [isClicked, setIsClicked] = useState(false);
@@ -45,7 +46,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
     if(confirmed){
       setIsLoading(true)
       const EmailDetails = {...isEmail,userDetails,slotDate,slotToTime,slotFromTime,equipName,FacultyEmail,FacultyName}
-      const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/confirm",EmailDetails);
+      const sendEmail =  await axios.post(`${APIURL}/api/send-mail/confirm`,EmailDetails);
       toast.success("Request Confirmed");
       setIsClicked(true);
       setIsLoading(false);

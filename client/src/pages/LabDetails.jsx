@@ -4,6 +4,7 @@ import {toast} from 'react-hot-toast'
 import lab_img from "../assets/Lab_Img.png"
 import { useNavigate} from 'react-router-dom'
 import { MdDeleteForever } from "react-icons/md";
+import { APIURL } from '../env';
 
 const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,picture,equipments,featured,userDetails}) => {    
 
@@ -17,7 +18,7 @@ const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,pi
       const confirmed = window.confirm("Are you sure you want to delete the lab?");
   
       if (confirmed) {
-        const deleteLab = await axios.delete(`http://localhost:3001/api/labs/deleteLab/${labId}`);
+        const deleteLab = await axios.delete(`${APIURL}/api/labs/deleteLab/${labId}`);
         window.location.reload();
         toast.success("Lab deleted successfully");
       } else {

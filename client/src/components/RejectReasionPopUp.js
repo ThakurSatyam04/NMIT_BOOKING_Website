@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {AiOutlineCloseCircle} from "react-icons/ai"
 import axios from 'axios'
 import {toast} from 'react-hot-toast'
+import { APIURL } from '../env'
 
 const RejectReasionPopUp = ({setPopupVisible,isEmail,setIsClicked,FacultyEmail,FacultyName,equipName,slotToTime,slotFromTime,slotDate,userDetails}) => {
 
@@ -10,7 +11,7 @@ const RejectReasionPopUp = ({setPopupVisible,isEmail,setIsClicked,FacultyEmail,F
     const handleReject = async(e)=>{
         e.preventDefault();
         const EmailDetails = {...isEmail,userDetails,slotDate,slotToTime,slotFromTime,equipName,FacultyEmail,FacultyName,rejectResion}
-        const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/reject",EmailDetails);
+        const sendEmail =  await axios.post(`${APIURL}/api/send-mail/reject`,EmailDetails);
         toast.success("Request Rejected");
         setIsClicked(true);
         setPopupVisible(false);

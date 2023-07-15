@@ -5,6 +5,7 @@ import {toast} from 'react-hot-toast'
 import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
+import { APIURL } from "../env";
 
 const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity,setIsChecked,clickToTime}) => {
 // console.log(_id)
@@ -33,7 +34,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     try{
       const confirmed = window.confirm("Are you sure you want to delete the lab?");
       if(confirmed){
-        const deleteEquip = await axios.delete(`http://localhost:3001/api/equip/${labId}/${_id}`)
+        const deleteEquip = await axios.delete(`${APIURL}/api/equip/${labId}/${_id}`)
         window.location.reload();
         toast.success("Equipment deleted successfully");
         // console.log(deleteEquip)

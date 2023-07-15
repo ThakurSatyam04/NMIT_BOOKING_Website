@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 // import useFetch from "../hooks/useFetch"
 import Featured from '../components/Featured'
 import axios from 'axios';
+import { APIURL } from '../env';
 
 const FeaturedPage = ({loggedIn}) => {
 
@@ -9,7 +10,7 @@ const FeaturedPage = ({loggedIn}) => {
 
     const getFeatured = async () =>{
       try{
-        const {data} = await axios.get("http://localhost:3001/api/labs?featured=true")
+        const {data} = await axios.get(`${APIURL}/api/labs?featured=true`)
         setData(data)
         // console.log(data)
       }catch(err){

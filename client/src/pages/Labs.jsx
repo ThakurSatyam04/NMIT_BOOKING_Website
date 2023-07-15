@@ -5,6 +5,7 @@ import LabDetails from './LabDetails.jsx';
 import { Link } from 'react-router-dom';
 import Button from "../components/Button_comp.js";
 import Footer from '../components/Footer.js'
+import { APIURL } from '../env.js';
 
 const Labs = ({userDetails}) => {
 
@@ -29,7 +30,7 @@ const Labs = ({userDetails}) => {
     const getData = async () => {
       setIsLoading(true);
       try{
-        const {data} = await axios.get("http://localhost:3001/api/labs")
+        const {data} = await axios.get(`${APIURL}/api/labs`)
         setData(data)
         setFilteredLabs(data)
         // console.log(data)
