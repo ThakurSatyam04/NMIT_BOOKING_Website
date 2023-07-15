@@ -275,43 +275,43 @@ const Equipments = ({userDetails}) => {
             </div>
     ):(
 
-    <div className='bg-blue-100'>
-      {/* <Navbar setLoginUser={setLoginUser}/> */}
+      <div className="bg-blue-100">
       <div className="h-[300px] bg-blue-100">
-  <div className="relative h-[200px] bg-[#78C7DF] flex justify-center items-center">
-    <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white cursor-context-menu">
-      <h2>Book Equipments</h2>
-    </div>
-    <div className="absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
-      <h3 className="font-bold mb-2">Lab Details</h3>
-      <ul className="space-y-2">
-        <li>
-          <span className="font-semibold">
-            {labDetail.labName} ({labDetail.labNo})
-          </span>
-        </li>
-        <li>
-          <span className="font-semibold">Department: </span>
-          {labDetail.department}
-        </li>
-        <li>
-          <span className="font-semibold">Faculty In Charge: </span>
-          {labDetail.labIncharge}, Professor &amp; Head
-        </li>
-        <li>
-          <a className="text-green-600" href={`tel:${labDetail.contact}`}>
-            {labDetail.contact}
-          </a>
-        </li>
-        <li>
-          <a className="text-blue-900" href={`mailto:${labDetail.email}`}>
-            {labDetail.email}
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+        <div className="relative h-[200px] bg-[#78C7DF] flex justify-center items-center">
+          <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white cursor-context-menu">
+            <h2>Book Equipments</h2>
+          </div>
+          <div className="absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
+            <h3 className="font-bold mb-2">Lab Details</h3>
+            <ul className="space-y-2">
+              <li>
+                <span className="font-semibold">
+                  {labDetail.labName} ({labDetail.labNo})
+                </span>
+              </li>
+              <li>
+                <span className="font-semibold">Department: </span>
+                {labDetail.department}
+              </li>
+              <li>
+                <span className="font-semibold">Faculty In Charge: </span>
+                {labDetail.labIncharge}, Professor &amp; Head
+              </li>
+              <li>
+                <a className="text-green-600" href={`tel:${labDetail.contact}`}>
+                  {labDetail.contact}
+                </a>
+              </li>
+              <li>
+                <a className="text-blue-900" href={`mailto:${labDetail.email}`}>
+                  {labDetail.email}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    
 
       <div className='flex w-full justify-between bg-blue-100 mt-4'>
           <form class="w-[300px] flex items-center ml-10">   
