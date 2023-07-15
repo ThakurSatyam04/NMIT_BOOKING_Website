@@ -7,10 +7,10 @@ import { AiOutlineWhatsApp } from 'react-icons/ai';
 const Footer = () => {
   return (
     <div>
-      <footer id='contact' className="bg-blue-200 text-black py-8">
+      <footer id='contact' className="bg-blue-200 text-black py-8 ">
       <div className="container mx-auto px-4 ">
         {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 "> */}
-        <div className="flex justify-around gap-8 ">
+        <div className="flex justify-around gap-8">
           <div className='w-[500px]'>
             <h3 className="text-lg font-bold mb-4">Contact Us</h3>
             <p>

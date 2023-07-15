@@ -275,46 +275,47 @@ const Equipments = ({userDetails}) => {
             </div>
     ):(
 
-      <div className="bg-blue-100">
+    <div className='bg-blue-100'>
       <div className="h-[300px] bg-blue-100">
-        <div className="relative h-[200px] bg-[#78C7DF] flex justify-center items-center">
-          <div className="absolute top-1/4 right-2/3 text-3xl font-bold text-white cursor-context-menu">
-            <h2>Book Equipments</h2>
-          </div>
-          <div className="absolute h-full w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
-            <h3 className="font-bold mb-2">Lab Details</h3>
-            <ul className="space-y-2">
-              <li>
-                <span className="font-semibold">
-                  {labDetail.labName} ({labDetail.labNo})
-                </span>
-              </li>
-              <li>
-                <span className="font-semibold">Department: </span>
-                {labDetail.department}
-              </li>
-              <li>
-                <span className="font-semibold">Faculty In Charge: </span>
-                {labDetail.labIncharge}, Professor &amp; Head
-              </li>
-              <li>
-                <a className="text-green-600" href={`tel:${labDetail.contact}`}>
-                  {labDetail.contact}
-                </a>
-              </li>
-              <li>
-                <a className="text-blue-900" href={`mailto:${labDetail.email}`}>
-                  {labDetail.email}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+  <div className="relative h-[200px] bg-[#78C7DF] md:flex md:justify-center md:items-center">
+    <div className="md:absolute md:top-1/4 md:right-2/3 md:text-3xl font-bold pt-10 pl-4 md:pt-0 text-white cursor-context-menu">
+      <h2>Book Equipments</h2>
+    </div>
+    <div className='w-full flex items-center justify-center'>
+      <div className="absolute md:h-full w-full md:w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
+        <h3 className="font-bold mb-2">Lab Details</h3>
+        <ul className="space-y-2">
+          <li>
+            <span className="font-semibold">
+              {labDetail.labName} ({labDetail.labNo})
+            </span>
+          </li>
+          <li>
+            <span className="font-semibold">Department: </span>
+            {labDetail.department}
+          </li>
+          <li>
+            <span className="font-semibold">Faculty In Charge: </span>
+            {labDetail.labIncharge}, Professor &amp; Head
+          </li>
+          <li>
+            <a className="text-green-600" href={`tel:${labDetail.contact}`}>
+              {labDetail.contact}
+            </a>
+          </li>
+          <li>
+            <a className="text-blue-900" href={`mailto:${labDetail.email}`}>
+              {labDetail.email}
+            </a>
+          </li>
+        </ul>
       </div>
-    
+    </div>
+  </div>
+</div>
 
-      <div className='flex w-full justify-between bg-blue-100 mt-4'>
-          <form class="w-[300px] flex items-center ml-10">   
+      <div className='flex flex-col md:flex-row w-full justify-between items-center bg-blue-100 mt-4'>
+          <form class="w-[300px] flex items-center md:ml-10 ml-0 mb-4 md:mb-0 mt-4 md:mt-0">   
                 <label for="simple-search" class="sr-only">Search</label>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
