@@ -34,7 +34,7 @@ const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,pi
     <div className="relative font-style flex  w-full items-center justify-center" >
       <div className='bg-[#DDEFF9] mb-2 rounded-lg'>
 
-        <div className=" font-style w-[500px] flex flex-col mx-auto my-2 rounded-lg text-slate-950 bg-[#DDEFF9] md:max-w-xl md:flex-row items-center hover:brightness-90 transition duration-200 ease-in-out" onClick={handleClick}>
+        <div className=" font-style md:w-[500px] w-[300px] flex flex-col mx-auto my-2 rounded-lg text-slate-950 bg-[#DDEFF9] md:max-w-xl md:flex-row items-center hover:brightness-90 transition duration-200 ease-in-out" onClick={handleClick}>
           <img
             className="h-48 w-full md:m-4 rounded-t-lg object-cover md:h-30 md:w-52 md:rounded-lg"
             src={lab_img}
