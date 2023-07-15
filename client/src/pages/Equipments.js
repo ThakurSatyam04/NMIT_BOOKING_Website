@@ -120,19 +120,24 @@ const Equipments = ({userDetails}) => {
     const selectedToTime = e.target.value
     try {
       const bookedSlots = await handleEquipQuantity(selectedToTime,date);
+      console.log(bookedSlots)
       const remaining = totalQuantity - bookedSlots
       const newStatus = remaining > 0 ? "available" : "unavailable";
       // console.log(bookedSlots)
-      try{
-        const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
-          quantity: totalQuantity - bookedSlots,
-          status: newStatus
-      })
-      }catch(e){
-        console.log(e)
+      if(remaining==0){
+        toast.error("Equipment not available for this slot")
       }
-      setQuantity(totalQuantity - bookedSlots)
-      // Perform further actions with the bookedSlots value
+      // try{
+      //   const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
+      //     quantity: totalQuantity - bookedSlots,
+      //     status: newStatus
+      //   })
+      // }catch(e){
+      //   console.log(e)
+      // }
+      // console.log(totalQuantity - bookedSlots)
+      setQuantity(remaining)
+      setStatus(newStatus)
     } catch (error) {
       console.error(error);
     }
@@ -166,69 +171,79 @@ const Equipments = ({userDetails}) => {
 
   const handleBookSlot = async (e) => {
     e.preventDefault();
-    
-    // Decrease the quantity and update the status
-    const newQuantity = quantity > 0 ? quantity - 1 : 0;
-    const newStatus = newQuantity > 0 ? "available" : "unavailable";
-    if(clickToTime){
+    if(quantity>0){
 
-      setIsLoading(true);
-      try{
-        const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
-          status: newStatus,
-          quantity: newQuantity
-        })
+      const newQuantity = quantity > 0 ? quantity - 1 : 0;
+      const newStatus = newQuantity > 0 ? "available" : "unavailable";
   
-        const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
-  
-        const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
-        const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/book",EmailDetails);
-        updateTotalQty();
-        // Show the toast with a longer duration
-        toast.success("Booking Request Sent Successfully", {
-          autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
-        });
-        
-        // console.log(totalQuantity)
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000); 
-        setIsLoading(false)
-        
+      if(clickToTime){
+        setIsLoading(true);
+        try{
+          const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
+            status: newStatus,
+            quantity: newQuantity
+          })
+    
+          const timeSlot = await axios.put(`http://localhost:3001/api/equip/slots/${equipid}`, newTimeSlot)
+    
+          const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
+          const sendEmail =  await axios.post("http://localhost:3001/api/send-mail/book",EmailDetails);
+          // Show the toast with a longer duration
+          toast.success("Booking Request Sent Successfully", {
+            autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+          });
+          
+          // console.log(totalQuantity)
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000); 
+          setIsLoading(false)
+          setClickToTime(false);
+        }
+        catch(err){
+          console.error(err);
+        }
       }
-      catch(err){
-        console.error(err);
+      else{
+        toast.error("Please select slot's date and time..")
       }
     }
     else{
-      toast.error("Please select slot's date and time..")
+      toast.error("Equipment unavailable")
     }
+    // Decrease the quantity and update the status
   }
   const updateTotalQty = async()=>{
     const newStatus = quantity > 0 ? "available" : "unavailable";
-    try{
-      const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, {
-        quantity: totalQuantity,
-        status: newStatus
-    })
-    }catch(e){
-      console.log(e);
-    }
+      try{
+          const quantity = totalQuantity;
+          const status = newStatus;
+          const X = {quantity,status}
+          const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, X);
+        }catch(e){
+          console.log(e);
+        }
   }
 
-  const handleStatus =()=>{
-    if(quantity>0){
-      setStatus("available");
-    }
-    else{
-      setStatus("unavailable")
+  const handleStatus =async()=>{
+    try{
+      if(quantity>0){
+        setStatus("available");
+        const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, status)
+      }
+      else{
+        setStatus("unavailable")
+        const updateResponse  = await axios.put(`http://localhost:3001/api/equip/status/${equipid}`, status)
+      } 
+    }catch(e){
+      console.log(e)
     }
   }
   // console.log(totalQuantity)
   
-  // useEffect(()=>{
-  //   getEquipData();
-  // },[handleBookSlot])
+  useEffect(()=>{
+    getEquipData();
+  },[handleToTimeChange])
 
   const deleteExpiredSlots = async () => {
     try {
@@ -390,12 +405,12 @@ const Equipments = ({userDetails}) => {
                         ):(
                           searchTerm === '' ? (
                             data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity}
+                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime}
                               />
                           })
                             ) : (
                               filteredEquip.map((item) => {
-                                return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity}
+                                return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime}
                                 />
                             })
                             )

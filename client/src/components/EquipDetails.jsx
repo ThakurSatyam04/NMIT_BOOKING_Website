@@ -6,7 +6,7 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity,setIsChecked}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity,setIsChecked,clickToTime}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState("")
   const navigate = useNavigate();
@@ -46,14 +46,14 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     }
   }
 
-  const handleStatus =()=>{
-    if(quantity>0){
-      setStatus("available");
-    }
-    else{
-      setStatus("unavailable")
-    }
-  }
+  // const handleStatus =()=>{
+  //   if(quantity>0){
+  //     setStatus("available");
+  //   }
+  //   else{
+  //     setStatus("unavailable")
+  //   }
+  // }
 
   const handleEdit = async()=>{
     try{
@@ -64,9 +64,9 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
     }
   }
 
-  useEffect(()=>{
-    handleStatus();
-  },[])
+  // useEffect(()=>{
+  //   handleStatus();
+  // },[])
 
   return (
     <>
