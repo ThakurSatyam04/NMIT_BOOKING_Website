@@ -7,15 +7,17 @@ import {useNavigate} from 'react-router-dom'
 import classNames from "classnames";
 import { APIURL } from "../env";
 
-const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity,setIsChecked,clickToTime}) => {
+const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,setEquipid,setQuantity,setStatus,userDetails,labDetail,setEquipName,setTotalQuantity,totalQuantity,setIsChecked,clickToTime,isChecked}) => {
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState("")
   const navigate = useNavigate();
+  const [id,setId] = useState(false)
 
   const handleChange=(e)=>{
     const id = e.target.value;
     if(e.target.checked){
       setEquipid(_id) 
+      setId(true)
       setSelectedEquip((prev)=> [...prev,id]);
       setEquipName(equipName)
       setIsChecked(true);
@@ -102,25 +104,25 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
               >
                 {model}
               </td>
-              <td
-                className="py-4 px-6 text-sm font-medium text-black whitespace-pre-wrap dark:text-black break-words border-r-2 border-gray-300"
-              >
-                {
-                  clickToTime?(
-                    quantity
-                  ):(
-                    totalQuantity
-                  )
-                }
-              </td>
-              <td
-              className={classNames("py-4 px-6 text-sm font-medium text-black whitespace-nowrap border-r-2 border-gray-300",{
-                "text-green-600": status === 'available',
-                "text-red-600": status!== 'available'
-              })}
-              >
-                {status}
-              </td>
+                  <td
+                    className="py-4 px-6 text-sm font-medium text-black whitespace-pre-wrap dark:text-black break-words border-r-2 border-gray-300"
+                  >
+                    {
+                      clickToTime && id?(
+                        quantity
+                      ):(
+                        totalQuantity
+                      )
+                    }
+                  </td>
+                  <td
+                  className={classNames("py-4 px-6 text-sm font-medium text-black whitespace-nowrap border-r-2 border-gray-300",{
+                    "text-green-600": status === 'available',
+                    "text-red-600": status!== 'available'
+                  })}
+                  >
+                    {status}
+                  </td>
               {
                 userDetails.email == labDetail && userDetails.userType == "Admin" ||  userDetails.userType == "SuperAdmin"?(
                   <>

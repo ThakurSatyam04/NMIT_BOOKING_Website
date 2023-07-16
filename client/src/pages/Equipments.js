@@ -25,7 +25,7 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const timeValues = ['08:45','11:00','13:00','14:00','16:00'];
+  const timeValues = ['08:45','11:00','13:00','14:00','16:14'];
   const [totalQuantity,setTotalQuantity] = useState()
   const [isEmail, setIsEmail] = useState({
     to:"",
@@ -116,28 +116,32 @@ const Equipments = ({userDetails}) => {
   }
 
   const handleToTimeChange = async(e) => {
+    e.preventDefault();
     setToTime(e.target.value)
     setClickToTime(true);
     const selectedToTime = e.target.value
     console.log(totalQuantity)
       const bookedSlots = await handleEquipQuantity(selectedToTime,date);
-    // try {
-    //   const remaining = totalQuantity - bookedSlots
-    //   const newStatus = remaining > 0 ? "available" : "unavailable";
-    //   console.log(totalQuantity)
-    //   try{
-    //     const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, {
-    //       quantity: totalQuantity - bookedSlots,
-    //       status: newStatus
-    //   })
-    //   }catch(e){
-    //     console.log(e)
-    //   }
+      // if(quantity==0){
+      //   toast.error("Unavailable for this slot")
+      // }
+    try {
+      const remaining = totalQuantity - bookedSlots
+      const newStatus = remaining > 0 ? "available" : "unavailable";
+      console.log(totalQuantity)
+      try{
+        const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, {
+          quantity: totalQuantity - bookedSlots,
+          status: newStatus
+        })
+      }catch(e){
+        console.log(e)
+      }
       setQuantity(totalQuantity - bookedSlots)
       // Perform further actions with the bookedSlots value
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    } catch (error) {
+      console.error(error);
+    }
   }
   
   const handleEquipQuantity = async (selectedToTime,date) => {
@@ -206,20 +210,9 @@ const Equipments = ({userDetails}) => {
       }
     }
     else{
-      toast.error("Equipment unavailable")
+      toast.error("Sorry equipment unavailable for this slot")
     }
     // Decrease the quantity and update the status
-  }
-  const updateTotalQty = async()=>{
-    const newStatus = quantity > 0 ? "available" : "unavailable";
-      try{
-          const quantity = totalQuantity;
-          const status = newStatus;
-          const X = {quantity,status}
-          const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, X);
-        }catch(e){
-          console.log(e);
-        }
   }
 
   const handleStatus =async()=>{
@@ -389,29 +382,22 @@ const Equipments = ({userDetails}) => {
                         <th
                           scope="col"
                           className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
-                        >
+                          >
                           STATUS
                         </th>
-                        
                       </tr>
                     </thead>
                       {
-                        isLoading?(
-                          <div className='w-full h-screen flex items-center justify-center'>
-                          <div className="custom-loader "></div>
-                          </div>
-                        ):(
                           searchTerm === '' ? (
                             data.map((item) => {
-                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime}
+                              return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime} isChecked={isChecked}
                               />
                           })
                             ) : (
                               filteredEquip.map((item) => {
-                                return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime} 
+                                return <EquipDetails key={item._id} {...item} labId = {_id} setEquipid={setEquipid} setQuantity={setQuantity} setStatus={setStatus} toTime={toTime} userDetails={userDetails} labDetail={labDetail.email} setEquipName = {setEquipName} setTotalQuantity={setTotalQuantity} setIsChecked={setIsChecked} clickToTime={clickToTime} isChecked={isChecked}
                                 />
                             })
-                            )
                           )
                       }
                   </table>
