@@ -42,7 +42,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
 
   const handleConfirm= async(e)=>{
     e.preventDefault();
-    const confirmed = window.confirm("Are you sure you want to delete the lab?");
+    const confirmed = window.confirm("Are you sure you want to confirm the slot");
     if(confirmed){
       setIsLoading(true)
       const EmailDetails = {...isEmail,userDetails,slotDate,slotToTime,slotFromTime,equipName,FacultyEmail,FacultyName}

@@ -5,7 +5,7 @@ export const sendEmail = async (req,res,next)=>{
     const transporter = nodemailer.createTransport({
         // service: 'gmail',
         host: "smtp.gmail.com",
-        port: 587,
+        port: 587,  
         secure: false, // true for 465, false for other ports
         auth: {
           user: 'satyamrock04.2000@gmail.com',
@@ -75,7 +75,7 @@ export const sendEmail = async (req,res,next)=>{
 
 
 export const confirmEmail = async (req,res,next)=>{
-  console.log(req.body.slotFromTime)
+  console.log(req.body.FacultyEmail)
     const transporter = nodemailer.createTransport({
         // service: 'gmail',
         host: "smtp.gmail.com",
