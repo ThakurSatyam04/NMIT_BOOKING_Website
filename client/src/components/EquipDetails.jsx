@@ -121,7 +121,14 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                     "text-red-600": status!== 'available'
                   })}
                   >
-                    {status}
+                    {
+                      clickToTime?(
+                          status
+                      ):(
+                          <span className="text-green-600">available</span>
+                      )
+                    }
+                    {/* {status} */}
                   </td>
               {
                 userDetails.email == labDetail && userDetails.userType == "Admin" ||  userDetails.userType == "SuperAdmin"?(

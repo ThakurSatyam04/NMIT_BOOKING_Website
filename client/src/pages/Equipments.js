@@ -25,7 +25,8 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const timeValues = ['08:45','11:00','13:00','14:00','22:05'];
+  const fromTimeValues = ['08:45','11:00','14:00'];
+  const toTimeValues = ['10:45','13:00','16:00'];
   const [totalQuantity,setTotalQuantity] = useState()
   const [isEmail, setIsEmail] = useState({
     to:"",
@@ -173,7 +174,6 @@ const Equipments = ({userDetails}) => {
   const handleBookSlot = async (e) => {
     e.preventDefault();
     if(quantity>0){
-
       const newQuantity = quantity > 0 ? quantity - 1 : 0;
       const newStatus = newQuantity > 0 ? "available" : "unavailable";
   
@@ -210,9 +210,8 @@ const Equipments = ({userDetails}) => {
       }
     }
     else{
-      toast.error("Sorry equipment unavailable for this slot")
+      toast.error("Unavailable for this slot")
     }
-    // Decrease the quantity and update the status
   }
 
   // const handleStatus =async()=>{
@@ -310,14 +309,14 @@ const Equipments = ({userDetails}) => {
 </div>
 
       <div className='flex flex-col md:flex-row w-full justify-between items-center bg-blue-100 mt-4'>
-          <form class="w-[300px] flex items-center md:ml-10 ml-0 mb-4 md:mb-0 mt-4 md:mt-0">   
-                <label for="simple-search" class="sr-only">Search</label>
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-black dark:text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+          <form className="w-[300px] flex items-center md:ml-10 ml-0 mb-4 md:mb-0 mt-4 md:mt-0">   
+                <label htmlFor="simple-search" className="sr-only">Search</label>
+                <div className="relative w-full">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg aria-hidden="true" className="w-5 h-5 text-black dark:text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                     </div>
                     <input 
-                  class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                  className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                   type="text" 
                   id="simple-search" 
                   placeholder="Search Lab" 
@@ -326,9 +325,9 @@ const Equipments = ({userDetails}) => {
                   onChange={handleSearchTermChange}
                   />
                 </div>
-                <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    <span class="sr-only">Search</span>
+                <button type="submit" className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <span className="sr-only">Search</span>
                 </button>
             </form>
             <div className='flex'>
@@ -440,7 +439,7 @@ const Equipments = ({userDetails}) => {
         required
       >
         <option value="">-- Select start time --</option>
-        {timeValues.map((time) => (
+        {fromTimeValues.map((time) => (
           <option key={time} value={time}>
             {moment(time, 'HH:mm').format('hh:mm A')}
           </option>
@@ -460,16 +459,28 @@ const Equipments = ({userDetails}) => {
         required
       >
         <option value="">-- Select end time --</option>
-        {timeValues.map((time) => {
-          if (time > fromTime || !fromTime) {
+            {toTimeValues
+              .slice(0,fromTimeValues.indexOf(fromTime)+1)
+              .map((toTime, index) => {
+                if (toTime > fromTime || !fromTime ) {
+                  return (
+                    <option key={index} value={toTime}>
+                      {moment(toTime, 'HH:mm').format('hh:mm A')}
+                    </option>
+                  );
+              }
+              return null;
+            })}
+        {/* {toTimeValues.map((time) => {
+          if (time > fromTime || !fromTime ) {
             return (
               <option key={time} value={time}>
                 {moment(time, 'HH:mm').format('hh:mm A')}
               </option>
             );
-          }
-          return null;
-        })}
+        }
+        return null;
+        })} */}
       </select>
       <div className="pointer-events-none absolute inset-y-0 mt-4 right-0 flex items-center px-2 text-gray-700">
         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
