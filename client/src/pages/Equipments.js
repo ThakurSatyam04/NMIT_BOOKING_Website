@@ -234,7 +234,7 @@ const Equipments = ({userDetails}) => {
 
     const deleteExpiredSlots = async () => {
       try {
-        await axios.delete(`http://localhost:3001/api/equip/deleteExpiredSlots`);
+        await axios.delete(`${APIURL}/api/equip/deleteExpiredSlots`);
         console.log('Expired slots deleted successfully');
       } catch (error) {
         if (error.response && error.response.status === 404) {
