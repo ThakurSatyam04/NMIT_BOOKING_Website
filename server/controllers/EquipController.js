@@ -181,43 +181,54 @@ export const deleteEquip = async (req,res,next) => {
     }
 }
  
-export const deleteExpiredSlots = async (req,res,next) => {
-    try {
-      const currentDate = new Date();
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month, and padding with leading zero if needed
-      const day = String(currentDate.getDate()).padStart(2, '0'); // Padding with leading zero if needed
-      const formattedDate = `${year}-${month}-${day}`;
-      const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
-      const currentTime = moment(currentDate).format('HH:mm');
+export const deleteExpiredSlots = async (req, res, next) => {
+  try {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
+    const currentTime = moment(currentDate).format('HH:mm');
 
-      console.log(dateOnly)
-      console.log(currentTime)
+    console.log(dateOnly);
+    console.log(currentTime);
 
-      const result = await Equip.updateMany(
-        {
+    const result = await Equip.updateMany(
+      {
+        'slots.date': { $lte: dateOnly },
+        $or: [
+          { 'slots.toTime': { $lt: currentTime } },
+          { 'slots.date': dateOnly, 'slots.toTime': { $lte: currentTime } },
+        ],
+      },
+      {
+        $pull: {
+          slots: {
             $or: [
-              { 'slots.date': { $eq: dateOnly }, 'slots.toTime': { $lt: currentTime } },
-              { 'slots.date': { $lt: dateOnly } },
+              { date: dateOnly, toTime: { $lt: currentTime } },
+              { date: { $lt: dateOnly } },
             ],
-        },
-        {
-          $pull: {
-            'slots': {
-              $or: [
-                { date: { $eq: dateOnly }, toTime: { $lt: currentTime } },
-                { date: { $lt: dateOnly } },
-              ],
-            },
           },
-        }
-      );
-      // const totalSlots = equipment.slots.length;
-      const modifiedCount = result.nModified;
+        },
+      }
+    );
 
-    console.log(`Number of pulled slots: ${modifiedCount}`);
-    } catch (error) {
-      console.error('Failed to delete expired slots:', error);
-    }
-  };
+    const modifiedCount = result.nModified;
+
+    if (modifiedCount === 0) {
+      console.log('No expired slots found matching the current time.');
+      // Handle the case where no expired slots were found
+    } else {
+      console.log(`Number of pulled slots: ${modifiedCount}`);
+      // Handle the case where expired slots were successfully pulled
+    }
+  } 
+  catch (error) {
+    console.error('Failed to delete expired slots:', error);
+    // Handle the error or return an appropriate response
+  }
+};
+
+
 

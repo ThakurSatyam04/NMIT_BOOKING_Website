@@ -25,7 +25,7 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const timeValues = ['08:45','11:00','13:00','14:00','16:14'];
+  const timeValues = ['08:45','11:00','13:00','14:00','19:17'];
   const [totalQuantity,setTotalQuantity] = useState()
   const [isEmail, setIsEmail] = useState({
     to:"",
@@ -215,40 +215,46 @@ const Equipments = ({userDetails}) => {
     // Decrease the quantity and update the status
   }
 
-  const handleStatus =async()=>{
-    try{
-      if(quantity>0){
-        setStatus("available");
-        const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, status)
-      }
-      else{
-        setStatus("unavailable")
-        const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, status)
-      } 
-    }catch(e){
-      console.log(e)
-    }
-  }
+  // const handleStatus =async()=>{
+  //   try{
+  //     if(quantity>0){
+  //       setStatus("available");
+  //       const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, status)
+  //     }
+  //     else{
+  //       setStatus("unavailable")
+  //       const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, status)
+  //     } 
+  //   }catch(e){
+  //     console.log(e)
+  //   }
+  // }
   // console.log(totalQuantity)
   
-  useEffect(()=>{
-    getEquipData();
-  },[handleToTimeChange])
+ 
 
-  const deleteExpiredSlots = async () => {
-    try {
-      await axios.delete(`${APIURL}/api/equip/deleteExpiredSlots`);
-      console.log('Expired slots deleted successfully');
-    } catch (error) {
-      console.log('Error deleting expired slots:', error);
-    }
-  };
+    const deleteExpiredSlots = async () => {
+      try {
+        await axios.delete(`http://localhost:3001/api/equip/deleteExpiredSlots`);
+        console.log('Expired slots deleted successfully');
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.log('Expired slots not found');
+        } else {
+          console.log('Error deleting expired slots:', error);
+        }
+      }
+    };
+
+    useEffect(()=>{
+      getEquipData();
+    },[handleToTimeChange])
 
     useEffect(() => {
       getEquipData();
       getLabDetails();
       deleteExpiredSlots();
-      handleStatus();
+      // handleStatus();
       Slots();
     },[])
 

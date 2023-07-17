@@ -79,7 +79,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                   {/* <a href="#showCalender"> */}
                   <input
                     id="EquipCheckbox"
-                    type="checkbox"
+                    type="radio"
                     value={_id}
                     name="checkboxGroup"
                     className="EquipCheckbox w-4 h-4 text-blue-600 bg-gray-100 rounded  border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -108,7 +108,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                     className="py-4 px-6 text-sm font-medium text-black whitespace-pre-wrap dark:text-black break-words border-r-2 border-gray-300"
                   >
                     {
-                      clickToTime && id?(
+                      clickToTime && isChecked?(
                         quantity
                       ):(
                         totalQuantity
