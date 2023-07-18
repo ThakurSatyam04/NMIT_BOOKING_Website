@@ -223,36 +223,39 @@ export const deleteExpiredSlots = async (req, res, next) => {
 
     console.log(dateOnly);
     console.log(currentTime);
-
-    const result = await Equip.updateMany( 
-      {
-        $or: [
-          { 'slots.date': { $lt: dateOnly } },
-          { 'slots.date': dateOnly, 'slots.toTime': { $lte: currentTime } },
-        ],
-      },
-      {
-        $pull: {
-          slots: {
-            $or: [
-              { date: dateOnly, toTime: { $lt: currentTime } },
-              { date: { $lt: dateOnly } },
-            ],
-          },
+    
+    if(currentTime> '00:00'){
+      const result = await Equip.updateMany( 
+        {
+          'slots.date': { $lte: dateOnly },
+          $or: [
+            { 'slots.toTime': { $lt: currentTime } },
+            { 'slots.date': dateOnly, 'slots.toTime': { $lte: currentTime } },
+          ],
         },
+        {
+          $pull: {
+            slots: {
+              $or: [
+                { date: dateOnly, toTime: { $lt: currentTime } },
+                { date: { $lt: dateOnly } },
+              ],
+            },
+          },
+        }
+      );
+      const modifiedCount = result.nModified;
+  
+      if (modifiedCount === 0) {
+        console.log('No expired slots found matching the current time.');
+        // Handle the case where no expired slots were found
+      } else {
+        console.log(`Number of pulled slots: ${modifiedCount}`);
+        // Handle the case where expired slots were successfully pulled
       }
-    );
-
-    const modifiedCount = result.nModified;
-
-    if (modifiedCount === 0) {
-      console.log('No expired slots found matching the current time.');
-      // Handle the case where no expired slots were found
-    } else {
-      console.log(`Number of pulled slots: ${modifiedCount}`);
-      // Handle the case where expired slots were successfully pulled
+    } 
     }
-  } 
+
   catch (error) {
     console.error('Failed to delete expired slots:', error);
     // Handle the error or return an appropriate response

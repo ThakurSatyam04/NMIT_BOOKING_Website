@@ -25,8 +25,8 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const fromTimeValues = ['08:45','11:00','16:19'];
-  const toTimeValues = ['10:45','13:00','16:20'];
+  const fromTimeValues = ['08:45','11:00','16:45'];
+  const toTimeValues = ['10:45','13:00','16:46'];
   const [totalQuantity,setTotalQuantity] = useState()
   const [isEmail, setIsEmail] = useState({
     to:"",
@@ -238,18 +238,19 @@ const Equipments = ({userDetails}) => {
   
  
 
-    const deleteExpiredSlots = async () => {
-      try {
-        await axios.delete(`${APIURL}/api/equip/deleteExpiredSlots`);
-        console.log('Expired slots deleted successfully');
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          console.log('Expired slots not found');
-        } else {
-          console.log('Error deleting expired slots:', error);
-        }
+  const deleteExpiredSlots = async () => {
+    try {
+      await axios.delete(`${APIURL}/api/equip/deleteExpiredSlots`);
+      console.log('Expired slots deleted successfully');
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log('Expired slots not found');
+      } else {
+        console.log('Error deleting expired slots:', error);
       }
-    };
+    }
+  };
+  
     
 
     // useEffect(()=>{
@@ -447,6 +448,12 @@ const Equipments = ({userDetails}) => {
       >
         <option value="">-- Select start time --</option>
         {fromTimeValues.map((time) => (
+            <option key={time} value={time}>
+            {moment(time, 'HH:mm').format('hh:mm A')}
+          </option>
+          
+        ))}
+        {/* {fromTimeValues.map((time) => (
           time>currentTime && date===formattedDate?(
             <option key={time} value={time}>
             {moment(time, 'HH:mm').format('hh:mm A')}
@@ -461,7 +468,7 @@ const Equipments = ({userDetails}) => {
             )
           )
           
-        ))}
+        ))} */}
       </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
