@@ -41,7 +41,10 @@ const AdminPreview = ({userDetails}) => {
               <h2>All Booking Requests</h2>
             </div>
           </div>
-
+        {
+          data.length>0?
+          (
+            
           <div className="w-full justify-center mx-auto flex flex-col mt-10">
                 <div className="overflow-x-auto shadow-md sm:rounded-lg">
                   <div className="inline-block min-w-full align-middle dark:bg-[#EBF0FA]">
@@ -115,6 +118,12 @@ const AdminPreview = ({userDetails}) => {
                   </div>
                 </div>
               </div>
+          )
+          :
+          (
+            <div className='w-full flex items-center justify-center h-[400px] font-semibold text-2xl'>No Booking Requests...</div>
+          )
+        }
               <div id="footer" className='mt-10'>
                 <Footer/>
               </div>
