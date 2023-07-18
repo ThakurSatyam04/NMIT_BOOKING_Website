@@ -92,7 +92,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-pre-wrap dark:text-black break-words border-r-2 border-gray-300"
                 >
-                {equipName}
+                {equipName} 
               </td>
               <td
                 className="py-4 px-6 text-sm font-medium text-black whitespace-pre-wrap dark:text-black break-words border-r-2 border-gray-300"

@@ -1,13 +1,13 @@
 import nodemailer from 'nodemailer'
 
 export const sendEmail = async (req,res,next)=>{
-  console.log(req.body.userDetails.name)
+  console.log(req.body.to)  
     const transporter = nodemailer.createTransport({
-        // service: 'gmail',
-        host: "smtp.gmail.com",
-        port: 587,  
+        // service: 'gmail', 
+        host: "smtp.gmail.com", 
+        port: 587,      
         secure: false, // true for 465, false for other ports
-        auth: {
+        auth: { 
           user: 'satyamrock04.2000@gmail.com',
           pass: 'lupdurkjmcqggaha'
         }
@@ -17,7 +17,7 @@ export const sendEmail = async (req,res,next)=>{
         from: 'NMIT Booking Application',// sender address
         to: req.body.to, // list of receivers
         subject: req.body.subject, // Subject line
-        text: req.body.message,
+        text: req.body.message,  
         html: 
         `
         <!DOCTYPE html>
@@ -57,7 +57,7 @@ export const sendEmail = async (req,res,next)=>{
 </body>
 </html>
 
-        `
+        ` 
       };
       
       transporter.sendMail(mailOptions, function(error, info){
@@ -75,9 +75,9 @@ export const sendEmail = async (req,res,next)=>{
 
 
 export const confirmEmail = async (req,res,next)=>{
-  console.log(req.body.FacultyEmail)
-    const transporter = nodemailer.createTransport({
-        // service: 'gmail',
+  console.log(req.body.FacultyEmail) 
+    const transporter = nodemailer.createTransport({ 
+        // service: 'gmail', 
         host: "smtp.gmail.com",
         port: 587,
         secure: false, // true for 465, false for other ports

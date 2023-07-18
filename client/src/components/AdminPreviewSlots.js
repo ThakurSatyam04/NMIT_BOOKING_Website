@@ -40,7 +40,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
 
   const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
-  const handleConfirm= async(e)=>{
+  const handleConfirm= async(e)=>{ 
     e.preventDefault();
     const confirmed = window.confirm("Are you sure you want to confirm the slot");
     if(confirmed){
