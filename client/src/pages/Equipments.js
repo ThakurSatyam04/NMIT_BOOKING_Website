@@ -25,8 +25,8 @@ const Equipments = ({userDetails}) => {
   const [slots, setSlots] = useState([]);
   const [quantity, setQuantity] = useState();
   const [labDetail, setLabDetail] = useState([]);
-  const fromTimeValues = ['08:45','11:00','15:43'];
-  const toTimeValues = ['10:45','13:00','15:44'];
+  const fromTimeValues = ['08:45','11:00','15:49'];
+  const toTimeValues = ['10:45','13:00','15:50'];
   const [totalQuantity,setTotalQuantity] = useState()
   const [isEmail, setIsEmail] = useState({
     to:"",
@@ -250,9 +250,9 @@ const Equipments = ({userDetails}) => {
       }
     };
 
-    useEffect(()=>{
-      getEquipData();
-    },[handleToTimeChange])
+    // useEffect(()=>{
+    //   getEquipData();
+    // },[handleToTimeChange])
 
     useEffect(() => {
       getEquipData();
