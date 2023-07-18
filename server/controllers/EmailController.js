@@ -17,13 +17,13 @@ export const sendEmail = async (req,res,next)=>{
         from: 'NMIT Booking Application',// sender address
         to: req.body.to, // list of receivers
         subject: req.body.subject, // Subject line
-        text: req.body.message,  
+        text: req.body.message,   
         html: 
         `
-        <!DOCTYPE html>
+        <!DOCTYPE html> 
 <html>
 <head>
-  <title>Equipment Booking Request</title>
+  <title>Equipment Booking Request</title> 
 </head>
 <body>
   <div style="font-family: Arial, sans-serif;">

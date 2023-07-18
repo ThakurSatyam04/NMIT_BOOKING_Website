@@ -189,7 +189,7 @@ const Equipments = ({userDetails}) => {
 
           const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
           const sendEmail =  await axios.post(`${APIURL}/api/send-mail/book`,EmailDetails);
-          // Show the toast with a longer duration 
+          // Show the toast with a longer duration
           toast.success("Booking Request Sent Successfully", {
             autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
           });
@@ -245,9 +245,9 @@ const Equipments = ({userDetails}) => {
       }
     };
 
-    useEffect(()=>{
-      getEquipData();
-    },[handleToTimeChange])
+    // useEffect(()=>{
+    //   getEquipData();
+    // },[handleToTimeChange])
 
     useEffect(() => {
       getEquipData();
