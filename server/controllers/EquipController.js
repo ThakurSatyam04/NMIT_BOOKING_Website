@@ -226,9 +226,8 @@ export const deleteExpiredSlots = async (req, res, next) => {
 
     const result = await Equip.updateMany( 
       {
-        'slots.date': { $lte: dateOnly },
         $or: [
-          { 'slots.toTime': { $lt: currentTime } },
+          { 'slots.date': { $lt: dateOnly } },
           { 'slots.date': dateOnly, 'slots.toTime': { $lte: currentTime } },
         ],
       },
