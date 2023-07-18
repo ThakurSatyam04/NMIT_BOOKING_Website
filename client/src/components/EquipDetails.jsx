@@ -11,7 +11,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState("")
   const navigate = useNavigate();
-  const [id,setId] = useState("")
+  const [id,setId] = useState("");
 
   const handleChange=(e)=>{
     const id = e.target.value;
