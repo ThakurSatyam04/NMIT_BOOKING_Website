@@ -83,6 +83,36 @@ export const updateSlot = async (req,res,next) => {
         next(error);
     }
 }
+
+export const updateSlotStatus = async (req, res, next) => {
+  try {
+    const { slotStatus } = req.body;
+    const { equipid, slotid } = req.params;
+
+    const equipment = await Equip.findById(equipid);
+
+    if (!equipment) {
+      return res.status(404).json("Equipment not found");
+    }
+
+    if (!equipment.slots) {
+      equipment.slots = [];
+    }
+
+    const slotIndex = equipment.slots.findIndex((slot) => slot._id.toString() === slotid);
+
+    if (slotIndex === -1) {
+      return res.status(404).json("Slot not found");
+    }
+
+    equipment.slots[slotIndex].slotStatus = slotStatus;
+    await equipment.save();
+
+    res.status(201).json("Slot updated successfully");
+  } catch (error) {
+    next(error);
+  }
+};
   
 export const getSlots = async (req, res, next) => {
   try {
@@ -194,7 +224,7 @@ export const deleteExpiredSlots = async (req, res, next) => {
     console.log(dateOnly);
     console.log(currentTime);
 
-    const result = await Equip.updateMany(
+    const result = await Equip.updateMany( 
       {
         'slots.date': { $lte: dateOnly },
         $or: [

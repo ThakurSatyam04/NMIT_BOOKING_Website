@@ -15,7 +15,7 @@ import AdminPreview from './pages/AdminPreview';
 import PasswordReset from './components/PasswordReset';
 import ForgotPassword from './components/ForgotPassword';
 import LabDetails from './pages/LabDetails';
- 
+import RejectReasionPopUp from './components/RejectReasionPopUp';
 function App() {
   const loggedIn = localStorage.getItem("isLoggedIn");
   const [isloggedIn,setIsloggedIn] = useState(false);
@@ -57,6 +57,7 @@ function App() {
         <Route path='/adminPreview/:_id' element={<AdminPreview userDetails={userDetails}/>} />
         <Route path="/password-reset" element={<PasswordReset userDetails={userDetails}/>}/>
         <Route path="/forgotpassword/:id/:token" element={<ForgotPassword/>}/>
+        <Route path="/equipmentRejection" element={<RejectReasionPopUp/>}/>
       </Routes>
     </>
   );

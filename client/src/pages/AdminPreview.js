@@ -106,8 +106,8 @@ const AdminPreview = ({userDetails}) => {
                           </tr>
                         </thead>
                           {
-                              data.map((item) => {
-                                  return <AdminPreviewSlots key={item._id} {...item} userDetails={userDetails} setIsLoading={setIsLoading}/>;
+                              data.map((item,index) => {
+                                  return <AdminPreviewSlots key={index} {...item} userDetails={userDetails} setIsLoading={setIsLoading}/>;
                               })
                           }
                       </table>

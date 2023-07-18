@@ -100,6 +100,7 @@ export const confirmEmail = async (req,res,next)=>{
   <title>Equipment Booking Request</title>
 </head>
 <div class="container mx-auto px-4 py-8 bg-gray-100">
+    <h1 class="text-2xl font-bold mb-4">Booking Status: Confirm</h1>
     <p class="mb-4">Dear ${req.body.FacultyName},</p>
     <p class="mb-4">Your equipment booking for ${req.body.equipName} has been confirmed.</p>
     <p class="mb-4">Booking Details:</p>
@@ -158,7 +159,7 @@ export const rejectEmail = async (req,res,next)=>{
 <html>
 <body>
   <div class="container mx-auto px-4 py-8 bg-gray-100">
-    <h1 class="text-2xl font-bold mb-4">Equipment Booking Rejection</h1>
+    <h1 class="text-2xl font-bold mb-4">Booking Status: Rejected</h1>
     <p class="mb-4">Dear ${req.body.FacultyName},</p>
     <p class="mb-4">We regret to inform you that your equipment booking request for ${req.body.equipName} has been rejected.</p>
     <p class="mb-4">Booking Details:</p>

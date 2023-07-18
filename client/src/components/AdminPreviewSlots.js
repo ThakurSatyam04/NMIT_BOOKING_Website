@@ -4,10 +4,10 @@ import axios from 'axios';
 import PopupPage from "./RejectReasionPopUp";
 import {toast} from 'react-hot-toast'
 import { APIURL } from '../env';
+import { useNavigate,Link } from 'react-router-dom';
 
-const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsLoading}) => {
+const AdminPreviewSlots = ({equipId,slots,equipName,model,makeOfEquip,userDetails,setIsLoading}) => {
   const [isClicked, setIsClicked] = useState(false);
-  const [slotStatus, setSlotStatus] = useState();
   const [isPopupVisible, setPopupVisible] = useState(false);
   const newdate = slots.date
   const date = new Date(newdate);
@@ -16,6 +16,9 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
   const slotToTime = slots.toTime
   const FacultyEmail = slots.email
   const FacultyName = slots.name
+  const slotId = slots._id;
+  const slotStatus = slots.slotStatus
+  const navigate = useNavigate();
 
   const [isEmail, setIsEmail] = useState({
     to:"",
@@ -27,7 +30,7 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
   useEffect(() => {
     setIsEmail({
       to: slots.email,
-      subject:"Equipment Booking Confirmation",
+      subject:"Equipment Booking Status",
       message:"",
     });
   }, [slots]);
@@ -47,6 +50,10 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
       setIsLoading(true)
       const EmailDetails = {...isEmail,userDetails,slotDate,slotToTime,slotFromTime,equipName,FacultyEmail,FacultyName}
       const sendEmail =  await axios.post(`${APIURL}/api/send-mail/confirm`,EmailDetails);
+      console.log(slotId)
+        await axios.put(`${APIURL}/api/equip/slots/slotStatus/${equipId}/${slotId}`,{
+          slotStatus : "Confirmed"
+        })
       toast.success("Request Confirmed");
       setIsClicked(true);
       setIsLoading(false);
@@ -56,9 +63,9 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
     }
   }
 
-  const handleReject = ()=>{
-    setPopupVisible(true);
-  }
+      const handleReject = async()=>{
+        setPopupVisible(true)
+      }
   
   return (
       <>
@@ -108,20 +115,22 @@ const AdminPreviewSlots = ({slots,equipName,model,makeOfEquip,userDetails,setIsL
                     <div  className="gap-6 flex ml-6">
                       <div>
                         <button 
-                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ${isClicked ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                        className={"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"} 
                         onClick={handleConfirm} 
-                        disabled={slotStatus === 'confirm'}>
-                          Confirm    
+                        disabled={slotStatus === 'Confirmed' || slotStatus ==="Rejected"}>
+                          confirm
                         </button>
                       </div>
                       <div>
-                        <button 
-                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ${isClicked ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        onClick={handleReject} 
-                        disabled={slotStatus === 'rejected'}>
-                          Reject
-                        </button>
-                        {isPopupVisible && <PopupPage setPopupVisible={setPopupVisible} isEmail={isEmail} userDetails={userDetails} slotDate={slotDate} slotFromTime={slotFromTime} slotToTime={slotToTime} equipName={equipName} FacultyName={FacultyName} FacultyEmail={FacultyEmail} setIsClicked={setIsClicked}/>}
+                          <button 
+                            className={"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"}
+                            onClick={handleReject} 
+                            disabled={slotStatus === 'Rejected' || slotStatus === 'Confirmed'}>
+                              <a href="#navigateBox">Reject</a>
+                          </button>
+                        <div  id="navigateBox">
+                          {isPopupVisible && <PopupPage setPopupVisible={setPopupVisible} isEmail={isEmail} userDetails={userDetails} slotDate={slotDate} slotFromTime={slotFromTime} slotToTime={slotToTime} equipName={equipName} FacultyName={FacultyName} FacultyEmail={FacultyEmail} setIsClicked={setIsClicked} equipId={equipId} slotId={slotId} setIsLoading={setIsLoading}/>}
+                        </div>
                       </div>
                     </div>
                   </td>

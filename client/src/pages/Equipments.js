@@ -37,7 +37,12 @@ const Equipments = ({userDetails}) => {
   const [isChecked, setIsChecked] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const [clickToTime,setClickToTime] = useState(false);
-  // console.log(isChecked)
+  const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+  const currentTime = moment(currentDate).format('HH:mm');
 
   //Search Filter
   const [filteredEquip, setFilteredEquip] = useState([]);
@@ -234,7 +239,7 @@ const Equipments = ({userDetails}) => {
 
     const deleteExpiredSlots = async () => {
       try {
-        await axios.delete(`${APIURL}/api/equip/deleteExpiredSlots`);
+        await axios.delete(`http://localhost:3001/api/equip/deleteExpiredSlots`);
         console.log('Expired slots deleted successfully');
       } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -440,9 +445,20 @@ const Equipments = ({userDetails}) => {
       >
         <option value="">-- Select start time --</option>
         {fromTimeValues.map((time) => (
-          <option key={time} value={time}>
+          time>currentTime && date===formattedDate?(
+            <option key={time} value={time}>
             {moment(time, 'HH:mm').format('hh:mm A')}
           </option>
+          ):(
+            date!=formattedDate?(
+              <option key={time} value={time}>
+              {moment(time, 'HH:mm').format('hh:mm A')}
+            </option>
+            ):(
+              null
+            )
+          )
+          
         ))}
       </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
