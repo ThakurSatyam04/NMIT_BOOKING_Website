@@ -245,9 +245,9 @@ const Equipments = ({userDetails}) => {
       }
     };
 
-    // useEffect(()=>{
-    //   getEquipData();
-    // },[handleToTimeChange])
+    useEffect(()=>{
+      getEquipData();
+    },[handleToTimeChange])
 
     useEffect(() => {
       getEquipData();

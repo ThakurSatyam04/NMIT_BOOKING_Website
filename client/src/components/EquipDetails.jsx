@@ -11,13 +11,13 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
 // console.log(_id)
   const [selectedEquip, setSelectedEquip] = useState("")
   const navigate = useNavigate();
-  const [id,setId] = useState(false)
+  const [id,setId] = useState("")
 
   const handleChange=(e)=>{
     const id = e.target.value;
     if(e.target.checked){
       setEquipid(_id) 
-      setId(true)
+      setId(_id)
       setSelectedEquip((prev)=> [...prev,id]);
       setEquipName(equipName)
       setIsChecked(true);
@@ -108,7 +108,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                     className="py-4 px-6 text-sm font-medium text-black whitespace-pre-wrap dark:text-black break-words border-r-2 border-gray-300"
                   >
                     {
-                      clickToTime && isChecked?(
+                      clickToTime && id==_id?(
                         quantity
                       ):(
                         totalQuantity
@@ -122,7 +122,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
                   })}
                   >
                     {
-                      clickToTime?(
+                      clickToTime && id==_id?(
                           status
                       ):(
                           <span className="text-green-600">available</span>
