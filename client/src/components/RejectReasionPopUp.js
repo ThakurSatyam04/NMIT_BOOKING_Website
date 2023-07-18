@@ -10,8 +10,6 @@ const RejectReasionPopUp = ({setPopupVisible,isEmail,setIsClicked,FacultyEmail,F
 
     const handleReject = async(e)=>{
         e.preventDefault();
-        const rejected = window.confirm("Are you sure you want to reject the slot");
-        if(rejected){
             setIsLoading(true)
             const EmailDetails = {...isEmail,userDetails,slotDate,slotToTime,slotFromTime,equipName,FacultyEmail,FacultyName,rejectResion}
             const sendEmail =  await axios.post(`${APIURL}/api/send-mail/reject`,EmailDetails);
@@ -25,10 +23,6 @@ const RejectReasionPopUp = ({setPopupVisible,isEmail,setIsClicked,FacultyEmail,F
             setTimeout(() => {
                 window.location.reload();
               }, 3000); 
-        }
-        else{
-            toast.success("Request Rejection canceled");
-          }
       }
 
       const handleClose = ()=>{
