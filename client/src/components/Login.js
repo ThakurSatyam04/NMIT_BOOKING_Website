@@ -39,11 +39,11 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
 
       const handleLogin = async(e)=>{
         e.preventDefault();
-        setIsLoading(true)
         try{
           await axios.post(`${APIURL}/api/auth/login`,user)
           .then(res =>{
             if(user){
+              setIsLoading(true)
               // console.log(res)
               localStorage.setItem("isLoggedIn",true);
               navigate("/");
