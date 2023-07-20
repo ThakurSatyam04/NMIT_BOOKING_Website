@@ -62,7 +62,7 @@ const AdminPreviewSlots = ({equipId,slots,equipName,model,makeOfEquip,userDetail
       }, 3000); 
     }
     else{
-      toast.success("Request Confirmation canceled");
+      toast.success("Request Confirmation cancelled");
     }
   }
 

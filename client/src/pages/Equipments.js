@@ -221,11 +221,11 @@ const Equipments = ({userDetails}) => {
         }
       }
       else{
-        toast.error("Please select slot's date and time..")
+        toast.error("Unavailable for this slot")
       }
     }
     else{
-      toast.error("Unavailable for this slot")
+      toast.error("Please select Equipment, slot's date and time.")
     }
   }
 
@@ -277,8 +277,9 @@ const Equipments = ({userDetails}) => {
   return (
 
     isLoading?(
-      <div className='w-full h-screen flex items-center justify-center'>
+      <div className='w-full h-screen gap-5 flex items-center justify-center'>
               <div className="custom-loader "></div>
+              <div className='font-bold'>Please Wait...</div>
             </div>
     ):(
 

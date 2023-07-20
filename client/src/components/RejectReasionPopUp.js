@@ -42,7 +42,7 @@ const RejectReasionPopUp = ({setPopupVisible,isEmail,setIsClicked,FacultyEmail,F
                 </button>
             </div>
             <div className='w-full flex justify-center'>
-                <h3>REASON FOR CANCELATION!</h3> 
+                <h3>REASON FOR CANCELLATION!</h3> 
             </div>
 
             <div className='w-full'>

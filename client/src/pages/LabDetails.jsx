@@ -22,12 +22,20 @@ const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,pi
         window.location.reload();
         toast.success("Lab deleted successfully");
       } else {
-        toast.success("Lab deletion canceled");
+        toast.success("Lab deletion cancelled");
       }
     } catch (e) {
       console.log(e);
     }
   };
+
+  const handleEdit = async()=>{
+    try{
+      alert("press Ok to edit");
+      navigate(`/editLabForm/${labId}`)
+    }catch(e){
+    }
+  }
   
 
   return (
@@ -62,11 +70,20 @@ const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,pi
         </div>  
         {
           userDetails.userType == "SuperAdmin"?(
-            <div className='w-full flex items-center justify-end mb-2 pr-4'>
-              <button onClick={handleDelete} className='flex items-center justify-end bg-blue-500 p-1 rounded-md text-white' >
-                <span>Delete Lab</span> <MdDeleteForever  />
-              </button>
+            <>
+            <div className='flex items-center justify-end'>
+              <div className='w-full mb-2 pl-4'>
+                <button onClick={handleEdit} className='flex items-center justify-end bg-blue-500 p-1 rounded-md text-white' >
+                  <span>Edit Lab</span> <MdDeleteForever  />
+                </button>
+              </div>
+              <div className='w-full flex items-center justify-end mb-2 pr-4'>
+                <button onClick={handleDelete} className='flex items-center justify-end bg-blue-500 p-1 rounded-md text-white' >
+                  <span>Delete Lab</span> <MdDeleteForever  />
+                </button>
+              </div>
             </div>
+            </>
           ):(
             null
           )

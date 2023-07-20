@@ -42,7 +42,7 @@ const EquipDetails = ({_id,equipName,makeOfEquip,model,labId,quantity,status,set
         // console.log(deleteEquip)
       }
       else{
-        toast.success("Equipment deletion canceled");
+        toast.success("Equipment deletion cancelled");
       }
     }catch(e){
       console.log(e)

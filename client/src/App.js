@@ -10,6 +10,7 @@ import LabForm from "./components/LabForm/LabForm.jsx";
 import Labs from "./pages/Labs";
 import Equipments from './pages/Equipments';
 import EditEquipForm from './components/EditEquipForm';
+import EditLabForm from './components/EditLabForm';
 import Navbar from './components/Navbar';
 import AdminPreview from './pages/AdminPreview';
 import PasswordReset from './components/PasswordReset';
@@ -53,6 +54,7 @@ function App() {
         <Route path='/equipDetail/:_id' element={<Equipments userDetails={userDetails}/>}/>
         <Route path='/labForm' element={<LabForm/>}/>
         <Route path='/labs' element={<Labs userDetails={userDetails}/>}/>
+        <Route path="/editLabForm/:labId" element={<EditLabForm/>}/>
         <Route path='/labDetails' element={<LabDetails userDetails={userDetails}/>}/>
         <Route path='/adminPreview/:_id' element={<AdminPreview userDetails={userDetails}/>} />
         <Route path="/password-reset" element={<PasswordReset userDetails={userDetails}/>}/>

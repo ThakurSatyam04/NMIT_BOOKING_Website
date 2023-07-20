@@ -33,8 +33,9 @@ const AdminPreview = ({userDetails}) => {
     <>
     {
       isLoading?(
-        <div className='w-full h-screen  flex items-center justify-center'>
+        <div className='w-full h-screen gap-5  flex items-center justify-center'>
           <div className="custom-loader "></div>
+          <div className='font-bold'>Please Wait...</div>
         </div>
       ):(
         <>
