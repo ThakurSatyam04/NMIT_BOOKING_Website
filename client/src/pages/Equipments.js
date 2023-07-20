@@ -221,11 +221,11 @@ const Equipments = ({userDetails}) => {
         }
       }
       else{
-        toast.error("Unavailable for this slot")
+        toast.error("Please select Equipment, slot's date and time.")
       }
     }
     else{
-      toast.error("Please select Equipment, slot's date and time.")
+      toast.error("Unavailable for this slot")
     }
   }
 
