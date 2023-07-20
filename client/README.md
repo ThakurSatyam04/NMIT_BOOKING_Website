@@ -1,3 +1,10 @@
+## NMIT BOOKING Website
+### Design and Code by:
+#### [https://github.com/ThakurSatyam04](https://github.com/ThakurSatyam04)
+#### [https://www.linkedin.com/in/satyam-kumar-91a238224/](https://www.linkedin.com/in/satyam-kumar-91a238224/)
+#### [https://github.com/Anjali0048](https://github.com/Anjali0048)
+#### [https://www.linkedin.com/in/anjali-singh-193bb7220/](https://www.linkedin.com/in/anjali-singh-193bb7220/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
