@@ -39,14 +39,14 @@ const Equipments = ({userDetails}) => {
   const [clickToTime,setClickToTime] = useState(false);
 
 
-  // const currentDate = new Date();
-  //   const year = currentDate.getFullYear();
-  //   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  //   const day = String(currentDate.getDate()).padStart(2, '0');
-  //   const formattedDate = `${year}-${month}-${day}`;
-  //   const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
-  //   // const currentTime = moment(currentDate).format('HH:mm');
-  //   const currentTime = currentDate.getHours().toString().padStart(2, '0') + ':' + currentDate.getMinutes().toString().padStart(2, '0');
+  const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
+    // const currentTime = moment(currentDate).format('HH:mm');
+    const currentTime = currentDate.getHours().toString().padStart(2, '0') + ':' + currentDate.getMinutes().toString().padStart(2, '0');
 
   //   console.log(currentTime);
   //   console.log(toTime)
