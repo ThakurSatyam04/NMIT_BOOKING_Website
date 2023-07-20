@@ -43,7 +43,6 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
           await axios.post(`${APIURL}/api/auth/login`,user)
           .then(res =>{
             if(user){
-              setIsLoading(true)
               // console.log(res)
               localStorage.setItem("isLoggedIn",true);
               navigate("/");
@@ -57,7 +56,6 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
                 window.location.reload();
               },1000); 
               setIsloggedIn(true)
-              setIsLoading(false)
             }
             else{
               console.log("Invalid User")
