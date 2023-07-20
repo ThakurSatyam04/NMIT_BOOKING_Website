@@ -57,6 +57,9 @@ const AdminPreviewSlots = ({equipId,slots,equipName,model,makeOfEquip,userDetail
       toast.success("Request Confirmed");
       setIsClicked(true);
       setIsLoading(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000); 
     }
     else{
       toast.success("Request Confirmation canceled");

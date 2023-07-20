@@ -37,12 +37,21 @@ const Equipments = ({userDetails}) => {
   const [isChecked, setIsChecked] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const [clickToTime,setClickToTime] = useState(false);
-  const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-  const currentTime = moment(currentDate).format('HH:mm');
+
+
+  // const currentDate = new Date();
+  //   const year = currentDate.getFullYear();
+  //   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  //   const day = String(currentDate.getDate()).padStart(2, '0');
+  //   const formattedDate = `${year}-${month}-${day}`;
+  //   const dateOnly = `${formattedDate}T00:00:00.000+00:00`;
+  //   // const currentTime = moment(currentDate).format('HH:mm');
+  //   const currentTime = currentDate.getHours().toString().padStart(2, '0') + ':' + currentDate.getMinutes().toString().padStart(2, '0');
+
+  //   console.log(currentTime);
+  //   console.log(toTime)
+  //   const bool = (toTime < currentTime)
+  //   console.log(bool)
 
   //Search Filter
   const [filteredEquip, setFilteredEquip] = useState([]);
@@ -235,8 +244,6 @@ const Equipments = ({userDetails}) => {
   //   }
   // }
   // console.log(totalQuantity)
-  
- 
 
   const deleteExpiredSlots = async () => {
     try {
@@ -250,8 +257,6 @@ const Equipments = ({userDetails}) => {
       }
     }
   };
-  
-    
 
     // useEffect(()=>{
     //   getEquipData();
@@ -447,13 +452,13 @@ const Equipments = ({userDetails}) => {
         required
       >
         <option value="">-- Select start time --</option>
-        {fromTimeValues.map((time) => (
+        {/* {fromTimeValues.map((time) => (
             <option key={time} value={time}>
             {moment(time, 'HH:mm').format('hh:mm A')}
           </option>
           
-        ))}
-        {/* {fromTimeValues.map((time) => (
+        ))} */}
+        {fromTimeValues.map((time) => (
           time>currentTime && date===formattedDate?(
             <option key={time} value={time}>
             {moment(time, 'HH:mm').format('hh:mm A')}
@@ -468,7 +473,7 @@ const Equipments = ({userDetails}) => {
             )
           )
           
-        ))} */}
+        ))}
       </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>

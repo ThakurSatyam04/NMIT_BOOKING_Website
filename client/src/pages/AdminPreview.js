@@ -15,12 +15,14 @@ const AdminPreview = ({userDetails}) => {
     const [ data, setData ] = useState([]);
   
     const getData = async () => {
+      setIsLoading(true)
         try {
             const {data} = await axios.get(`${APIURL}/api/equip/slots/${_id}`)
             setData(data)
         } catch(e){
             console.log(e)
         }
+        setIsLoading(false)
     }
 
     useEffect(()=>{
