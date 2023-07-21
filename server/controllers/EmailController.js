@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer'
 export const sendEmail = async (req,res,next)=>{
   console.log(req.body.date)   
   console.log(req.body.to)   
-  console.log(req.body.labDetail.email)   
+  console.log(req.body.labDetail.email) 
 
         const transporter = nodemailer.createTransport({ 
           // service: 'gmail',   
@@ -14,13 +14,13 @@ export const sendEmail = async (req,res,next)=>{
             user: 'kumarsatyam04.2000@gmail.com',
             pass: 'xkbgaelxqlbjrchr'
           }
-      });
+      });  
 
     var mailOptions = {
         from: 'NMIT Booking Application',// sender address
         to: req.body.labDetail.email, // list of receivers
         subject: 'Equipment Booking Request', // Subject line
-        text: req.body.message,   
+        // text: req.body.message,   
         html: 
         `
         <!DOCTYPE html> 
@@ -30,7 +30,7 @@ export const sendEmail = async (req,res,next)=>{
 </head>
 <body>
   <div style="font-family: Arial, sans-serif;">
-    <h3>Dear ${req.body.name},</h3>
+    <h3>Dear ${req.body.labDetail.labIncharge},</h3>
     <p>I hope this email finds you well. I am writing to request a booking for <strong>${req.body.equipName}</strong> at <strong>${req.body.date}</strong> and <strong>${req.body.fromTime} to  ${req.body.toTime}</strong>. I have carefully reviewed the availability and believe this slot would be ideal for my needs.</p>
 
     <h4>Booking Details:</h4>
@@ -55,7 +55,7 @@ export const sendEmail = async (req,res,next)=>{
     <p class="mb-4">The Equipment Booking Request Link Page</p>
     <p>
       <a class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" href="[Website URL]">Visit Website</a>
-    </p>
+    </p> 
   </div>
 </body>
 </html>
