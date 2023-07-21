@@ -202,7 +202,7 @@ const Equipments = ({userDetails}) => {
     
           const timeSlot = await axios.put(`${APIURL}/api/equip/slots/${equipid}`, newTimeSlot)
 
-          const EmailDetails = {...isEmail,userDetails,date,fromTime,toTime,equipName}
+          const EmailDetails = {...isEmail,labDetail,userDetails,date,fromTime,toTime,equipName}
           const sendEmail =  await axios.post(`${APIURL}/api/send-mail/book`,EmailDetails);
           // Show the toast with a longer duration
           toast.success("Booking Request Sent Successfully", {

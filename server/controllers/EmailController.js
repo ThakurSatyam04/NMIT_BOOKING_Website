@@ -1,22 +1,25 @@
 import nodemailer from 'nodemailer'
 
 export const sendEmail = async (req,res,next)=>{
-  console.log(req.body.to)  
-    const transporter = nodemailer.createTransport({ 
-        // service: 'gmail', 
-        host: "smtp.gmail.com", 
-        port: 587,      
-        secure: false, // true for 465, false for other ports
-        auth: { 
-          user: 'satyamrock04.2000@gmail.com',
-          pass: 'lupdurkjmcqggaha'
-        }
-    });
+  console.log(req.body.date)   
+  console.log(req.body.to)   
+  console.log(req.body.labDetail.email)   
+
+        const transporter = nodemailer.createTransport({ 
+          // service: 'gmail',   
+          host: "smtp.gmail.com",
+          port: 587,
+          secure: false, // true for 465, false for other ports
+          auth: {
+            user: 'kumarsatyam04.2000@gmail.com',
+            pass: 'xkbgaelxqlbjrchr'
+          }
+      });
 
     var mailOptions = {
         from: 'NMIT Booking Application',// sender address
-        to: req.body.to, // list of receivers
-        subject: req.body.subject, // Subject line
+        to: req.body.labDetail.email, // list of receivers
+        subject: 'Equipment Booking Request', // Subject line
         text: req.body.message,   
         html: 
         `
