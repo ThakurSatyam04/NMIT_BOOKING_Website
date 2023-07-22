@@ -434,7 +434,6 @@ const Equipments = ({userDetails}) => {
                     isLineLoading?(
                             <div className='w-full mt-4 overflow-x-hidden flex items-center justify-center'>
                                   <div className="custom-loader-line "></div>
-                                  <div className='font-bold'>Please Wait...</div>
                                 </div>
                           ):(null)
                   }
