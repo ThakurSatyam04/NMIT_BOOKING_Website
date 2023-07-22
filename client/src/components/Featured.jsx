@@ -1,5 +1,5 @@
 import React from 'react'
-import lab_img from "../assets/Lab_Img.png"
+import lab_img from "../assets/computer_lab_img.jpg"
 import { useNavigate } from 'react-router-dom'
 
 const Featured = ({_id,labName, labNo, department, labIncharge,loggedIn}) => {

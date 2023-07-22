@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import {toast} from 'react-hot-toast'
-import lab_img from "../assets/Lab_Img.png"
+import lab_img from "../assets/computer_lab_img.jpg"
 import { useNavigate} from 'react-router-dom'
 import { MdDeleteForever } from "react-icons/md";
 import { APIURL } from '../env';
@@ -44,7 +44,7 @@ const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,pi
 
         <div className=" font-style md:w-[500px] w-[300px] flex flex-col mx-auto my-2 rounded-lg text-slate-950 bg-[#DDEFF9] md:max-w-xl md:flex-row items-center hover:brightness-90 transition duration-200 ease-in-out" onClick={handleClick}>
           <img
-            className="h-48 w-full md:m-4 rounded-t-lg object-cover md:h-30 md:w-52 md:rounded-lg"
+            className="h-48 w-full md:m-4 rounded-t-lg  md:h-30 md:w-52 md:rounded-md"
             src={lab_img}
             alt="lab_img" />
           <div className=" font-style flex flex-col justify-center items-start p-6 cursor-pointer">

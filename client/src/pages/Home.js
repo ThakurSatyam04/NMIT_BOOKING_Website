@@ -29,46 +29,59 @@ const Home = ({loggedIn}) => {
   </div>
 </div>
 
-    <section id="about" className=" h-full flex flex-col md:flex-row justify-evenly space-y-10 md:space-y-0 md:space-x-16 items-center mx-5 md:mx-0 md:my-0 bg-blue-50 pb-10">
-      <div className="md:w-[300px] max-w-xl rounded-lg">
-        <a href="#about" >
-          <img  className=' rounded-lg shadow-md mt-10'
-          src={about_img}
-          alt="Sample image"/>
-        </a>
-      </div>
-      <div className="md:w-1/3">
-        <div className="items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 scroll-smooth">
-        <section className="bg-gray-100 py-12">
-  <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="text-center">
-      <h4 className="text-2xl font-extrabold text-gray-800 mb-4">
-        Welcome to our Equipment Booking Service
-      </h4>
-      <p className="text-xl text-gray-600">
-        We provide a seamless experience for students and faculty members to book equipment for various academic and extracurricular activities.
-      </p>
-    </div>
-    <div className="mt-10">
-      <h3 className="text-xl font-semibold text-gray-800 mb-2">
-        Our Mission
-      </h3>
-      <p className="text-gray-600">
-        Our mission is to empower students and faculty members by providing easy access to high-quality equipment for their educational and creative pursuits.
-      </p>
-    </div>
-    <div className="mt-8">
-      <h3 className="text-xl font-semibold text-gray-800 mb-2">
-        How It Works
-      </h3>
-      <p className="text-gray-600">
-        Our platform allows users to browse available equipment, check availability, and make reservations online. Simply create an account, search for the equipment you need, select a time slot, and book it with ease.
-      </p>
-    </div>
-  </div>
-</section>
-
+    <section id="about" className="w-full h-full flex flex-col md:flex-row justify-center items-center mx-5 md:mx-0 md:my-0 bg-blue-50 pb-10">
+      <div className='flex items-center justify-center flex-col'>
+        <div className="w-8/12 flex p-6 rounded-lg mt-10 gap-10">
+          <div>
+            <a href="#about" >
+              <img  className='rounded-lg shadow-md '
+              src={about_img}
+              alt="Sample image"/>
+            </a>
+          </div>
+          <div className=" w-11/12">
+            <h4 className="text-center text-2xl font-extrabold text-gray-800 mb-4">
+              Welcome to our Equipment Booking Service
+            </h4>
+            <span className="text-gray-600">
+              We provide a seamless experience for students and faculty members to book equipment for various academic and extracurricular activities.
+              <ul>
+                <li>
+                  Unlock the potential of your academic journey with our state-of-the-art equipment booking service!
+                </li>
+                <li>
+                  Empowering students and faculty alike, our user-friendly platform ensures hassle-free equipment reservations.
+                </li>
+                <li>
+                Focus on your passions, and leave the equipment logistics to us, as we streamline the booking process for your convenience.
+                </li>
+              </ul>
+            </span>
+          </div>
         </div>
+
+          <div className="md:w-8/12">
+            <div className="w-full items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 scroll-smooth"> 
+            <div className="w-full flex max-w-6xl mx-auto mt-10 mb-6 justify-between gap-10 ">
+              <div className="w-11/12 bg-[#fff] p-2 rounded-md shadow-xl border-white cursor-pointer hover:scale-110 transition smooth duration-500">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2 underline">
+                  Our Mission
+                </h3>
+                <p className="text-gray-600">
+                  Our mission is to empower students and faculty members by providing easy access to high-quality equipment for their educational and creative pursuits.
+                </p>
+              </div>
+              <div className="w-11/12 bg-[#fff] p-2 rounded-md shadow-xl border-white cursor-pointer hover:scale-110 transition smooth duration-500">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2 underline">
+                  How It Works
+                </h3>
+                <p className="text-gray-600">
+                  Our platform allows users to browse available equipment, check availability, and make reservations online. Simply create an account, search for the equipment you need, select a time slot, and book it with ease.
+                </p>
+              </div>
+          </div>
+            </div>
+          </div>
       </div>
     </section><hr />
 
