@@ -2,18 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
 body {
     /* font-family: Arial, Helvetica, sans-serif; */
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
   
   html{
     scroll-behavior: smooth;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 
+    Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
   
   .font-style{
     font-family: 'Times New Roman', Times, serif;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem ;
   }
 
 
@@ -53,31 +60,50 @@ body {
 }
 
 .custom-loader {
-    width: 50px;
-    height: 50px;
-    display: grid;
-    border-radius: 50%;
-    -webkit-mask:radial-gradient(farthest-side,#0000 40%,#000 41%);
-    background:
-      linear-gradient(0deg ,#766DF480 50%,#766DF4FF 0) center/4px 100%,
-      linear-gradient(90deg,#766DF440 50%,#766DF4BF 0) center/100% 4px;
-    background-repeat: no-repeat;
-    animation: s3 1s infinite steps(12);
-  }
-  .custom-loader::before,
-  .custom-loader::after {
-     content:"";
-     grid-area: 1/1;
-     border-radius: 50%;
-     background:inherit;
-     opacity: 0.915;
-     transform: rotate(30deg);
-  }
-  .custom-loader::after {
-     opacity: 0.83;
-     transform: rotate(60deg);
-  }
-  
-  @keyframes s3 {
-    100% {transform: rotate(1turn)}
-  }
+  width:50px;
+  height:calc(50px*0.866);
+  display: grid;
+  background:
+    linear-gradient(to bottom left ,#0000 calc(50% - 1px),#766DF4 0 calc(50% + 1px),#0000 0) right/50% 100%,
+    linear-gradient(to bottom right,#0000 calc(50% - 1px),#766DF4 0 calc(50% + 1px),#0000 0) left /50% 100%,
+    linear-gradient(#766DF4 0 0) bottom/100% 2px;
+  background-repeat: no-repeat;
+  transform-origin: 50% 66%;
+  animation: h5 4s infinite linear;
+}
+
+.custom-loader::before,
+.custom-loader::after {
+  content: "";
+  grid-area: 1/1;
+  background:inherit;
+  transform-origin: inherit;
+  animation: inherit;
+}
+.custom-loader::after {
+  animation-duration: 2s;
+}
+
+@keyframes h5{
+  100% {transform:rotate(1turn)}
+}
+
+.custom-loader-line {
+  width: 69px;
+  height: 36px;
+  --c:radial-gradient(farthest-side,#766DF4 90%,#0000);
+  background:var(--c), var(--c), var(--c), var(--c);
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  animation:d3 1s infinite linear; 
+}
+
+@keyframes d3 {
+  0%     {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+  16.67% {background-position: calc(0*100%/3) 0   ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+  33.33% {background-position: calc(0*100%/3) 100%,calc(1*100%/3) 0   ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+  50%    {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 100%,calc(2*100%/3) 0   ,calc(3*100%/3) 50% }
+  66.67% {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 100%,calc(3*100%/3) 0   }
+  83.33% {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 100%}
+  100%   {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+}

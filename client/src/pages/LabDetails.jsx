@@ -5,6 +5,7 @@ import lab_img from "../assets/computer_lab_img.jpg"
 import { useNavigate} from 'react-router-dom'
 import { MdDeleteForever } from "react-icons/md";
 import { APIURL } from '../env';
+import { FaEdit } from 'react-icons/fa';
 
 const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,picture,equipments,featured,userDetails}) => {    
 
@@ -42,7 +43,7 @@ const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,pi
     <div className="relative font-style flex  w-full items-center justify-center" >
       <div className='bg-[#DDEFF9] mb-2 rounded-lg'>
 
-        <div className=" font-style md:w-[500px] w-[300px] flex flex-col mx-auto my-2 rounded-lg text-slate-950 bg-[#DDEFF9] md:max-w-xl md:flex-row items-center hover:brightness-90 transition duration-200 ease-in-out" onClick={handleClick}>
+        <div className=" font-style md:w-[500px] w-[300px] flex flex-col mx-auto my-2 rounded-lg text-slate-950 bg-[#DDEFF9] md:max-w-xl md:flex-row items-center hover:brightness-90 transition duration-200 ease-in-out overflow-scroll" onClick={handleClick}>
           <img
             className="h-48 w-full md:m-4 rounded-t-lg  md:h-30 md:w-52 md:rounded-md"
             src={lab_img}
@@ -71,17 +72,13 @@ const LabDetails = ({labId,labName,labNo,labIncharge,contact,email,department,pi
         {
           userDetails.userType == "SuperAdmin"?(
             <>
-            <div className='flex items-center justify-end'>
-              <div className='w-full mb-2 pl-4'>
-                <button onClick={handleEdit} className='flex items-center justify-end bg-blue-500 p-1 rounded-md text-white' >
-                  <span>Edit Lab</span> <MdDeleteForever  />
+            <div className='w-full flex items-center justify-end mb-2 pr-4 gap-x-2'>
+                <button onClick={handleEdit} className='flex  gap-1 items-center justify-end bg-blue-500 p-1 rounded-md text-white' >
+                  <span>Edit Lab</span> <FaEdit />
                 </button>
-              </div>
-              <div className='w-full flex items-center justify-end mb-2 pr-4'>
                 <button onClick={handleDelete} className='flex items-center justify-end bg-blue-500 p-1 rounded-md text-white' >
-                  <span>Delete Lab</span> <MdDeleteForever  />
+                  <span>Delete Lab</span> <MdDeleteForever />
                 </button>
-              </div>
             </div>
             </>
           ):(

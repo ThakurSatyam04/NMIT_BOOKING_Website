@@ -12,7 +12,7 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
     const errRef = useRef();
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
 
     const navigate = useNavigate();
 
@@ -39,6 +39,7 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
 
       const handleLogin = async(e)=>{
         e.preventDefault();
+        setIsClicked(true)
         try{
           await axios.post(`${APIURL}/api/auth/login`,user)
           .then(res =>{
@@ -56,9 +57,11 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
                 window.location.reload();
               },1000); 
               setIsloggedIn(true)
+              setIsClicked(false)
             }
             else{
               console.log("Invalid User")
+              setIsClicked(false)
             }
           } )
         }catch(err){ 
@@ -74,19 +77,13 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
         errRef.current.focus();
         alert("You are not registered plese Signup first")
         }
+        setIsClicked(false);
       } 
       // console.log(user)
 
   return (
-    <div>{
-            isLoading?(
-              <div className='w-full h-screen flex gap-5 items-center justify-center'>
-                  <div className="custom-loader "></div>
-                  <div className='font-bold'>Please Wait...</div>
-                </div>
-          ):(
-
-              <section className="h-screen flex flex-col md:flex-row justify-evenly space-y-10 md:space-y-0 md:space-x-16 items-center mx-5 md:mx-0 md:my-0 bg-blue-50">
+    <div>
+            <section className="h-screen flex flex-col md:flex-row justify-evenly space-y-10 md:space-y-0 md:space-x-16 items-center mx-5 md:mx-0 md:my-0 bg-blue-50">
               <div className="md:w-101/3 max-w-xl rounded-lg">
                 <img className=' rounded-lg shadow-md mt-10'
                   src={bg_img}
@@ -135,16 +132,20 @@ const Login = ({setLoginUser,setIsloggedIn}) => {
                       </NavLink>
                   </div>
                   <div className="text-center md:text-left">
-                      <button className=" bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" type="submit">Login</button>
-                  </div>
+                    <button
+                      className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
+                      type="submit"
+                      disabled={isClicked}
+                    >
+                      {isClicked ? 'Logging in...' : 'Login'}
+                    </button>
+                  </div>
                   <div className="mt-4 font-semibold text-sm text-slate-500 text-center md:text-left">
                     Don't have an account? <Link to="/signup" className="text-red-600 hover:underline hover:underline-offset-4" href="#">Sign Up</Link>
                   </div>
                 </form>
               </div>
             </section>
-          )
-      }
     </div>
   )
 }

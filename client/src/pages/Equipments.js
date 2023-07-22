@@ -36,6 +36,7 @@ const Equipments = ({userDetails}) => {
   });
   const [isChecked, setIsChecked] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
+  const [isLineLoading, setIsLineLoading] = useState(false);
   const [clickToTime,setClickToTime] = useState(false);
 
 
@@ -86,17 +87,18 @@ const Equipments = ({userDetails}) => {
 }
 
   const getEquipData = async () => {
-    // setIsLoading(true);
+    setIsLineLoading(true);
     try{
       const {data} = await axios.get(`${APIURL}/api/labs/equip/${_id}`)
           setData(data)
     } catch(e){
         console.log(e)
     }
-    // setIsLoading(false);
+    setIsLineLoading(false);
   }
 
   const getLabDetails = async () =>{
+    setIsLineLoading(true)
     try{
       const labDetail = await axios.get(`${APIURL}/api/labs/${_id}`)
       setLabDetail(labDetail.data)
@@ -192,58 +194,47 @@ const Equipments = ({userDetails}) => {
       const newQuantity = quantity > 0 ? quantity - 1 : 0;
       const newStatus = newQuantity > 0 ? "available" : "unavailable";
   
-      if(clickToTime){
-        setIsLoading(true);
-        try{
-          const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, {
-            status: newStatus,
-            quantity: newQuantity
-          })
+      if( date && fromTime && toTime){
+          if(clickToTime){
+            setIsLoading(true);
+            try{
+              const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, {
+                status: newStatus,
+                quantity: newQuantity
+              })
+        
+              const timeSlot = await axios.put(`${APIURL}/api/equip/slots/${equipid}`, newTimeSlot)
     
-          const timeSlot = await axios.put(`${APIURL}/api/equip/slots/${equipid}`, newTimeSlot)
-
-          const EmailDetails = {labDetail,userDetails,date,fromTime,toTime,equipName}
-          const sendEmail =  await axios.post(`${APIURL}/api/send-mail/book`,EmailDetails);
-          // Show the toast with a longer duration
-          toast.success("Booking Request Sent Successfully", {
-            autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
-          });
-          
-          setIsLoading(false)
-          // console.log(totalQuantity)
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000); 
-          setClickToTime(false);
+              const EmailDetails = {labDetail,userDetails,date,fromTime,toTime,equipName}
+              const sendEmail =  await axios.post(`${APIURL}/api/send-mail/book`,EmailDetails);
+              // Show the toast with a longer duration
+              toast.success("Booking Request Sent Successfully", {
+                autoClose: 5000, // Adjust the duration as needed (e.g., 3000 milliseconds = 3 seconds)
+              });
+              
+              setIsLoading(false)
+              // console.log(totalQuantity)
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000); 
+              setClickToTime(false);
+            }
+            catch(err){
+              console.error(err);
+            }
+          }
+          else{
+            toast.error("Please select Equipment, slot's date and time.")
+          }
         }
-        catch(err){
-          console.error(err);
-        }
+        else{
+                  alert('Please select all fields');
+                }  
       }
-      else{
-        toast.error("Please select Equipment, slot's date and time.")
-      }
-    }
     else{
       toast.error("Unavailable for this slot")
     }
   }
-
-  // const handleStatus =async()=>{
-  //   try{
-  //     if(quantity>0){
-  //       setStatus("available");
-  //       const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, status)
-  //     }
-  //     else{
-  //       setStatus("unavailable")
-  //       const updateResponse  = await axios.put(`${APIURL}/api/equip/status/${equipid}`, status)
-  //     } 
-  //   }catch(e){
-  //     console.log(e)
-  //   }
-  // }
-  // console.log(totalQuantity)
 
   const deleteExpiredSlots = async () => {
     try {
@@ -285,39 +276,50 @@ const Equipments = ({userDetails}) => {
 
     <div className='bg-blue-100'>
       <div className="h-[300px] bg-blue-100">
-  <div className="relative h-[200px] bg-[#78C7DF] md:flex md:justify-center md:items-center">
-    <div className="md:absolute md:top-1/4 md:right-2/3 text-2xl md:text-3xl font-bold pt-10 pl-4 md:pt-0 text-white cursor-context-menu">
-      <h2>Book Equipments</h2>
-    </div>
-    <div className='w-full flex items-center justify-center'>
-      <div className="absolute md:h-full w-full md:w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
-        <h3 className="font-bold mb-2">Lab Details</h3>
-        <ul className="space-y-2">
-          <li>
-            <span className="font-semibold">
-              {labDetail.labName} ({labDetail.labNo})
-            </span>
-          </li>
-          <li>
-            <span className="font-semibold">Department: </span>
-            {labDetail.department}
-          </li>
-          <li>
-            <span className="font-semibold">Faculty In Charge: </span>
-            {labDetail.labIncharge}, Professor &amp; Head
-          </li>
-          <li>
-            <a className="text-green-600" href={`tel:${labDetail.contact}`}>
-              {labDetail.contact}
-            </a>
-          </li>
-          <li>
-            <a className="text-blue-900" href={`mailto:${labDetail.email}`}>
-              {labDetail.email}
-            </a>
-          </li>
-        </ul>
-      </div>
+      <div className="relative h-[200px] bg-[#78C7DF] md:flex md:justify-center md:items-center">
+          <div className="md:absolute md:top-1/4 md:right-2/3 text-2xl md:text-3xl font-bold pt-10 pl-4 md:pt-0 text-white cursor-context-menu">
+            <h2>Book Equipments</h2>
+          </div>
+        <div className='w-full flex items-center justify-center'>
+        {
+      isLineLoading?(
+        <div className='w-full h-screen gap-5 flex items-center justify-center'>
+              <div className="custom-loader-line "></div>
+              <div className='font-bold'>Please Wait...</div>
+            </div>
+      ):(
+        <>
+          <div className="absolute md:h-full w-full md:w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
+            <h3 className="font-bold mb-2">Lab Details</h3>
+            <ul className="space-y-2">
+              <li>
+                <span className="font-semibold">
+                  {labDetail.labName} ({labDetail.labNo})
+                </span>
+              </li>
+              <li>
+                <span className="font-semibold">Department: </span>
+                {labDetail.department}
+              </li>
+              <li>
+                <span className="font-semibold">Faculty In Charge: </span>
+                {labDetail.labIncharge}, Professor &amp; Head
+              </li>
+              <li>
+                <a className="text-green-600" href={`tel:${labDetail.contact}`}>
+                  {labDetail.contact}
+                </a>
+              </li>
+              <li>
+                <a className="text-blue-900" href={`mailto:${labDetail.email}`}>
+                  {labDetail.email}
+                </a>
+              </li>
+            </ul>
+          </div>
+      </>
+      )
+    }
     </div>
   </div>
 </div>
@@ -404,6 +406,12 @@ const Equipments = ({userDetails}) => {
                           >
                           STATUS
                         </th>
+                        <th
+                          scope="col"
+                          className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                          >
+                          ACTIONS
+                        </th>
                       </tr>
                     </thead>
                       {
@@ -422,6 +430,14 @@ const Equipments = ({userDetails}) => {
                   </table>
                 </div>
               </div>
+                  {
+                    isLineLoading?(
+                            <div className='w-full mt-4 overflow-x-hidden flex items-center justify-center'>
+                                  <div className="custom-loader-line "></div>
+                                  <div className='font-bold'>Please Wait...</div>
+                                </div>
+                          ):(null)
+                  }
             </div>
           </div>
 }

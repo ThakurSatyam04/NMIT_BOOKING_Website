@@ -19,7 +19,7 @@ const Featured = ({_id,labName, labNo, department, labIncharge,loggedIn}) => {
 
   return (
     <>
-    <div className=" m-4 hover:brightness-75 hover:cursor-pointer transition duration-200 ease-in-out" onClick={handleClick}>
+    <div className="font-style m-4 hover:brightness-75 hover:cursor-pointer transition duration-200 ease-in-out" onClick={handleClick}>
   <div className="bg-[#DDEFF9] rounded-2xl overflow-hidden shadow-lg">
     <div className="flex justify-center items-center">
       <img className="h-[200px] w-full rounded-none" src={lab_img} alt="Lab" />

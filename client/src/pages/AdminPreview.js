@@ -77,24 +77,6 @@ const AdminPreview = ({userDetails}) => {
                               scope="col"
                               className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
                             >
-                              DATE
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
-                            >
-                              START TIME
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
-                            >
-                              END TIME
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
-                            >
                               MAKE OF EQUIPMENT
                             </th>
                             <th
@@ -107,8 +89,26 @@ const AdminPreview = ({userDetails}) => {
                               scope="col"
                               className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
                             >
+                              DATE
                             </th>
-                            
+                            <th
+                              scope="col"
+                              className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                            >
+                              START TIME 
+                            </th>
+                            <th
+                              scope="col"
+                              className="py-3 px-6 text-xs font-bold tracking-wider text-left text-black uppercase dark:bg-[#EBF0FA]"
+                            >
+                              END TIME
+                            </th>
+                            <th
+                              scope="col"
+                              className="w-full text-center py-3 px-6 text-xs font-bold tracking-wider text-black uppercase dark:bg-[#EBF0FA]"
+                            >
+                              ACTIONS
+                            </th>
                           </tr>
                         </thead>
                           {

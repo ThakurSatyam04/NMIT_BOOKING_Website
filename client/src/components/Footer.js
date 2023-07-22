@@ -8,35 +8,23 @@ const Footer = () => {
   return (
     <div>
       <footer id='contact' className="bg-blue-200 text-black py-8 ">
-      <div className="container mx-auto px-4 ">
+      <div className="container mx-auto px-4">
         {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 "> */}
-        <div className="flex justify-around gap-8">
-          <div className='w-[500px]'>
-            <h3 className="text-lg font-bold mb-4">Contact Us</h3>
-            <p>
-              Address: 6429, NITTE Meenakshi College Rd, BSF Campus, Yelahanka, Bengaluru, Karnataka 560064
-              <br />
-              Phone:  <a href = "tel: 081510 04455">081510 04455</a>
-              <br />
-              Landline : 080 2216 7929 | 080 2216 7950
-              <br />
-              Email: <a href = "mailto: enquiry@nitte.edu.in">enquiry@nitte.edu.in</a>
-            </p>
+        <div className="flex justify-around gap-8 flex-col md:flex-row">
+          <div className='md:w-[500px] w-full'>
+            <span className="text-lg font-bold mb-4">Contact Us</span>
+            <div className='w-full'>
+              <p>
+                Address: 6429, NITTE Meenakshi College Rd, BSF Campus, Yelahanka, Bengaluru, Karnataka 560064
+                <br />
+                Phone:  <a href = "tel: 081510 04455">081510 04455</a>
+                <br />
+                Landline : 080 2216 7929 | 080 2216 7950
+                <br />
+                Email: <a href = "mailto: enquiry@nitte.edu.in">enquiry@nitte.edu.in</a>
+              </p>              
+            </div>
           </div>
-          {/* <div className='flex flex-col items-center'>
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-900 hover:text-white">Home</a>
-              </li>
-              <li>
-                <a href="#about" className="text-gray-900 hover:text-white">About</a>
-              </li>
-              <li>
-                <a href="#contact" className="text-gray-900 hover:text-white">Contact</a>
-              </li>
-            </ul>
-          </div> */}
           <div className='flex flex-col items-center'>
             <h3 className="text-lg font-bold mb-4">Social Media</h3>
             <ul className="flex space-x-4">

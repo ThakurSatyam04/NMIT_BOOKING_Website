@@ -28,12 +28,12 @@ const Home = ({loggedIn}) => {
   </div>
 </div>
 
-<section id="about" className="w-full h-full flex flex-col md:flex-row justify-center items-center md:mx-5 md:my-0 bg-blue-50 pb-10">
+<section id="about" className="w-full h-full flex flex-col md:flex-row justify-center items-center md:mx-0 md:my-0 bg-blue-50 pb-10">
   <div className='flex items-center justify-center flex-col'>
-    <div className="w-full md:w-8/12 flex flex-col md:flex-row p-6 rounded-lg mt-10 gap-10">
-      <div>
+    <div className="w-full md:w-8/12 flex flex-col md:flex-row p-6 rounded-lg mt-10 gap-10 items-center">
+      <div className='w-1/2'>
         <a href="#about">
-          <img className='rounded-lg shadow-md ' src={about_img} alt="Sample image"/>
+          <img className='rounded-lg shadow-md h-1/2' src={about_img} alt="Sample image"/>
         </a>
       </div>
       <div className="w-full md:w-11/12">

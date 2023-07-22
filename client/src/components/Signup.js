@@ -16,7 +16,8 @@ const Signup = () => {
   const userRef = useRef();
   const errRef = useRef();
   const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   // const [user, setUser] = useState('');
   // const [email, setEmail] = useState('');
@@ -42,7 +43,7 @@ const Signup = () => {
     confirmPassword:"",
   })
   
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState("User");
   const [secretKey,setSecretKey] = useState("");
   // console.log(userType)
 
@@ -79,6 +80,7 @@ const handleChange =(e)=>{
 
 const handleSignUp = async(e)=>{
   console.log(userType)
+  setIsClicked(true)
   if(userType=="Admin" && secretKey!="NMIT123"){
     e.preventDefault();
     alert("Invalid Admin")
@@ -105,10 +107,12 @@ const handleSignUp = async(e)=>{
           setUser.email('');
           setUser.password('');
           setUser.confirmPassword('');
+          setIsClicked(false)
         })
       }
       else{
         alert("please fill all the fields");
+        setIsClicked(false)
       }
     }catch(err){
       if (!err?.response) {
@@ -120,6 +124,7 @@ const handleSignUp = async(e)=>{
     }
     errRef.current.focus();
 }
+setIsClicked(false)
   }
 }
 
@@ -144,6 +149,7 @@ const handleSignUp = async(e)=>{
               name="UserType"
               value="User"
               onChange={(e)=> setUserType(e.target.value)}
+              checked={userType === "User"}
               className="form-radio text-indigo-600 h-4 w-4" 
             />
             <span class="ml-2 text-gray-700">User</span>
@@ -153,27 +159,12 @@ const handleSignUp = async(e)=>{
              type="radio" 
              name="UserType"
              value="Admin"
+             checked={userType === "Admin"}
              onChange={(e)=> setUserType(e.target.value)}
               className="form-radio text-indigo-600 h-4 w-4" />
             <span class="ml-2 text-gray-700">Admin</span>
           </label>
         </div>
-
-        {/* <div>
-          Register as: 
-          <input 
-          type="radio" 
-          name="UserType"
-          value="User"
-          onChange={(e)=> setUserType(e.target.value)}
-          />User
-          <input
-          type="radio" 
-            name="UserType"
-            value="Admin"
-            onChange={(e)=> setUserType(e.target.value)}
-            />Admin
-          </div> */}
 
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
@@ -310,9 +301,18 @@ const handleSignUp = async(e)=>{
             </div>
             <div className="text-center md:text-left">
               <button 
-              disabled={!validName || !validPwd || !validMatch ? true : false}
+              disabled={!validName || !validPwd || !validMatch || isClicked ? true : false}
               className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" 
-              type="submit">Sign Up</button>
+              type="submit">
+                {
+                  isClicked?(
+                    "Signing up.."
+                  ):(
+                    "Sign Up"
+                  )
+                }
+                
+                </button>
             </div>
             <div className="mt-4 font-semibold text-sm text-slate-500 text-center md:text-left">
               Already have account? <Link to="/login" className="text-red-600 hover:underline hover:underline-offset-4">Sign In</Link>
