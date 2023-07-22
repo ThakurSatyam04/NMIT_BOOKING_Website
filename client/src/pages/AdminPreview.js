@@ -105,7 +105,7 @@ const AdminPreview = ({userDetails}) => {
                             </th>
                             <th
                               scope="col"
-                              className="w-full text-center py-3 px-6 text-xs font-bold tracking-wider text-black uppercase dark:bg-[#EBF0FA]"
+                              className="text-left py-3 px-6 text-xs font-bold tracking-wider text-black uppercase dark:bg-[#EBF0FA]"
                             >
                               ACTIONS
                             </th>
