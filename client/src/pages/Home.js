@@ -60,7 +60,7 @@ const Home = ({loggedIn}) => {
     <div className="w-full md:w-8/12">
       <div className="w-full items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 scroll-smooth"> 
         <div className="w-full flex flex-col md:flex-row max-w-6xl mx-auto mt-10 mb-6 justify-between gap-10 ">
-          <div className="w-full md:w-11/12 bg-[#fff] p-2 rounded-md shadow-xl border-white cursor-pointer hover:scale-110 transition smooth duration-500">
+          <div className="w-full md:w-11/12 bg-[#fff] p-6 rounded-md shadow-xl border-white cursor-pointer hover:scale-110 transition smooth duration-500">
             <h3 className="text-xl font-semibold text-gray-800 mb-2 underline">
               Our Mission
             </h3>
@@ -68,7 +68,7 @@ const Home = ({loggedIn}) => {
               Our mission is to empower students and faculty members by providing easy access to high-quality equipment for their educational and creative pursuits.
             </p>
           </div>
-          <div className="w-full md:w-11/12 bg-[#fff] p-2 rounded-md shadow-xl border-white cursor-pointer hover:scale-110 transition smooth duration-500">
+          <div className="w-full md:w-11/12 bg-[#fff] p-6 rounded-md shadow-xl border-white cursor-pointer hover:scale-110 transition smooth duration-500">
             <h3 className="text-xl font-semibold text-gray-800 mb-2 underline">
               How It Works
             </h3>
