@@ -286,7 +286,7 @@ const Equipments = ({userDetails}) => {
     <div className='bg-blue-100'>
       <div className="h-[300px] bg-blue-100">
   <div className="relative h-[200px] bg-[#78C7DF] md:flex md:justify-center md:items-center">
-    <div className="md:absolute md:top-1/4 md:right-2/3 md:text-3xl font-bold pt-10 pl-4 md:pt-0 text-white cursor-context-menu">
+    <div className="md:absolute md:top-1/4 md:right-2/3 text-2xl md:text-3xl font-bold pt-10 pl-4 md:pt-0 text-white cursor-context-menu">
       <h2>Book Equipments</h2>
     </div>
     <div className='w-full flex items-center justify-center'>
