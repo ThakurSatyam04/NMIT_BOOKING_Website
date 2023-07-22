@@ -1,5 +1,4 @@
 import React from 'react'
-import Navbar from "../components/Navbar.js";
 import bg_img from "../assets/Bg_Img.png"
 import about_img from "../assets/About_img.png"
 import FeaturedPage from './FeaturedPage.js';

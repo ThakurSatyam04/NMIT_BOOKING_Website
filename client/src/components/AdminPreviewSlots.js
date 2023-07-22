@@ -121,7 +121,7 @@ const AdminPreviewSlots = ({equipId,slots,equipName,model,makeOfEquip,userDetail
                         className={"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"} 
                         onClick={handleConfirm} 
                         disabled={slotStatus === 'Confirmed' || slotStatus ==="Rejected"}>
-                          confirm
+                          Confirm
                         </button>
                       </div>
                       <div>
