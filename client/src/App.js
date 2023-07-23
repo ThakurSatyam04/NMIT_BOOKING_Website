@@ -17,6 +17,7 @@ import PasswordReset from './components/PasswordReset';
 import ForgotPassword from './components/ForgotPassword';
 import LabDetails from './pages/LabDetails';
 import RejectReasionPopUp from './components/RejectReasionPopUp';
+import PrivateRoute from './components/PrivateRoute';
 function App() {
   const loggedIn = localStorage.getItem("isLoggedIn");
   const [isloggedIn,setIsloggedIn] = useState(false);
@@ -51,7 +52,11 @@ function App() {
         <Route path="/signup" element={<Signup setLoginUser={setLoginUser}/>}/>
         <Route path="/equipForm/:_id" element={<EquipForm/>}/>
         <Route path="/editEquipForm/:labId/:_id" element={<EditEquipForm/>}/>
-        <Route path='/equipDetail/:_id' element={<Equipments userDetails={userDetails}/>}/>
+        <Route path='/equipDetail/:_id' element={
+        <PrivateRoute>
+          <Equipments userDetails={userDetails}/>
+        </PrivateRoute>
+        }/>
         <Route path='/labForm' element={<LabForm/>}/>
         <Route path='/labs' element={<Labs userDetails={userDetails}/>}/>
         <Route path="/editLabForm/:labId" element={<EditLabForm/>}/>
@@ -60,6 +65,7 @@ function App() {
         <Route path="/password-reset" element={<PasswordReset userDetails={userDetails}/>}/>
         <Route path="/forgotpassword/:id/:token" element={<ForgotPassword/>}/>
         <Route path="/equipmentRejection" element={<RejectReasionPopUp/>}/>
+        <Route exact path="/*" element={loggedIn?<Home isloggedIn={isloggedIn} loggedIn={loggedIn}/>:<Login setLoginUser={setLoginUser} setIsloggedIn={setIsloggedIn}/>}/>
       </Routes>
     </>
   );
