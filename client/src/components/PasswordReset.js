@@ -11,17 +11,34 @@ const PasswordReset = ({userDetails}) => {
     const [ email, setEmail ] = useState("");
     const [ msg, setMsg ] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-
+    const [users,setUsers] = useState([]);
+    
+    const userEmail = users.map((item)=>{
+      return item.email
+    })
+    console.log(userEmail)
+    
     const navigate = useNavigate();
 
     const handleChange =(e)=>{
         setEmail(e.target.value)
     }
 
+    const getUsers = async()=>{
+      try{
+        const users = await axios.get(`${APIURL}/api/auth/users`);
+        setUsers(users.data);
+      }
+      catch(error){
+        console.log("User not found")
+      }
+    }
+
     const sendLink = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        if(email == userDetails.email){
+        getUsers();
+        if(userEmail.includes(email)){
           try {
             await axios.post(`${APIURL}/api/auth/sendpasswordlink`, {email})
             .then( res => {

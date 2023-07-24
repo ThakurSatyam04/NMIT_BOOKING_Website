@@ -9,6 +9,19 @@ import jwt from 'jsonwebtoken'
 
 dotenv.config();
 
+
+export const getUsers = async(req,res,next) =>{
+    const {...others} = req.query;
+    try {
+        const users = await User.find({
+            ...others,
+        });
+        res.status(200).json(users);
+    } catch (err) {
+        next(err);
+    }
+}
+
 export const signup = async (req,res,next) => {
     try {
         console.log(req.body);
