@@ -26,7 +26,7 @@ const PasswordReset = ({userDetails}) => {
 
     const getUsers = async()=>{
       try{
-        const users = await axios.get(`${APIURL}/api/auth/users`);
+        const users = await axios.get(`http://localhost:3001/api/auth/users`);
         setUsers(users.data);
       }
       catch(error){
