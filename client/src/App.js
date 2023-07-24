@@ -52,11 +52,7 @@ function App() {
         <Route path="/signup" element={<Signup setLoginUser={setLoginUser}/>}/>
         <Route path="/equipForm/:_id" element={<EquipForm/>}/>
         <Route path="/editEquipForm/:labId/:_id" element={<EditEquipForm/>}/>
-        <Route path='/equipDetail/:_id' element={
-        <PrivateRoute>
-          <Equipments userDetails={userDetails}/>
-        </PrivateRoute>
-        }/>
+        <Route path='/equipDetail/:_id' element={<Equipments userDetails={userDetails}/>}/>
         <Route path='/labForm' element={<LabForm/>}/>
         <Route path='/labs' element={<Labs userDetails={userDetails}/>}/>
         <Route path="/editLabForm/:labId" element={<EditLabForm/>}/>
