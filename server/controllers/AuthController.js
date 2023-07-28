@@ -126,18 +126,15 @@ export const sendPasswordLink = async (req,res,next) => {
         const token = jwt.sign({_id:userfind._id},process.env.JWT_SECRET,{
             expiresIn:"1d"
         });
-        // console.log(token)
-
-        // const token = await userfind.generateAuthToken();
         
         const setusertoken = await User.findByIdAndUpdate({_id:userfind._id},{verifyToken:token},{new:true});
 
         if(setusertoken){
             const mailOptions = {
-                from:'satyamrock04.2000@gmail.com',
+                from:'associate.dean.research@nmit.ac.in',
                 to:email,
-                subject:"Sending Email For password Reset",
-                text:`This Link Valid For 2 MINUTES http://localhost:3000/forgotpassword/${userfind.id}/${setusertoken.verifyToken}`
+                subject:"Sending Email For Password Reset",
+                text:`This link is valid only for 2 minutes https://www.nmit-equipment-booking.in/forgotpassword/${userfind.id}/${setusertoken.verifyToken}` 
             }
 
             transporter.sendMail(mailOptions,(error,info)=>{

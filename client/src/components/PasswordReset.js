@@ -16,7 +16,6 @@ const PasswordReset = ({userDetails}) => {
     const userEmail = users.map((item)=>{
       return item.email
     })
-    console.log(userEmail)
     
     const navigate = useNavigate();
 
@@ -37,7 +36,7 @@ const PasswordReset = ({userDetails}) => {
     const sendLink = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        getUsers();
+        
         if(userEmail.includes(email)){
           try {
             await axios.post(`${APIURL}/api/auth/sendpasswordlink`, {email})
@@ -49,7 +48,7 @@ const PasswordReset = ({userDetails}) => {
                   navigate("/login")
               }
               else{
-                  toast.error("user not registered")
+                  toast.error("You are not registered")
               }
             })
           } catch (error) {
@@ -57,10 +56,14 @@ const PasswordReset = ({userDetails}) => {
           }
         }
         else{
-          toast.error("user not registered")
+          toast.error("Please register first")
         }
         setIsLoading(false);
     }
+
+    useEffect(()=>{
+      getUsers();
+    },[])
 
   return (
     <div>
