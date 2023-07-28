@@ -275,9 +275,9 @@ const Equipments = ({userDetails}) => {
     ):(
 
     <div className='bg-blue-100'>
-      <div className="h-[300px] bg-blue-100">
-      <div className="relative h-[200px] bg-[#78C7DF] md:flex md:justify-center md:items-center">
-          <div className="md:absolute md:top-1/4 md:right-2/3 text-2xl md:text-3xl font-bold pt-10 pl-4 md:pt-0 text-white cursor-context-menu">
+      <div className="h-[300px] bg-blue-100 ">
+      <div className="relative h-[200px] bg-[#78C7DF] md:flex md:justify-center md:items-center shadow-xl">
+          <div className="md:absolute md:top-1/4 md:right-2/3 text-2xl md:text-3xl font-bold pt-10 pl-4 md:pt-0 text-white cursor-context-menu ">
             <h2>Book Equipments</h2>
           </div>
         <div className='w-full flex items-center justify-center'>
@@ -289,7 +289,7 @@ const Equipments = ({userDetails}) => {
             </div>
       ):(
         <>
-          <div className="absolute md:h-full w-full md:w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu">
+          <div className="absolute md:h-full w-full md:w-7/12 bg-[#D5E6EB] top-24 rounded-b-3xl p-2 cursor-context-menu shadow-xl border-gray-200 border">
             <h3 className="font-bold mb-2">Lab Details</h3>
             <ul className="space-y-2">
               <li>

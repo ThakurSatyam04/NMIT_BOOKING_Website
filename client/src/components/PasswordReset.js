@@ -36,7 +36,6 @@ const PasswordReset = ({userDetails}) => {
     const sendLink = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        
         if(userEmail.includes(email)){
           try {
             await axios.post(`${APIURL}/api/auth/sendpasswordlink`, {email})
