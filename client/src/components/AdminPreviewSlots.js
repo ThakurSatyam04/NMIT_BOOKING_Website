@@ -78,7 +78,6 @@ const AdminPreviewSlots = ({equipId,slots,equipName,model,makeOfEquip,userDetail
       }
   
   return (
-    <>
     <tbody className=" bg-white divide-y divide-gray-200 dark:bg-[#EBF0FA] dark:divide-[#75cce7]">
           <tr>
             <td
@@ -121,7 +120,6 @@ const AdminPreviewSlots = ({equipId,slots,equipName,model,makeOfEquip,userDetail
             >
               {slots.toTime}
             </td>
-            
             <td>
               <div  className="gap-6 flex ml-6">
                 <div>
@@ -147,7 +145,6 @@ const AdminPreviewSlots = ({equipId,slots,equipName,model,makeOfEquip,userDetail
             </td>
           </tr>
         </tbody>
-    </>
   )
 }
 
