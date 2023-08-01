@@ -37,8 +37,8 @@ const Signup = () => {
   const [success, setSuccess] = useState(false);
   
   const [user, setUser] = useState({
-    name:"",
     email:"",
+    name:"",
     password:"",
     confirmPassword:"",
   })
@@ -50,14 +50,15 @@ const Signup = () => {
 useEffect(() => {
   userRef.current.focus();
 }, [])
+
+useEffect(() => {
+  setValidEmail(EMAIL_REGEX.test(user.email));
+}, [user.email])
   
 useEffect(() => {
   setValidName(USER_REGEX.test(user.name));
 }, [user.name])
 
-useEffect(() => {
-  setValidEmail(EMAIL_REGEX.test(user.email));
-}, [user.email])
 
 useEffect(() => {
   setValidPwd(PWD_REGEX.test(user.password));
@@ -86,9 +87,9 @@ const handleSignUp = async(e)=>{
     alert("Invalid Admin")
   }else{
   e.preventDefault();
+  const v3 = EMAIL_REGEX.test(user.email);
   const v1 = USER_REGEX.test(user.name);
   const v2 = PWD_REGEX.test(user.password);
-  const v3 = EMAIL_REGEX.test(user.email);
   if (!v1 || !v2  || !v3) {
     setErrMsg("Invalid Entry");
     return;
@@ -120,7 +121,7 @@ const handleSignUp = async(e)=>{
     } else if (err.response?.status === 409) {
         setErrMsg('Username Taken');
     } else {
-        setErrMsg('Registration Failed')
+        setErrMsg('User Already Exist')
     }
     errRef.current.focus();
 }
@@ -169,6 +170,7 @@ setIsClicked(false)
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
           <form onSubmit={handleSignUp}>
+
             <div className='mt-2'>
               <label htmlFor="Name">
                 Name
@@ -179,8 +181,7 @@ setIsClicked(false)
                 className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" 
                 type="text" 
                 name="name" 
-                id="username"
-                ref={userRef}
+                // id="username"
                 onChange={handleChange}
                 value={user.name}
                 placeholder="Enter Name"
@@ -206,6 +207,8 @@ setIsClicked(false)
               <input 
               className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" 
               name="email" 
+              id='email'
+              ref={userRef}
               onChange={handleChange}
               value={user.email}
               type="text" 
@@ -222,7 +225,6 @@ setIsClicked(false)
               Must be in Email format<br />
               </p>
             </div>
-
             
             <div className='mt-2 relative'>
               <label>
