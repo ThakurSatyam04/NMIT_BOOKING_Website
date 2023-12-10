@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 
-export const sendEmail = async (req, res, next) => {
-
+export const sendRequestEmail = async (req, res, next) => {
   const transporter = nodemailer.createTransport({
     // service: 'gmail',
     host: "smtp.gmail.com",
@@ -57,7 +56,6 @@ export const sendEmail = async (req, res, next) => {
   </div>
 </body>
 </html>
-
         `,
   };
 
@@ -167,6 +165,62 @@ export const rejectEmail = async (req, res, next) => {
     </p>
     <h2>Reason of Rejection</h2>
     <p>${req.body.rejectResion}</p>
+  </div>
+</body>
+</html>
+        `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      res.json({ status: true, respMesg: error });
+    } else {
+      res.json({ status: true, respMesg: "Email Sent Successfully" });
+    }
+  });
+};
+
+export const requestsentEmail = async (req, res, next) => {
+  const transporter = nodemailer.createTransport({
+    // service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "nmitbookings@gmail.com",
+      pass: "xbag aomj rcfc uvzn",
+    },
+  });
+
+  // xbag aomj rcfc uvzn
+
+  var mailOptions = {
+    from: "NMIT Booking Application", // sender address
+    to: req.body.userDetails.email, // list of receivers
+    subject: "Equipment Booking Request Sent", // Subject line
+    // text: req.body.message,
+    html: `
+        <!DOCTYPE html> 
+<html>
+<head>
+  <title>Equipment Booking Request</title> 
+</head>
+<body>
+  <div style="font-family: Arial, sans-serif;">
+    <p>We appreciate your equipment booking request for ${req.body.equipName}. Your request has been successfully submitted and is currently under review by our admin team. You will be notified once a decision has been made. Thank you for your patience.</p>
+
+    <h4>Booking Details:</h4>
+    <ul>
+      <li><strong>Faculty Name:</strong> ${req.body.userDetails.name}</li>
+      <li><strong>Faculty Email:</strong> ${req.body.userDetails.email}</li>
+      <li><strong>Equipment:</strong> ${req.body.equipName}</li>
+      <li><strong>Date:</strong>${req.body.date}</li>
+      <li><strong>Start Time:</strong> ${req.body.fromTime}</li>
+      <li><strong>End Time:</strong> ${req.body.toTime}</li>
+    </ul>
+
+    <p>Best regards,<br>
+    ${req.body.userDetails.name}</p>
   </div>
 </body>
 </html>

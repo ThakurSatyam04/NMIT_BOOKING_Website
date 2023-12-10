@@ -9,7 +9,6 @@ import jwt from 'jsonwebtoken'
 
 dotenv.config();
 
-
 export const getUsers = async(req,res,next) =>{
     const {...others} = req.query;
     try {
@@ -101,8 +100,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'satyamrock04.2000@gmail.com',
-      pass: 'lupdurkjmcqggaha'
+        user: "nmitbookings@gmail.com",
+        pass: "xbag aomj rcfc uvzn",
     }
 });
 
