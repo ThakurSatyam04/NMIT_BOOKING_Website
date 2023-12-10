@@ -26,16 +26,16 @@ const Featured = ({_id,labName, labNo, department, labIncharge,loggedIn}) => {
     </div>
     <div className="flex flex-col justify-center items-start p-4">
       <h5 className="text-sm font-medium">
-        Lab Name: {labName}
+        <span className="font-semibold">Lab Name:</span> {labName}
       </h5>
       <h5 className="text-sm font-medium">
-        Department: {department}
+        <span className="font-semibold">Department:</span> {department}
       </h5>
       <h5 className="text-sm font-medium">
-        Lab No.: {labNo}
+        <span className="font-semibold">Lab No.:</span> {labNo}
       </h5>
       <h5 className="text-sm font-medium">
-        Lab Incharge: {labIncharge}
+        <span className="font-semibold">Lab Incharge:</span> {labIncharge}
       </h5>
     </div>
   </div>
