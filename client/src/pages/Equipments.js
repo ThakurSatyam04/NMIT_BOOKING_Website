@@ -236,7 +236,7 @@ const Equipments = ({ userDetails }) => {
               date,
               fromTime,
               toTime,
-              equipName,
+              equipName, 
             };
             const sentEmail = await axios.post(
               `${APIURL}/api/send-mail/requestsent`,
