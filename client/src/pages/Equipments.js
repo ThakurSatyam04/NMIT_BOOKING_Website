@@ -239,7 +239,7 @@ const Equipments = ({ userDetails }) => {
               equipName,
             };
             const sentEmail = await axios.post(
-              `${APIURL}/api/send-mail/book`,
+              `${APIURL}/api/send-mail/requestsent`,
               EmailSentDetails
             );
 
