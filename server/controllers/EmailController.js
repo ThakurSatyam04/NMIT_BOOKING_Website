@@ -1,28 +1,26 @@
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 
-export const sendEmail = async (req,res,next)=>{
-  console.log(req.body.date)   
-  console.log(req.body.to)   
-  console.log(req.body.labDetail.email) 
+export const sendEmail = async (req, res, next) => {
 
-        const transporter = nodemailer.createTransport({ 
-          // service: 'gmail',   
-          host: "smtp.gmail.com",
-          port: 587,
-          secure: false, // true for 465, false for other ports
-          auth: {
-            user: 'kumarsatyam04.2000@gmail.com',
-            pass: 'xkbgaelxqlbjrchr'
-          }
-      });  
+  const transporter = nodemailer.createTransport({
+    // service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "nmitbookings@gmail.com",
+      pass: "xbag aomj rcfc uvzn",
+    },
+  });
 
-    var mailOptions = {
-        from: 'NMIT Booking Application',// sender address
-        to: req.body.labDetail.email, // list of receivers
-        subject: 'Equipment Booking Request', // Subject line
-        // text: req.body.message,   
-        html: 
-        `
+  // xbag aomj rcfc uvzn
+
+  var mailOptions = {
+    from: "NMIT Booking Application", // sender address
+    to: req.body.labDetail.email, // list of receivers
+    subject: "Equipment Booking Request", // Subject line
+    // text: req.body.message,
+    html: `
         <!DOCTYPE html> 
 <html>
 <head>
@@ -60,43 +58,37 @@ export const sendEmail = async (req,res,next)=>{
 </body>
 </html>
 
-        ` 
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error)
-        {
-          res.json({status: true, respMesg: error})
-        } 
-        else
-        {
-          res.json({status: true, respMesg: 'Email Sent Successfully'})
-        }
-        
-      });
+        `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      res.json({ status: true, respMesg: error });
+    } else {
+      res.json({ status: true, respMesg: "Email Sent Successfully" });
+    }
+  });
 };
 
+export const confirmEmail = async (req, res, next) => {
+  console.log(req.body.FacultyEmail);
+  const transporter = nodemailer.createTransport({
+    // service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "nmitbookings@gmail.com",
+      pass: "xbag aomj rcfc uvzn",
+    },
+  });
 
-export const confirmEmail = async (req,res,next)=>{
-  console.log(req.body.FacultyEmail) 
-    const transporter = nodemailer.createTransport({ 
-        // service: 'gmail', 
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-          user: 'satyamrock04.2000@gmail.com',
-          pass: 'lupdurkjmcqggaha'
-        }
-    });
-
-    var mailOptions = {
-        from: 'NMIT Booking Application',// sender address
-        to: req.body.FacultyEmail, // list of receivers
-        subject: req.body.subject, // Subject line
-        text: req.body.message,
-        html: 
-        `
+  var mailOptions = {
+    from: "NMIT Booking Application", // sender address
+    to: req.body.FacultyEmail, // list of receivers
+    subject: req.body.subject, // Subject line
+    text: req.body.message,
+    html: `
         <!DOCTYPE html>
 <html>
 <head>
@@ -122,42 +114,37 @@ export const confirmEmail = async (req,res,next)=>{
   </div>
 </html>
 
-        `
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error)
-        {
-          res.json({status: true, respMesg: error})
-        } 
-        else
-        {
-          res.json({status: true, respMesg: 'Email Sent Successfully'})
-        }
-        
-      });
+        `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      res.json({ status: true, respMesg: error });
+    } else {
+      res.json({ status: true, respMesg: "Email Sent Successfully" });
+    }
+  });
 };
 
-export const rejectEmail = async (req,res,next)=>{
-  console.log(req.body.FacultyName)
-    const transporter = nodemailer.createTransport({
-        // service: 'gmail',
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-          user: 'satyamrock04.2000@gmail.com',
-          pass: 'lupdurkjmcqggaha'
-        }
-    });
+export const rejectEmail = async (req, res, next) => {
+  console.log(req.body.FacultyName);
+  const transporter = nodemailer.createTransport({
+    // service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "nmitbookings@gmail.com",
+      pass: "xbag aomj rcfc uvzn",
+    },
+  });
 
-    var mailOptions = {
-        from: 'NMIT Booking Application',// sender address
-        to: req.body.FacultyEmail, // list of receivers
-        subject: req.body.subject, // Subject line
-        text: req.body.message,
-        html: 
-        `
+  var mailOptions = {
+    from: "NMIT Booking Application", // sender address
+    to: req.body.FacultyEmail, // list of receivers
+    subject: req.body.subject, // Subject line
+    text: req.body.message,
+    html: `
         <!DOCTYPE html>
 <html>
 <body>
@@ -183,18 +170,14 @@ export const rejectEmail = async (req,res,next)=>{
   </div>
 </body>
 </html>
-        `
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error)
-        {
-          res.json({status: true, respMesg: error})
-        } 
-        else
-        {
-          res.json({status: true, respMesg: 'Email Sent Successfully'})
-        }
-        
-      });
+        `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      res.json({ status: true, respMesg: error });
+    } else {
+      res.json({ status: true, respMesg: "Email Sent Successfully" });
+    }
+  });
 };
