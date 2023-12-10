@@ -29,8 +29,7 @@ export const signup = async (req,res,next) => {
 
         // check if user already exists  
         const existingUser = await User.findOne({email}); 
-        if(existingUser){ 
-            console.log("User Already Registered")
+        if(existingUser){
             // res.send({message:"User already registered"});
             return next(createError(400, "user already exists"))
         }
@@ -53,7 +52,6 @@ export const signup = async (req,res,next) => {
         // console.log(cookie)
 
         await newUser.save();
-        console.log("User Created Successfully")
         res.status(200).send("User Created Successfully")
     } 
     catch (err) {
@@ -63,7 +61,6 @@ export const signup = async (req,res,next) => {
 
 export const login = async (req,res,next) => {
     try {
-        console.log(req.body)
         const { email, password } = req.body; 
         // email and password validation
         if(!email || !password) {
@@ -88,10 +85,8 @@ export const login = async (req,res,next) => {
 
         if(isPasswordCorrect){
             res.send({message:"Login Successful" , user:user})
-            console.log("Login Successful")
         }
         else{ 
-            console.log("Password is Incorrect")
             return next(createError(400, "Password is Incorrect"))
         }
     }   
